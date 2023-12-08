@@ -1,0 +1,144 @@
+#tablePrestamosFinalizados,#tableResumenes{
+	width: 100% !important;
+}
+.myModal{
+    background-color: rgba(0,0,0, 1) !important;
+}
+#resumenPadding{
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.cursor:hover{
+	background: #CDFEAA;
+}
+.cursor{
+	cursor: pointer;
+	font-size: 15px;
+	border-bottom: 1px solid;
+}
+.item{
+	margin: 7px;
+	padding: 12px;
+}
+.dragHelper{
+	display: block;
+	padding: 25px;
+	margin-top:  5px;
+	background: #fff;
+	border: 2px dashed  #c2cdda;
+	border-radius: 3px;
+	-webkit-transition: background-color 0.2s ease;
+	transition: background-color 0.2s ease;
+}
+.app-sidebar__user-avatar {
+    width: 48px;
+    background: gray;
+    padding: 6px;
+}
+.app-sidebar__toggle{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 15pt;
+}
+.app-sidebar__toggle::before{
+	display: none;
+}
+.headerRegister, .header-primary{
+	background: #ffc107;
+	color: #000;
+}
+.headerUpdate{
+	background: #ffc107;
+	color: #000;
+}
+.headerAdd{
+	background: #28a745;
+	color: #FFF;
+}
+.textcenter{
+	text-align: center;
+}
+
+.textright{
+	text-align: right;
+}
+
+.textleft{
+	text-align: left;
+}
+.notBlock{
+	display: none;
+}
+
+/*Estilos login*/
+#divLoading{
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(254, 254, 255, .65);
+	z-index: 9999;
+	display: none;
+}
+#divLoading img{
+	width: 50px;
+	height: 50px;
+}
+.required{
+	color: red;
+	font-size: 13pt;
+	font-weight: bold;
+}
+.linkw:hover{
+	text-decoration: none;
+}
+.container-title{
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+.container-title input{
+	border: 1px solid #CCC;
+	padding: 4px;
+	border-radius: 5px;
+	margin-right: 5px;
+}
+.dflex{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+.ui-datepicker-calendar{
+	display: none;
+}
+
+.sticky-top-2 {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 50px;
+    z-index: 1020;
+}
+
+.app-sidebar-2 {
+	z-index: 1021;	
+}
+
+.listClientId{
+	z-index: 1021;
+}
+
+section .login-box form{
+	box-shadow: 0px 0px 7px gray inset;
+}
+
+section .logo h1{
+	text-shadow: -1px -1px white, 1px 1px #333;
+}
