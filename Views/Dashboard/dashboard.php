@@ -176,14 +176,14 @@
               <h3 class="tile-title">Últimos Préstamos</h3>
               <table class="table table-striped table-sm">
                 <thead>
-                  <tr>
+                  <tr class="text-center">
                     <th>Cliente</th>
                     <th>Fecha Crédito</th>
                     <th class="text-right">Monto</th>
                     <th></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
                   <?php if(count($data['ultimosPrestamo']) > 0){
                       foreach ($data['ultimosPrestamo'] as $prestamos) {
                         $nombre = $prestamos['nombres'];
