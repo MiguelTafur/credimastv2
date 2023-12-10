@@ -405,7 +405,7 @@
 						pr.orden
 					FROM prestamos pr 
 					INNER JOIN persona pe ON (pr.personaid = pe.idpersona)
-					WHERE (pr.status != 0 AND pe.codigoruta = $ruta)";
+					WHERE (pe.codigoruta = $ruta and pr.status = 1) or (pe.codigoruta = $ruta AND pr.status = 2 and pr.datefinal = '{$fechaPendiente}') ORDER BY orden";
 			$request = $this->select_all($sql);
 
 			$sqlPa = "SELECT pe.nombres, 
@@ -422,7 +422,6 @@
 									 WHERE pe.codigoruta = $ruta AND pr.status != 0";
 			$requestPa = $this->select_all($sqlPa);
 			$arrData = array('prestamos' => $request, 'pagos' => $requestPa);
-			//dep($arrData);exit;
 			return $arrData;
 		}
 

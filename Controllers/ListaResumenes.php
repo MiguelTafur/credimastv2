@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 	class ListaResumenes extends Controllers
 	{
@@ -32,15 +32,17 @@
 				$arrData = $this->model->selectResumenes();
 				$fecha = "";
 
-				for ($i=0; $i < count($arrData); $i++) { 
+				for ($i=0; $i < count($arrData); $i++) {
 
-					$forPagos = '<small>'.date("d-m-Y", strtotime($arrData[$i]['datecreated'])).'</small>';
-					$forVentas = '<small>'.date("d-m-Y", strtotime($arrData[$i]['datecreated'])).'</small>';
-					$forGastos = '<small>'.date("d-m-Y", strtotime($arrData[$i]['datecreated'])).'</small>';
+					$fecha = '<small>'.date("d-m-Y", strtotime($arrData[$i]['datecreated'])).'</small>';
 
+					// COBRADO
 					if($arrData[$i]['cobrado'] > 0)
 					{
-						$arrData[$i]['cobrado'] = $arrData[$i]['cobrado'].' '.'&nbsp;<button type="button" id="" class="btn btn-secondary btn-sm pagosResumen" data-content="'.forClientesPagos($arrData[$i]['datecreated']).'" title="PAGAMENTOS&nbsp; '.$forPagos.'"><i class="fas fa-info-circle fa-sm" aria-hidden="true"></i></button>
+						$arrData[$i]['cobrado'] = $arrData[$i]['cobrado'].' '.'&nbsp;
+						<button type="button" id="" class="btn btn-secondary btn-sm pagosResumen" data-content="'.forClientesPagos($arrData[$i]['datecreated']).'" title="PAGAMENTOS&nbsp; '.$fecha.'">
+							<i class="fas fa-info-circle fa-sm" aria-hidden="true"></i>
+						</button>
 							<script type="text/javascript">
 							  $(function(){
 						        $(".pagosResumen").popover({
@@ -48,14 +50,15 @@
 						        	trigger: "focus",
 						        	html: true
 						        	});
-							    }); 
+							    });
 							</script>';
 					}
 
+					// VENTAS
 					if($arrData[$i]['ventas'] > 0)
 					{
 						$arrData[$i]['ventas'] = $arrData[$i]['ventas'].' '.'&nbsp;
-						<button type="button" class="btn btn-secondary btn-sm ventasResumen" data-content="'.forVentasResumen($arrData[$i]['datecreated']).'" title="CREDITOS&nbsp; '.$forVentas.'">
+						<button type="button" class="btn btn-secondary btn-sm ventasResumen" data-content="'.forVentasResumen($arrData[$i]['datecreated']).'" title="CREDITOS&nbsp; '.$fecha.'">
 							<i class="fas fa-info-circle fa-sm" aria-hidden="true"></i>
 						</button>
 							<script type="text/javascript">
@@ -65,13 +68,17 @@
 						        	trigger: "focus",
 						        	html: true
 						        	});
-							    }); 
+							    });
 							</script>';
 					}
 
+					// GASTOS
 					if($arrData[$i]['gasto'] > 0)
 					{
-						$arrData[$i]['gasto'] = $arrData[$i]['gasto'].' '.'&nbsp;<button type="button" id="" class="btn btn-secondary btn-sm gastosResumen" data-content="'.forGastoResumen($arrData[$i]['datecreated']).'" title="GASTOS&nbsp; '.$forGastos.'"><i class="fas fa-info-circle fa-sm" aria-hidden="true"></i></button>
+						$arrData[$i]['gasto'] = $arrData[$i]['gasto'].' '.'&nbsp;
+						<button type="button" class="btn btn-secondary btn-sm gastosResumen" data-content="'.forGastoResumen($arrData[$i]['datecreated']).'" title="GASTOS&nbsp; '.$fecha.'">
+							<i class="fas fa-info-circle fa-sm" aria-hidden="true"></i>
+						</button>
 							<script type="text/javascript">
 							  $(function(){
 						        $(".gastosResumen").popover({
@@ -79,18 +86,11 @@
 						        	trigger: "focus",
 						        	html: true
 						        	});
-							    }); 
+							    });
 							</script>';
 					}
-
-					//$arrData[$i]['datecreated'] = date("d-m-Y", strtotime($arrData[$i]['datecreated']));
-					$arrData[$i]['base'] = /*SMONEY.*/$arrData[$i]['base'];
-					$arrData[$i]['cobrado'] = /*SMONEY.*/$arrData[$i]['cobrado'];
-					$arrData[$i]['ventas'] = /*SMONEY.*/$arrData[$i]['ventas'];
-					$arrData[$i]['gasto'] = /*SMONEY.*/$arrData[$i]['gasto'];
-					$arrData[$i]['total'] = /*SMONEY.*/$arrData[$i]['total'];
 				}
-				
+
 				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			}
 			die();

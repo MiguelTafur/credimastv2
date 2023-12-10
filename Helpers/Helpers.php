@@ -143,15 +143,12 @@
         $request = $objPrestamos->selectGastos($fecha);
         if(is_array($request))
         {
-            $gastoTotal = 0;
             $gasto = "";
             for ($i=0; $i < count($request); $i++) {
                 if($request[$i]['nombre'] != "")
                 {       
-                    $gastoTotal += $request[$i]['monto'];
                     $gasto .= strtoupper($request[$i]['nombre']).' = '/*.SMONEY*/.$request[$i]['monto'].'<br>';
                 }
-
             }
             return $gasto;
         }
