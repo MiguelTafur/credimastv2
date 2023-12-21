@@ -270,8 +270,11 @@ class Prestamos extends Controllers{
 					$subtotal = ($arrData[$i]['monto'] * $taza);
 					$total = ($arrData[$i]['monto'] + $subtotal);
 					$parcela = ($total/$arrData[$i]['plazo']);
+					$dias = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+
 					$arrData[$i]['monto'] = '<strong>'.$arrData[$i]['monto'].'</strong>';
 					$arrData[$i]['pa'] = (/*SMONEY.*/' <strong>'.$parcela.' x '.$arrData[$i]['plazo'].'</strong>');
+
 					if($arrData[$i]['pago'] != 0 && $arrData[$i]['datepago'] == $fecha_actual && $arrData[$i]['status'] == 2)
 					{
 						$btnAbono = '<p class="text-danger h5">
@@ -311,9 +314,11 @@ class Prestamos extends Controllers{
 							$arrData[$i]['plazo'] = $arrData[$i]['plazo'].' '.'Días';
 						}
 					}
+					
+					$diaPagamento = $dias[date("w", strtotime($arrData[$i]['datecreated']))];
 					if($arrData[$i]['formato'] == 2)
 					{
-						$arrData[$i]['formato'] = 'Semanal';
+						$arrData[$i]['formato'] = '<h6>Semanal <span class="badge badge-secondary">'.$diaPagamento.'</span></h6>';
 						if($arrData[$i]['plazo'] == 1){
 							$arrData[$i]['plazo'] = $arrData[$i]['plazo'].' '.'Semana';
 						}else
