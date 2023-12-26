@@ -127,14 +127,14 @@
           </a>
         </div>
         <?php } ?>
-                  </div>
-      
-      <!-- TABLA ULTIMOS RESUMENES -->
-      <div class="row">
-        <?php if(!empty($_SESSION['permisos'][4]['r'])){ ?>
-          <div class="col-md-12">
+      </div>
+
+      <div class="tile">
+        <h3 class="tile-title">INFORMACIÓN GENERAL</h3>
+        <div id="accordion">
+          <h3>Últimos Resumenes</h3>
+          <div>
             <div class="tile">
-              <h3 class="tile-title">Últimos Resumenes</h3>
               <div class="table-responsive">
                 <table class="table table-striped table-sm">
                   <thead>
@@ -166,14 +166,9 @@
               </div>
             </div>
           </div>
-        <?php } ?>
-      </div>
-      <!-- TABLA ÚLTIMOS PRÉSTAMOS -->
-      <div class="row">
-        <?php if(!empty($_SESSION['permisos'][4]['r'])){ ?>
-          <div class="col-md-12">
+          <h3>Últimos Préstamos</h3>
+          <div>
             <div class="tile">
-              <h3 class="tile-title">Últimos Préstamos</h3>
               <table class="table table-striped table-sm">
                 <thead>
                   <tr class="text-center">
@@ -201,92 +196,96 @@
               </table>
             </div>
           </div>
-        <?php } ?>
+        </div>
       </div>
-      <?php if(!empty($_SESSION['permisos'][4]['d'])){ ?>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="tile">
-            <div class="container-title">
-              <h3 class="tile-title">Total Cobrado por día</h3>
-              <div class="dflex">
-                <input class="date-picker cobradoMes" name="cobradoMes" placeholder="Mes y Año">
-                <button type="button" class="btnVentaMes btn btn-info btn-sm"><i class="fas fa-search" onclick="fntSearchCMes()"></i></button>
-              </div>
-            </div>
-            <div id="graficaMesCobrado"></div>
-            <button class="btn btn-warning" onclick="fntViewDetalleC()"><i class="fa fa-eye" aria-hidden="true"></i> Cobrado Detallado</button>
-          </div>
-        </div>
 
-        <div class="col-md-12">
-          <div class="tile">
-            <div class="container-title">
-              <h3 class="tile-title">Total Ventas por día</h3>
-              <div class="dflex">
-                <input class="date-picker ventasMes" name="ventasMes" placeholder="Mes y Año">
-                <button type="button" class="btnVentaMes btn btn-info btn-sm"><i class="fas fa-search" onclick="fntSearchVMes()"></i></button>
+      <div class="tile">
+        <h3 class="tile-title">GRÁFICAS POR DÍA</h3>
+        <div id="accordion2">
+          <h3>Cobrado</h3>
+          <div>
+            <div class="tile">
+              <div class="container-title">
+                <div class="dflex">
+                  <input class="date-picker cobradoMes" name="cobradoMes" placeholder="Mes y Año">
+                  <button type="button" class="btnVentaMes btn btn-info btn-sm"><i class="fas fa-search" onclick="fntSearchCMes()"></i></button>
+                </div>
               </div>
+              <div id="graficaMesCobrado"></div>
+              <button class="btn btn-warning" onclick="fntViewDetalleC()"><i class="fa fa-eye" aria-hidden="true"></i> Cobrado Detallado</button>
             </div>
-            <div id="graficaMes"></div>
-            <button class="btn btn-warning" onclick="fntViewDetalleV()"><i class="fa fa-eye" aria-hidden="true"></i> Ventas Detalladas</button>
           </div>
-        </div>
-
-        <div class="col-md-12">
-          <div class="tile">
-            <div class="container-title">
-              <h3 class="tile-title">Total Gastos por día</h3>
-              <div class="dflex">
-                <input class="date-picker gastosMes" name="gastosMes" placeholder="Mes y Año">
-                <button type="button" class="btnGastosMes btn btn-info btn-sm"><i class="fas fa-search" onclick="fntSearchGMes()"></i></button>
+          <h3>Ventas</h3>
+          <div>
+            <div class="tile">
+              <div class="container-title">
+                <div class="dflex">
+                  <input class="date-picker ventasMes" name="ventasMes" placeholder="Mes y Año">
+                  <button type="button" class="btnVentaMes btn btn-info btn-sm"><i class="fas fa-search" onclick="fntSearchVMes()"></i></button>
+                </div>
               </div>
+              <div id="graficaMes"></div>
+              <button class="btn btn-warning" onclick="fntViewDetalleV()"><i class="fa fa-eye" aria-hidden="true"></i> Ventas Detalladas</button>
             </div>
-            <div id="graficaMesGastos"></div>
-            <button class="btn btn-warning" onclick="fntViewDetalleG()"><i class="fa fa-eye" aria-hidden="true"></i> Gastos Detallados</button>
           </div>
-        </div>
-
-        <div class="col-md-12">
-          <div class="tile">
-            <div class="container-title">
-              <h3 class="tile-title">Cobrado por año</h3>
-              <div class="dflex">
-                <input class="cobradoAnio" name="cobradoAnio" placeholder="Ano" minlength="4" maxlength="4" onkeypress="return controlTag(event);">
-                <button type="button" class="btnCobradoAnio btn btn-info btn-sm" onclick="fntSearchCAnio()"> <i class="fas fa-search"></i> </button>
+          <h3>Gastos</h3>
+          <div>
+            <div class="tile">
+              <div class="container-title">
+                <h3 class="tile-title">Total Gastos por día</h3>
+                <div class="dflex">
+                  <input class="date-picker gastosMes" name="gastosMes" placeholder="Mes y Año">
+                  <button type="button" class="btnGastosMes btn btn-info btn-sm"><i class="fas fa-search" onclick="fntSearchGMes()"></i></button>
+                </div>
               </div>
+              <div id="graficaMesGastos"></div>
+              <button class="btn btn-warning" onclick="fntViewDetalleG()"><i class="fa fa-eye" aria-hidden="true"></i> Gastos Detallados</button>
             </div>
-            <div id="graficaCAnio"></div>
-          </div>
-        </div>
-
-        <div class="col-md-12">
-          <div class="tile">
-            <div class="container-title">
-              <h3 class="tile-title">Ventas por año</h3>
-              <div class="dflex">
-                <input class="ventasAnio" name="ventasAnio" placeholder="Ano" minlength="4" maxlength="4" onkeypress="return controlTag(event);">
-                <button type="button" class="btnVentasAnio btn btn-info btn-sm" onclick="fntSearchVAnio()"> <i class="fas fa-search"></i> </button>
-              </div>
-            </div>
-            <div id="graficaAnio"></div>
-          </div>
-        </div>
-
-        <div class="col-md-12">
-          <div class="tile">
-            <div class="container-title">
-              <h3 class="tile-title">Gastos por año</h3>
-              <div class="dflex">
-                <input class="gastosAnio" name="gastosAnio" placeholder="Ano" minlength="4" maxlength="4" onkeypress="return controlTag(event);">
-                <button type="button" class="btnGastosAnio btn btn-info btn-sm" onclick="fntSearchGAnio()"> <i class="fas fa-search"></i> </button>
-              </div>
-            </div>
-            <div id="graficaGAnio"></div>
           </div>
         </div>
       </div>
-      <?php } ?>
+
+      <div class="tile">
+        <h3 class="tile-title">GRÁFICAS POR MES</h3>
+        <div id="accordion3">
+          <h3>Cobrado</h3>
+          <div>
+            <div class="tile">
+              <div class="container-title">
+                <div class="dflex">
+                  <input class="cobradoAnio" name="cobradoAnio" placeholder="Ano" minlength="4" maxlength="4" onkeypress="return controlTag(event);">
+                  <button type="button" class="btnCobradoAnio btn btn-info btn-sm" onclick="fntSearchCAnio()"> <i class="fas fa-search"></i> </button>
+                </div>
+              </div>
+              <div id="graficaCAnio"></div>
+            </div>
+          </div>
+          <h3>Ventas</h3>
+          <div>
+            <div class="tile">
+              <div class="container-title">
+                <div class="dflex">
+                  <input class="ventasAnio" name="ventasAnio" placeholder="Ano" minlength="4" maxlength="4" onkeypress="return controlTag(event);">
+                  <button type="button" class="btnVentasAnio btn btn-info btn-sm" onclick="fntSearchVAnio()"> <i class="fas fa-search"></i> </button>
+                </div>
+              </div>
+              <div id="graficaAnio"></div>
+            </div>
+          </div>
+          <h3>Gastos</h3>
+          <div>
+            <div class="tile">
+              <div class="container-title">
+                <div class="dflex">
+                  <input class="gastosAnio" name="gastosAnio" placeholder="Ano" minlength="4" maxlength="4" onkeypress="return controlTag(event);">
+                  <button type="button" class="btnGastosAnio btn btn-info btn-sm" onclick="fntSearchGAnio()"> <i class="fas fa-search"></i> </button>
+                </div>
+              </div>
+              <div id="graficaGAnio"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 <?php footerAdmin($data); ?>
 

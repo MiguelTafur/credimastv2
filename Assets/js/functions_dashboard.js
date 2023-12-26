@@ -19,6 +19,27 @@ $('.date-picker').datepicker( {
     }
 });
 
+$( function() {
+    $( "#accordion" ).accordion({
+        heightStyle: "content",
+        animate: 200,
+        collapsible: true
+      });
+
+    $( "#accordion2" ).accordion({
+        heightStyle: "content",
+        animate: 200,
+        collapsible: true
+    });
+
+    $( "#accordion3" ).accordion({
+        heightStyle: "content",
+        animate: 200,
+        collapsible: true
+    });
+      
+} );
+
 function fntViewPrestamo(idprestamo)
 {
     divLoading.style.display = "flex";
