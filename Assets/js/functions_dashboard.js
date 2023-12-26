@@ -543,3 +543,81 @@ function fntSearchGastosD()
         return false;
    }
 }
+
+function fntSearchVAnio(){
+    let anio = document.querySelector(".ventasAnio").value;
+    if(anio == ""){
+        swal("", "Ingrese año " , "error");
+        return false;
+    }else{
+        let request = (window.XMLHttpRequest) ? 
+            new XMLHttpRequest() : 
+            new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url+'/Dashboard/ventasAnio';
+        divLoading.style.display = "flex";
+        let formData = new FormData();
+        formData.append('anio',anio);
+        request.open("POST",ajaxUrl,true);
+        request.send(formData);
+        request.onreadystatechange = function(){
+            if(request.readyState != 4) return;
+            if(request.status == 200){
+                $("#graficaAnio").html(request.responseText);
+                divLoading.style.display = "none";
+                return false;
+            }
+        }
+    }
+}
+
+function fntSearchCAnio(){
+    let anio = document.querySelector(".cobradoAnio").value;
+    if(anio == ""){
+        swal("", "Ingrese año " , "error");
+        return false;
+    }else{
+        let request = (window.XMLHttpRequest) ? 
+            new XMLHttpRequest() : 
+            new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url+'/Dashboard/cobradoAnio';
+        divLoading.style.display = "flex";
+        let formData = new FormData();
+        formData.append('anio',anio);
+        request.open("POST",ajaxUrl,true);
+        request.send(formData);
+        request.onreadystatechange = function(){
+            if(request.readyState != 4) return;
+            if(request.status == 200){
+                $("#graficaCAnio").html(request.responseText);
+                divLoading.style.display = "none";
+                return false;
+            }
+        }
+    }
+}
+
+function fntSearchGAnio(){
+    let anio = document.querySelector(".gastosAnio").value;
+    if(anio == ""){
+        swal("", "Ingrese año " , "error");
+        return false;
+    }else{
+        let request = (window.XMLHttpRequest) ? 
+            new XMLHttpRequest() : 
+            new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url+'/Dashboard/gastosAnio';
+        divLoading.style.display = "flex";
+        let formData = new FormData();
+        formData.append('anio',anio);
+        request.open("POST",ajaxUrl,true);
+        request.send(formData);
+        request.onreadystatechange = function(){
+            if(request.readyState != 4) return;
+            if(request.status == 200){
+                $("#graficaGAnio").html(request.responseText);
+                divLoading.style.display = "none";
+                return false;
+            }
+        }
+    }
+}

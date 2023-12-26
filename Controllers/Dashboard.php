@@ -33,7 +33,11 @@
 			$data['ventasMDia'] = $this->model->selectVentasMes($anio,$mes);
 			$data['CobradoMDia'] = $this->model->selectCobradoMes($anio,$mes);
 			$data['gastosMDia'] = $this->model->selectGastosMes($anio,$mes);
-			//dep($data['gastosMDia']);exit;
+
+			$data['ventasAnio'] = $this->model->selectVentasAnio($anio);
+			$data['cobradoAnio'] = $this->model->selectCobradoAnio($anio);
+			$data['gastosAnio'] = $this->model->selectGastosAnio($anio);
+
 			$data['totalResumen'] = $this->model->selectResumenAnterior();
 			if(!empty($data['totalResumen']))
 			{
@@ -227,6 +231,39 @@
 				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 
 				//$cliente = forClientesPagos($fecha_actual);
+			}
+		}
+
+		public function ventasAnio(){
+			if($_POST){
+				$grafica = "ventasAnio";
+				$anio = intval($_POST['anio']);
+				$pagos = $this->model->selectVentasAnio($anio);
+				$script = getFile("Template/Modals/graficaAnoVentas",$pagos);
+				echo $script;
+				die();
+			}
+		}
+
+		public function cobradoAnio(){
+			if($_POST){
+				$grafica = "cobradoAnio";
+				$anio = intval($_POST['anio']);
+				$pagos = $this->model->selectCobradoAnio($anio);
+				$script = getFile("Template/Modals/graficaAnoCobrado",$pagos);
+				echo $script;
+				die();
+			}
+		}
+
+		public function gastosAnio(){
+			if($_POST){
+				$grafica = "gastosAnio";
+				$anio = intval($_POST['anio']);
+				$pagos = $this->model->selectGastosAnio($anio);
+				$script = getFile("Template/Modals/graficaAnoGastos",$pagos);
+				echo $script;
+				die();
 			}
 		}
 	}

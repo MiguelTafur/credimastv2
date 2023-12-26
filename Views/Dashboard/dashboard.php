@@ -127,7 +127,7 @@
           </a>
         </div>
         <?php } ?>
-      </div>
+                  </div>
       
       <!-- TABLA ULTIMOS RESUMENES -->
       <div class="row">
@@ -246,12 +246,52 @@
             <button class="btn btn-warning" onclick="fntViewDetalleG()"><i class="fa fa-eye" aria-hidden="true"></i> Gastos Detallados</button>
           </div>
         </div>
+
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="container-title">
+              <h3 class="tile-title">Cobrado por año</h3>
+              <div class="dflex">
+                <input class="cobradoAnio" name="cobradoAnio" placeholder="Ano" minlength="4" maxlength="4" onkeypress="return controlTag(event);">
+                <button type="button" class="btnCobradoAnio btn btn-info btn-sm" onclick="fntSearchCAnio()"> <i class="fas fa-search"></i> </button>
+              </div>
+            </div>
+            <div id="graficaCAnio"></div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="container-title">
+              <h3 class="tile-title">Ventas por año</h3>
+              <div class="dflex">
+                <input class="ventasAnio" name="ventasAnio" placeholder="Ano" minlength="4" maxlength="4" onkeypress="return controlTag(event);">
+                <button type="button" class="btnVentasAnio btn btn-info btn-sm" onclick="fntSearchVAnio()"> <i class="fas fa-search"></i> </button>
+              </div>
+            </div>
+            <div id="graficaAnio"></div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="container-title">
+              <h3 class="tile-title">Gastos por año</h3>
+              <div class="dflex">
+                <input class="gastosAnio" name="gastosAnio" placeholder="Ano" minlength="4" maxlength="4" onkeypress="return controlTag(event);">
+                <button type="button" class="btnGastosAnio btn btn-info btn-sm" onclick="fntSearchGAnio()"> <i class="fas fa-search"></i> </button>
+              </div>
+            </div>
+            <div id="graficaGAnio"></div>
+          </div>
+        </div>
       </div>
       <?php } ?>
     </main>
 <?php footerAdmin($data); ?>
 
 <script>
+  //COBRADO
   Highcharts.chart('graficaMesCobrado', {
       chart: {
           type: 'line'
@@ -294,6 +334,7 @@
             ?>
           ]
       }]});
+  //VENTAS
   Highcharts.chart('graficaMes', {
     chart: {
         type: 'line'
@@ -337,47 +378,223 @@
         ]
     }]});
 
+  //GASTOS
   Highcharts.chart('graficaMesGastos', {
-  chart: {
-      type: 'line'
-  },
-  title: {
-      text: 'Gastos de <?= $data['gastosMDia']['mes'].' del '.$data['gastosMDia']['anio'] ?>'
-  },
-  subtitle: {
-      text: 'Total Gastos <?= SMONEY.' '.formatMoney($data['gastosMDia']['total']) ?>'
-  },
-  xAxis: {
-      categories: [
-        <?php 
-          foreach ($data['gastosMDia']['gastos'] as $dia) {
-            echo $dia['dia'].",";
-          }
-        ?>
-      ]
-  },
-  yAxis: {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'Gastos de <?= $data['gastosMDia']['mes'].' del '.$data['gastosMDia']['anio'] ?>'
+    },
+    subtitle: {
+        text: 'Total Gastos <?= SMONEY.' '.formatMoney($data['gastosMDia']['total']) ?>'
+    },
+    xAxis: {
+        categories: [
+          <?php 
+            foreach ($data['gastosMDia']['gastos'] as $dia) {
+              echo $dia['dia'].",";
+            }
+          ?>
+        ]
+    },
+    yAxis: {
+        title: {
+            text: 'CREDIMAST'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        name: '',
+        data: [
+          <?php 
+            foreach ($data['gastosMDia']['gastos'] as $dia) {
+              echo $dia['gasto'].",";
+            }
+          ?>
+        ]
+     }]});
+
+  
+  //GRAFICAS ANIO
+  
+  //VENTAS
+  Highcharts.chart('graficaAnio', {
+      chart: {
+          type: 'column'
+      },
       title: {
-          text: 'CREDIMAST'
-      }
-  },
-  plotOptions: {
-      line: {
-          dataLabels: {
-              enabled: true
-          },
-          enableMouseTracking: false
-      }
-  },
-  series: [{
-      name: '',
-      data: [
-        <?php 
-          foreach ($data['gastosMDia']['gastos'] as $dia) {
-            echo $dia['gasto'].",";
+          text: 'Ventas del año <?= $data['ventasAnio']['anio'] ?> '
+      },
+      subtitle: {
+          text: 'Estadísticas de ventas por mes<br><b>Total: <?= $data['ventasAnio']['totalVentas'] ?></b> '
+      },
+      xAxis: {
+          type: 'category',
+          labels: {
+              rotation: -45,
+              style: {
+                  fontSize: '13px',
+                  fontFamily: 'Verdana, sans-serif'
+              }
           }
-        ?>
-      ]
-  }]});
+      },
+      yAxis: {
+          min: 0,
+          title: {
+              text: ''
+          }
+      },
+      legend: {
+          enabled: false
+      },
+      tooltip: {
+          pointFormat: ''
+      },
+      series: [{
+          name: 'Population',
+          data: [
+            <?php 
+              foreach ($data['ventasAnio']['meses'] as $mes) {
+                echo "['".$mes['mes']."',".$mes['ventas']."],";
+              }
+             ?>                 
+          ],
+          dataLabels: {
+              enabled: true,
+              rotation: -90,
+              color: '#FFFFFF',
+              align: 'right',
+              format: '{point.y:.0f}', // one decimal
+              y: 10, // 10 pixels down from the top
+              style: {
+                  fontSize: '13px',
+                  fontFamily: 'Verdana, sans-serif'
+              }
+          }
+      }]
+  });
+
+  //COBRADO
+  Highcharts.chart('graficaCAnio', {
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Cobrado del año <?= $data['cobradoAnio']['anio'] ?> '
+      },
+      subtitle: {
+          text: 'Estadísticas de cobrado por mes<br><b>Total: <?= $data['cobradoAnio']['totalCobrado'] ?></b> '
+      },
+      xAxis: {
+          type: 'category',
+          labels: {
+              rotation: -45,
+              style: {
+                  fontSize: '13px',
+                  fontFamily: 'Verdana, sans-serif'
+              }
+          }
+      },
+      yAxis: {
+          min: 0,
+          title: {
+              text: ''
+          }
+      },
+      legend: {
+          enabled: false
+      },
+      tooltip: {
+          pointFormat: ''
+      },
+      series: [{
+          name: 'Population',
+          data: [
+            <?php 
+              foreach ($data['cobradoAnio']['meses'] as $mes) {
+                echo "['".$mes['mes']."',".$mes['cobrado']."],";
+              }
+             ?>                 
+          ],
+          dataLabels: {
+              enabled: true,
+              rotation: -90,
+              color: '#FFFFFF',
+              align: 'right',
+              format: '{point.y:.0f}', // one decimal
+              y: 10, // 10 pixels down from the top
+              style: {
+                  fontSize: '13px',
+                  fontFamily: 'Verdana, sans-serif'
+              }
+          }
+      }]
+  });
+
+  //GASTOS
+  Highcharts.chart('graficaGAnio', {
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Gastos del año <?= $data['gastosAnio']['anio'] ?> '
+      },
+      subtitle: {
+          text: 'Estadísticas de Gastos por mes<br><b>Total: <?= $data['gastosAnio']['totalGastos'] ?></b> '
+      },
+      xAxis: {
+          type: 'category',
+          labels: {
+              rotation: -45,
+              style: {
+                  fontSize: '13px',
+                  fontFamily: 'Verdana, sans-serif'
+              }
+          }
+      },
+      yAxis: {
+          min: 0,
+          title: {
+              text: ''
+          }
+      },
+      legend: {
+          enabled: false
+      },
+      tooltip: {
+          pointFormat: ''
+      },
+      series: [{
+          name: 'Population',
+          data: [
+            <?php 
+              foreach ($data['gastosAnio']['meses'] as $mes) {
+                echo "['".$mes['mes']."',".$mes['gastos']."],";
+              }
+             ?>                 
+          ],
+          dataLabels: {
+              enabled: true,
+              rotation: -90,
+              color: '#FFFFFF',
+              align: 'right',
+              format: '{point.y:.0f}', // one decimal
+              y: 10, // 10 pixels down from the top
+              style: {
+                  fontSize: '13px',
+                  fontFamily: 'Verdana, sans-serif'
+              }
+          }
+      }]
+  });
+
 </script>
     

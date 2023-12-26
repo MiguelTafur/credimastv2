@@ -420,6 +420,110 @@ class DashboardModel extends Mysql
 		
 	}
 
+	public function selectVentasAnio(string $anio) {
+		$arrMVentas = array();
+		$arrMeses = Meses();
+		$totalVentas = 0;
+		$ruta = $_SESSION['idRuta'];
+
+		for ($i=1; $i <= 12; $i++) { 
+			$arrData = array('anio' => '', 'no_mes' => '', 'mes' => '');
+			$sql = "SELECT $anio AS anio, $i AS mes, sum(pr.monto) AS ventas 
+					FROM prestamos pr INNER JOIN persona pe ON(pe.idpersona = pr.personaid) WHERE month(pr.datecreated) = $i AND year(pr.datecreated) = $anio AND pr.status != 0 AND pe.codigoruta = $ruta 
+					GROUP BY month(pr.datecreated)";
+			$ventaMes = $this->select($sql);
+			$arrData['mes'] = $arrMeses[$i-1];
+			
+			if(empty($ventaMes)){
+				$arrData['anio'] = $anio;
+				$arrData['no_mes'] = $i;
+				$arrData['ventas'] = 0;
+			}else{
+				$arrData['anio'] = $ventaMes['anio'];
+				$arrData['no_mes'] = $ventaMes['mes'];
+				$arrData['ventas'] = $ventaMes['ventas'];
+				$totalVentas += $ventaMes['ventas'];
+			}
+			array_push($arrMVentas, $arrData);
+		}
+
+		$arrVentas = array('totalVentas' => $totalVentas, 'anio' => $anio, 'meses' => $arrMVentas);
+		return $arrVentas;
+
+	}
+
+	public function selectCobradoAnio(string $anio) {
+		$arrMCobrado = array();
+		$arrMeses = Meses();
+		$totalCobrado = 0;
+		$ruta = $_SESSION['idRuta'];
+
+		for ($i=1; $i <= 12; $i++) { 
+			$arrData = array('anio' => '', 'no_mes' => '', 'mes' => '');
+			$sql = "SELECT $anio AS anio, $i AS mes, sum(cobrado) AS cobrado FROM resumen 
+					WHERE month(datecreated) = $i AND year(datecreated) = $anio AND codigoruta = $ruta 
+					GROUP BY month(datecreated)";
+			$cobradoMes = $this->select($sql);
+			$arrData['mes'] = $arrMeses[$i-1];
+			
+			if(empty($cobradoMes)){
+				$arrData['anio'] = $anio;
+				$arrData['no_mes'] = $i;
+				$arrData['cobrado'] = 0;
+			}else{
+				$arrData['anio'] = $cobradoMes['anio'];
+				$arrData['no_mes'] = $cobradoMes['mes'];
+				$arrData['cobrado'] = $cobradoMes['cobrado'];
+				$totalCobrado += $cobradoMes['cobrado'];
+			}
+			array_push($arrMCobrado, $arrData);
+		}
+
+		$arrCobrado = array('totalCobrado' => $totalCobrado, 'anio' => $anio, 'meses' => $arrMCobrado);
+		//dep($arrCobrado);exit;
+		return $arrCobrado;
+
+	}
+
+	public function selectGastosAnio(string $anio) {
+		$arrMGastos = array();
+		$arrMeses = Meses();
+		$totalGastos = 0;
+		$ruta = $_SESSION['idRuta'];
+
+		for ($i=1; $i <= 12; $i++) { 
+			$arrData = array('anio' => '', 'no_mes' => '', 'mes' => '');
+
+			$sql = "SELECT re.datecreated, ga.monto FROM resumen re INNER JOIN gastos ga ON(re.gastoid = ga.idgasto) 
+											WHERE re.datecreated 
+											BETWEEN '{$this->strFecha}' AND '{$this->strFecha2}' 
+											AND re.codigoruta = $ruta";
+
+			$sql = "SELECT $anio AS anio, $i AS mes, sum(monto) AS gastos FROM gastos 
+					WHERE month(datecreated) = $i AND year(datecreated) = $anio AND codigoruta = $ruta 
+					GROUP BY month(datecreated)";
+			$gastosMes = $this->select($sql);
+			$arrData['mes'] = $arrMeses[$i-1];
+			
+			if(empty($gastosMes)){
+				$arrData['anio'] = $anio;
+				$arrData['no_mes'] = $i;
+				$arrData['gastos'] = 0;
+			}else{
+				$arrData['anio'] = $gastosMes['anio'];
+				$arrData['no_mes'] = $gastosMes['mes'];
+				$arrData['gastos'] = $gastosMes['gastos'];
+				$totalGastos += $gastosMes['gastos'];
+			}
+			array_push($arrMGastos, $arrData);
+		}
+
+		$arrGastos = array('totalGastos' => $totalGastos, 'anio' => $anio, 'meses' => $arrMGastos);
+		return $arrGastos;
+
+	}
+	
+
 	public function selectDatePagoPrestamo()
 	{
 		$ruta = $_SESSION['idRuta'];
@@ -448,4 +552,5 @@ class DashboardModel extends Mysql
 			return 2;
 		}
 	}
+	
 }
