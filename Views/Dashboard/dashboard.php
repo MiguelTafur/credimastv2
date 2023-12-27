@@ -129,11 +129,11 @@
         <?php } ?>
       </div>
 
-      <div class="tile">
-        <h3 class="tile-title">INFORMACIÓN GENERAL</h3>
+      <div class="tile py-3 m-0 mt-5">
+        <h3 class="tile-title text-center">INFORMACIÓN GENERAL</h3>
         <div id="accordion">
           <h3>Últimos Resumenes</h3>
-          <div>
+          <div class="">
             <div class="tile">
               <div class="table-responsive">
                 <table class="table table-striped table-sm">
@@ -199,8 +199,8 @@
         </div>
       </div>
 
-      <div class="tile">
-        <h3 class="tile-title">GRÁFICAS POR DÍA</h3>
+      <div class="tile py-3 m-0 mt-5">
+      <h3 class="tile-title text-center">GRÁFICA POR DIA</h3>
         <div id="accordion2">
           <h3>Cobrado</h3>
           <div>
@@ -245,11 +245,11 @@
         </div>
       </div>
 
-      <div class="tile">
-        <h3 class="tile-title">GRÁFICAS POR MES</h3>
+      <div class="tile py-3 m-0 mt-5">
+      <h3 class="tile-title text-center">GRÁFICA POR MES</h3>
         <div id="accordion3">
           <h3>Cobrado</h3>
-          <div>
+          <div class="">
             <div class="tile">
               <div class="container-title">
                 <div class="dflex">

@@ -500,7 +500,7 @@ class DashboardModel extends Mysql
 											AND re.codigoruta = $ruta";
 
 			$sql = "SELECT $anio AS anio, $i AS mes, sum(monto) AS gastos FROM gastos 
-					WHERE month(datecreated) = $i AND year(datecreated) = $anio AND codigoruta = $ruta 
+					WHERE month(datecreated) = $i AND year(datecreated) = $anio AND codigoruta = $ruta AND nombre != ''
 					GROUP BY month(datecreated)";
 			$gastosMes = $this->select($sql);
 			$arrData['mes'] = $arrMeses[$i-1];
