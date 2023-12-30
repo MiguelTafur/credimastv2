@@ -161,7 +161,7 @@
 			return $request;
 		}
 
-		public function selectPago($idprestamo)
+		public function selectPago(int $idprestamo)
 		{
 			$fecha_actual = date("Y-m-d");
 			$this->intIdPrestamo = $idprestamo;
@@ -170,7 +170,7 @@
 			return $request;
 		}
 
-		public function selectPagos($idprestamo)
+		public function selectPagos(int $idprestamo)
 		{
 			$this->intIdPrestamo = $idprestamo;
 			$sql = "SELECT idpago,abono,datecreated FROM pagos WHERE prestamoid = $this->intIdPrestamo ORDER BY datecreated DESC";

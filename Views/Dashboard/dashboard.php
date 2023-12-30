@@ -1,4 +1,4 @@
-<?php headerAdmin($data); getModal('modalPrestamos',$data);?>
+<?php headerAdmin($data); getModal('modalDashboard',$data);?>
     <main class="app-content">
       <div class="app-title">
         <div>
@@ -133,8 +133,8 @@
         <h3 class="tile-title text-center">INFORMACIÓN GENERAL</h3>
         <div id="accordion">
           <h3>Últimos Resumenes</h3>
-          <div class="">
-            <div class="tile">
+          <div>
+            <div class="tile px-2">
               <div class="table-responsive">
                 <table class="table table-striped table-sm">
                   <thead>
@@ -164,36 +164,49 @@
                   </tbody>
                 </table>
               </div>
+              <br>
+              <button class="btn btn-warning btn-sm" onclick="fntViewDetalleR()"><i class="fa fa-search" aria-hidden="true"></i> Buscar Resumen</button>
             </div>
           </div>
-          <h3>Últimos Préstamos</h3>
+          <h3>Últimos Préstamos Finalizados</h3>
           <div>
             <div class="tile">
-              <table class="table table-striped table-sm">
-                <thead>
-                  <tr class="text-center">
-                    <th>Cliente</th>
-                    <th>Fecha Crédito</th>
-                    <th class="text-right">Monto</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody class="text-center">
-                  <?php if(count($data['ultimosPrestamo']) > 0){
-                      foreach ($data['ultimosPrestamo'] as $prestamos) {
-                        $nombre = $prestamos['nombres'];
-                  ?>
-                  <tr >
-                    <td><?= $nombre.' <i>'.$prestamos['apellidos'].'<i>' ?></td>
-                    <td><?= $prestamos['datecreated'] ?></td>
-                    <td class="text-right"><?= /*SMONEY.*/" ".formatMoney($prestamos['monto']) ?></td>
-                    <td>
-                      <button class="btn btn-link" onclick="fntViewPrestamo(<?= $prestamos['idprestamo'] ?>)"><i class="fa fa-eye" aria-hidden="true"></i></button>
-                    </td>
-                  </tr>
-                <?php }} ?>
-                </tbody>
-              </table>
+              <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                  <thead>
+                    <tr class="text-center">
+                      <th>Cierre</th>
+                      <th>Cliente</th>
+                      <th>Pagamentos</th>
+                      <th>Detalles</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center">
+                    <?php if(COUNT($data['ultimosPrestamo']) > 0){
+
+                        for ($i=0; $i < COUNT($data['ultimosPrestamo']); $i++) { 
+                          $arrPrestamos = explode("|",$data['ultimosPrestamo'][$i]);
+                    ?>
+                    <tr>
+                      <td><?= $arrPrestamos[0] ?></td>
+                      <td><?= $arrPrestamos[1] ?></td>
+                      <td>
+                        <a tabindex="0" role="button" class="btn btn-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="<?= $arrPrestamos[2]; ?>" title="PAGAMENTOS&nbsp; <small><?= substr($arrPrestamos[1], 0, 12 ); ?></small>">
+                          <i class="fas fa-hand-holding-usd fa-sm text-white" aria-hidden="true"></i>
+                        </a>
+                      </td>
+                      <td>
+                        <a tabindex="0" role="button" class="btn btn-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="<?= $arrPrestamos[3]; ?>" title="DETALLES&nbsp; <small><?= substr($arrPrestamos[1], 0, 12 ); ?></small>">
+                          <i class="fas fa-eye fa-sm text-white" aria-hidden="true"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  <?php }} ?>
+                  </tbody>
+                </table>
+                <br>
+              </div>
+              <button class="btn btn-warning btn-sm" onclick="fntViewDetallePF()"><i class="fa fa-search" aria-hidden="true"></i> Buscar Préstamo F.</button>
             </div>
           </div>
         </div>
@@ -212,7 +225,7 @@
                 </div>
               </div>
               <div id="graficaMesCobrado"></div>
-              <button class="btn btn-warning" onclick="fntViewDetalleC()"><i class="fa fa-eye" aria-hidden="true"></i> Cobrado Detallado</button>
+              <button class="btn btn-warning btn-sm" onclick="fntViewDetalleC()"><i class="fa fa-eye" aria-hidden="true"></i> Cobrado Detallado</button>
             </div>
           </div>
           <h3>Ventas</h3>
@@ -225,21 +238,20 @@
                 </div>
               </div>
               <div id="graficaMes"></div>
-              <button class="btn btn-warning" onclick="fntViewDetalleV()"><i class="fa fa-eye" aria-hidden="true"></i> Ventas Detalladas</button>
+              <button class="btn btn-warning btn-sm" onclick="fntViewDetalleV()"><i class="fa fa-eye" aria-hidden="true"></i> Ventas Detalladas</button>
             </div>
           </div>
           <h3>Gastos</h3>
           <div>
             <div class="tile">
               <div class="container-title">
-                <h3 class="tile-title">Total Gastos por día</h3>
                 <div class="dflex">
                   <input class="date-picker gastosMes" name="gastosMes" placeholder="Mes y Año">
                   <button type="button" class="btnGastosMes btn btn-info btn-sm"><i class="fas fa-search" onclick="fntSearchGMes()"></i></button>
                 </div>
               </div>
               <div id="graficaMesGastos"></div>
-              <button class="btn btn-warning" onclick="fntViewDetalleG()"><i class="fa fa-eye" aria-hidden="true"></i> Gastos Detallados</button>
+              <button class="btn btn-warning btn-sm" onclick="fntViewDetalleG()"><i class="fa fa-eye" aria-hidden="true"></i> Gastos Detallados</button>
             </div>
           </div>
         </div>

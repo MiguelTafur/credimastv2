@@ -24,7 +24,13 @@ $( function() {
         heightStyle: "content",
         animate: 200,
         collapsible: true
-      });
+    });
+
+    $('[data-toggle="popover"]').popover({
+        container: "body",
+        trigger: "focus",
+        html: true
+    })
 
     $( "#accordion2" ).accordion({
         heightStyle: "content",
@@ -37,7 +43,9 @@ $( function() {
         animate: 200,
         collapsible: true
     });
-      
+
+
+
 } );
 
 function fntViewPrestamo(idprestamo)
@@ -90,7 +98,7 @@ function fntViewPrestamo(idprestamo)
     }
 }
 function listPagos()
-{  
+{
     document.querySelector("#tableViewPrestamo").classList.add('d-none');
     document.querySelector("#containerPagos").classList.remove('d-none');
     let idprestamo = document.querySelector("#idPrestamoP").value;
@@ -117,14 +125,14 @@ function listPagos()
     document.querySelector("#listaPagos").innerHTML = '<tr><td class"text-center" colspan="2">No hay datos</td><tr>';
 }
 function backFntViewPrestamo()
-{  
+{
     document.querySelector("#tableViewPrestamo").classList.remove('d-none');
     document.querySelector("#containerPagos").classList.add('d-none');
 }
 function fntListPrestamosFinalizados()
-{  
+{
     $('#modalFormPrestamosFinalizados').modal('show');
-    tablePrestamosFinalizados = $('#tablePrestamosFinalizados').dataTable( 
+    tablePrestamosFinalizados = $('#tablePrestamosFinalizados').dataTable(
     {
         "aProcessing":true,
         "aServerSide":true,
@@ -136,7 +144,7 @@ function fntListPrestamosFinalizados()
             "dataSrc":""
         },
         "columns":[
-            {"data":"datecreated"}, 
+            {"data":"datecreated"},
             {"data":"datefinal"},
             {"data":"nombres"},
             {"data":"abonos"},
@@ -145,11 +153,11 @@ function fntListPrestamosFinalizados()
         "resonsieve":"true",
         "bDestroy": true,
         "iDisplayLength": 5,
-        "order":[[1,"desc"]]  
+        "order":[[1,"desc"]]
     });
 }
 function fntlistPagosFinalizados(idprestamo)
-{  
+{
     document.querySelector(".AF").classList.remove("d-none");
     document.querySelector(".PF").classList.add("d-none");
     document.querySelector("#idPagosFinalizados").classList.remove("d-none");
@@ -221,7 +229,7 @@ function fntSearchVMes()
     }
     divLoading.style.display = "flex";
     let  request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let  ajaxUrl = base_url+'/Dashboard/ventasMes'; 
+    let  ajaxUrl = base_url+'/Dashboard/ventasMes';
     let  formData = new FormData();
     formData.append('fecha', fecha);
     request.open("POST",ajaxUrl,true);
@@ -248,7 +256,7 @@ function fntSearchCMes()
     }
     divLoading.style.display = "flex";
     let  request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let  ajaxUrl = base_url+'/Dashboard/cobradoMes'; 
+    let  ajaxUrl = base_url+'/Dashboard/cobradoMes';
     let  formData = new FormData();
     formData.append('fecha', fecha);
     request.open("POST",ajaxUrl,true);
@@ -275,7 +283,7 @@ function fntSearchGMes()
     }
     divLoading.style.display = "flex";
     let  request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let  ajaxUrl = base_url+'/Dashboard/gastosMes'; 
+    let  ajaxUrl = base_url+'/Dashboard/gastosMes';
     let  formData = new FormData();
     formData.append('fecha', fecha);
     request.open("POST",ajaxUrl,true);
@@ -288,6 +296,78 @@ function fntSearchGMes()
             $("#graficaMesGastos").html(request.responseText);
             divLoading.style.display = "none";
             return false;
+        }
+    }
+}
+
+function fntViewDetalleR()
+{
+    $('#modalDetalleR').modal('show');
+    document.querySelector("#divResumenD").classList.add("d-none");
+    $('#fechaResumen').daterangepicker({
+        "autoUpdateInput": false,
+        "locale": {
+            "format": "DD/MM/YYYY",
+            "separator": " - ",
+            "applyLabel": "Aplicar",
+            "cancelLabel": "Cancelar",
+            "daysOfWeek": [
+                "Dom",
+                "Seg",
+                "Ter",
+                "Qua",
+                "Qui",
+                "Sex",
+                "Sab"
+            ],
+            "monthNames": [
+                "Janeiro",
+                "Fevereiro",
+                "Março",
+                "Abil",
+                "Maio",
+                "Junho",
+                "Julho",
+                "Agosto",
+                "Setembro",
+                "Outubro",
+                "Novembro",
+                "Dezembro"
+            ],
+            "firstDay": 1
+        }
+    });
+
+    $('#fechaResumen').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+    });
+
+    $('#fechaResumen').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+}
+
+function fntViewDetallePF()
+{
+    $('#modalDetallePF').modal('show');
+    document.querySelector("#divPrestamosFD").classList.add("d-none");
+    document.querySelector("#divJurosD").classList.add("d-none");
+    if(document.querySelector("#listClientId")){
+        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url+'/Clientes/getSelectClientes';
+        request.open("POST",ajaxUrl,true);
+        request.send();
+
+        request.onreadystatechange = function(){
+            if(request.readyState == 4 && request.status == 200){
+                document.querySelector('#listClientId').innerHTML = request.responseText;
+                $('#listClientId').select2({
+                    placeholder: 'Seleccione un Cliente',
+                    enableClear: true,
+                    width: '100%',
+                    dropdownParent: $('#modalDetallePF')
+                });
+            }
         }
     }
 }
@@ -333,7 +413,7 @@ function fntViewDetalleC()
     $('#fechaCobrado').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
     });
-  
+
     $('#fechaCobrado').on('cancel.daterangepicker', function(ev, picker) {
         $(this).val('');
     });
@@ -380,7 +460,7 @@ function fntViewDetalleV()
     $('#fechaVentas').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
     });
-  
+
     $('#fechaVentas').on('cancel.daterangepicker', function(ev, picker) {
         $(this).val('');
     });
@@ -427,10 +507,106 @@ function fntViewDetalleG()
     $('#fechaGastos').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
     });
-  
+
     $('#fechaGastos').on('cancel.daterangepicker', function(ev, picker) {
         $(this).val('');
     });
+}
+
+function fntSearchResumenD()
+{
+    let fecha = document.querySelector("#fechaResumen").value;
+    if(fecha == "")
+    {
+        swal("", "Seleccione una fecha", "error");
+        return false;
+    }
+
+    divLoading.style.display = "flex";
+    let  request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let  ajaxUrl = base_url+'/Dashboard/getResumenD';
+    let  formData = new FormData();
+    formData.append('fecha', fecha);
+    request.open("POST",ajaxUrl,true);
+    request.send(formData);
+    request.onreadystatechange = function()
+    {
+        if(request.readyState != 4) return;
+        if(request.status == 200)
+        {
+            let objData = JSON.parse(request.responseText);
+            arrResumen = objData.resumenD;
+
+            $(function () {
+                $('[data-toggle="popover"]').popover({
+                    container: "body",
+                    trigger: "focus",
+                    html: true
+                })
+              })
+
+            document.querySelector("#divResumenD").classList.remove("d-none");
+            document.querySelector("#datosResumenD").innerHTML = arrResumen;
+
+        }
+
+        divLoading.style.display = "none";
+        return false;
+    }
+}
+
+function fntSearchPrestamosFD()
+{
+
+    let intClienteId = document.querySelector('#listClientId').value;
+
+    if(intClienteId == "")
+    {
+        swal("", "Seleccione un Cliente", "error");
+        return false;
+    }
+
+    divLoading.style.display = "flex";
+    let  request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let  ajaxUrl = base_url+'/Dashboard/getPrestamosFD';
+    let  formData = new FormData();
+    formData.append('intClienteId', intClienteId);
+    request.open("POST",ajaxUrl,true);
+    request.send(formData);
+    request.onreadystatechange = function()
+    {
+       if(request.readyState != 4) return;
+       if(request.status == 200)
+       {
+           let objData = JSON.parse(request.responseText);
+           arrCliente = objData.clientesD;
+           totalJuros = objData.totalJuros;
+           $(function () {
+                $('[data-toggle="popover"]').popover({
+                    container: "body",
+                    trigger: "focus",
+                    html: true
+                })
+            })
+
+            document.querySelector("#datosPrestamosFD").innerHTML = arrCliente;
+            document.querySelector("#divPrestamosFD").classList.remove("d-none");
+            document.querySelector("#divJurosD").classList.remove("d-none");
+            document.querySelector("#markJuros").innerHTML = totalJuros;
+            document.querySelector("#sinDatosD").classList.add("d-none");
+
+            if(!arrCliente){
+                document.querySelector("#divPrestamosFD").classList.add("d-none");
+                document.querySelector("#divJurosD").classList.add("d-none");
+                document.querySelector("#sinDatosD").classList.remove("d-none");
+            }
+
+
+            
+       }
+       divLoading.style.display = "none";
+        return false;
+    }
 }
 
 function fntSearchCobradoD()
@@ -444,7 +620,7 @@ function fntSearchCobradoD()
 
     divLoading.style.display = "flex";
     let  request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let  ajaxUrl = base_url+'/Dashboard/getCobradoD'; 
+    let  ajaxUrl = base_url+'/Dashboard/getCobradoD';
     let  formData = new FormData();
     formData.append('fecha', fecha);
     request.open("POST",ajaxUrl,true);
@@ -467,9 +643,9 @@ function fntSearchCobradoD()
               })
 
             document.querySelector("#datosCobradoD").innerHTML = arrCobrado;
-            document.querySelector("#markCobrado").innerHTML = smoney + ' ' + totalC;
+            document.querySelector("#markCobrado").innerHTML = totalC;
             document.querySelector("#divCobradoD").classList.remove("d-none");
-            
+
         }
 
         divLoading.style.display = "none";
@@ -488,7 +664,7 @@ function fntSearchVentasD()
 
     divLoading.style.display = "flex";
     let  request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let  ajaxUrl = base_url+'/Dashboard/getVentasD'; 
+    let  ajaxUrl = base_url+'/Dashboard/getVentasD';
     let  formData = new FormData();
     formData.append('fecha', fecha);
     request.open("POST",ajaxUrl,true);
@@ -511,9 +687,9 @@ function fntSearchVentasD()
               });
 
             document.querySelector("#datosVentasD").innerHTML = arrVentas;
-            document.querySelector("#markVentas").innerHTML = smoney + ' ' + totalV;
+            document.querySelector("#markVentas").innerHTML = totalV;
             document.querySelector("#divVentasD").classList.remove("d-none");
-            
+
         }
 
         divLoading.style.display = "none";
@@ -532,7 +708,7 @@ function fntSearchGastosD()
 
     divLoading.style.display = "flex";
     let  request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let  ajaxUrl = base_url+'/Dashboard/getGastosD'; 
+    let  ajaxUrl = base_url+'/Dashboard/getGastosD';
     let  formData = new FormData();
     formData.append('fecha', fecha);
     request.open("POST",ajaxUrl,true);
@@ -555,9 +731,9 @@ function fntSearchGastosD()
               });
 
             document.querySelector("#datosGastosD").innerHTML = arrGastos;
-            document.querySelector("#markGastos").innerHTML = smoney + ' ' + totalG;
+            document.querySelector("#markGastos").innerHTML = totalG;
             document.querySelector("#divGastosD").classList.remove("d-none");
-            
+
         }
 
         divLoading.style.display = "none";
@@ -571,8 +747,8 @@ function fntSearchVAnio(){
         swal("", "Ingrese año " , "error");
         return false;
     }else{
-        let request = (window.XMLHttpRequest) ? 
-            new XMLHttpRequest() : 
+        let request = (window.XMLHttpRequest) ?
+            new XMLHttpRequest() :
             new ActiveXObject('Microsoft.XMLHTTP');
         let ajaxUrl = base_url+'/Dashboard/ventasAnio';
         divLoading.style.display = "flex";
@@ -597,8 +773,8 @@ function fntSearchCAnio(){
         swal("", "Ingrese año " , "error");
         return false;
     }else{
-        let request = (window.XMLHttpRequest) ? 
-            new XMLHttpRequest() : 
+        let request = (window.XMLHttpRequest) ?
+            new XMLHttpRequest() :
             new ActiveXObject('Microsoft.XMLHTTP');
         let ajaxUrl = base_url+'/Dashboard/cobradoAnio';
         divLoading.style.display = "flex";
@@ -623,8 +799,8 @@ function fntSearchGAnio(){
         swal("", "Ingrese año " , "error");
         return false;
     }else{
-        let request = (window.XMLHttpRequest) ? 
-            new XMLHttpRequest() : 
+        let request = (window.XMLHttpRequest) ?
+            new XMLHttpRequest() :
             new ActiveXObject('Microsoft.XMLHTTP');
         let ajaxUrl = base_url+'/Dashboard/gastosAnio';
         divLoading.style.display = "flex";

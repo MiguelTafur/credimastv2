@@ -62,22 +62,6 @@
             </a>
         </li>
         <?php } ?>
-        <?php if(!empty($_SESSION['permisos'][5]['r'])){ ?>
-        <li>
-            <a class="app-menu__item" href="<?= base_url(); ?>/prestamosFinalizados">
-                <i class="fa fa-check-circle fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;
-                <span class="app-menu__label">Préstamos Finalizados</span>
-            </a>
-        </li>
-        <?php } ?>
-        <?php if(!empty($_SESSION['permisos'][5]['r'])){ ?>
-        <li>
-            <a class="app-menu__item" href="<?= base_url(); ?>/listaResumenes">
-                <i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;
-                <span class="app-menu__label">Lista Resumenes</span>
-            </a>
-        </li>
-        <?php } ?>
         <li>
             <a class="app-menu__item" href="<?= base_url(); ?>/logout">
                 <i class="app-menu__icon fa fa-sign-out" aria-hidden="true"></i>

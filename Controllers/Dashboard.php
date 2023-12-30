@@ -18,7 +18,9 @@
 			$data['page_title'] = "Dashboard - Credimast";
 			$data['page_name'] = "credimast";
 
-			$data['totalCartera'] = $this->model->totalCartera($_SESSION['idRuta'], date("Y-m-d"));
+			$ruta = $_SESSION['idRuta'];
+
+			$data['totalCartera'] = $this->model->totalCartera($ruta, date("Y-m-d"));
 
 			$data['usuarios'] = $this->model->cantUsuarios();
 			$data['clientes'] = $this->model->cantClientes();
@@ -26,7 +28,7 @@
 			$data['prestamosFinalizados'] = $this->model->cantPrestamosFinalizados();
 			$data['cartera'] = $this->model->selectCartera();
 			
-			$data['ultimosPrestamo'] = $this->model->ultimosPrestamo();
+			$data['ultimosPrestamo'] = $this->model->ultimosPrestamo($ruta);
 			$data['ultimosResumenes'] = $this->model->ultimosResumenes();
 			$anio = date("Y");
 			$mes = date("m");
@@ -94,6 +96,87 @@
 				$script = getFile("Template/Modals/graficaGastos", $gastos);
 				echo $script;
 				die();
+			}
+		}
+
+		public function getResumenD()
+		{
+			if($_POST)
+			{
+				$arrayFechas = explode("-", $_POST['fecha']);
+				$fechaI = date("Y-m-d", strtotime(str_replace("/", "-", $arrayFechas[0])));
+				$fechaF = date("Y-m-d", strtotime(str_replace("/", "-", $arrayFechas[1])));
+				$ruta = $_SESSION['idRuta'];
+				$detalles = '';
+				$dias = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+
+				$resumenD = $this->model->selectResumenD($fechaI, $fechaF, $ruta);
+
+				for ($i=0; $i < COUNT($resumenD); $i++)
+				{ 
+					$fechaFormateada = date('d-m-Y', strtotime($resumenD[$i]['fecha']));
+					$dia = $dias[date('w', strtotime($resumenD[$i]['fecha']))];
+					$datosResumen = "Base = ". number_format($resumenD[$i]['base'], 0). "<br>".
+									"Cobrado = ". number_format($resumenD[$i]['cobrado']). "<br>".
+									"Ventas = ". number_format($resumenD[$i]['ventas']). "<br>".
+									"Gastos = ". number_format($resumenD[$i]['gastos']). "<br>".
+									"Total = ". number_format($resumenD[$i]['total']);
+
+					$detalles .= '<tr class="text-center">';
+					$detalles .= '<td>'.$dia.'</td>';
+					$detalles .= '<td>
+									<a tabindex="0" role="button" class="btn btn-info btn-sm" data-toggle="popover" data-placement="left" data-content="'.$datosResumen.'" title="Fecha:&nbsp; <small>'.$fechaFormateada.'</small>">
+										<i class="fas fa-info-circle fa-sm" aria-hidden="true"></i>
+									</a>
+									</td>';	
+					$detalles .= '</tr>';
+				}
+				
+				$arrResponse = array('resumenD' => $detalles);
+
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			}
+		}
+
+		public function getPrestamosFD()
+		{
+			if($_POST)
+			{
+				$intClienteId = $_POST['intClienteId'];
+				$ruta = $_SESSION['idRuta'];
+				$detalles = '';
+				$totalJuros = 0;
+
+				$clientesD = $this->model->selectPrestamosFD($intClienteId,$ruta);
+
+				for ($i=0; $i < COUNT($clientesD); $i++)
+				{ 
+					$arrCliente = explode("|", $clientesD[$i]);
+					//dep($arrCliente);exit;
+					$fechaFormateada = $arrCliente[0];
+					//$dia = $dias[date('w', strtotime($arrCliente[$i]['fecha']))];
+
+					$detalles .= '<tr class="text-center">';
+					$detalles .= '<td>'.$fechaFormateada.'</td>';
+					$detalles .= '<td>'.$arrCliente[1].'</td>';
+					$detalles .= '<td>
+									<a tabindex="0" role="button" class="btn btn-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.$arrCliente[2].'" title="PAGAMENTOS:&nbsp; <small>'.$arrCliente[1].'</small>">
+										<i class="fas fa-hand-holding-usd fa-sm" aria-hidden="true"></i>
+									</a>
+								  </td>';
+					$detalles .= '<td>
+									<a tabindex="0" role="button" class="btn btn-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.$arrCliente[3].'" title="DETALLES:&nbsp; <small>'.$arrCliente[1].'</small>">
+										<i class="fas fa-eye fa-sm" aria-hidden="true"></i>
+									</a>
+									</td>';	
+					$detalles .= '</tr>';
+
+					$totalJuros += $arrCliente[4];
+				}
+				
+				$arrResponse = array('clientesD' => $detalles, 'totalJuros' => $totalJuros);
+
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			}
 		}
 

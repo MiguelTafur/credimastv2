@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class DashboardModel extends Mysql
 {
@@ -8,6 +8,8 @@ class DashboardModel extends Mysql
 	}
 
 	PRIVATE $intIdRuta;
+	PRIVATE $intIdPrestamo;
+	PRIVATE $intIdCliente;
 	PRIVATE $strFecha;
 	PRIVATE $strFecha2;
 
@@ -39,12 +41,12 @@ class DashboardModel extends Mysql
 			{
 				$sqlBa = "SELECT monto as total FROM base WHERE codigoruta = $this->intIdRuta and datecreated = '{$fechaAnterior}' ORDER BY datecreated DESC";
 		 		$requestBa = $this->select($sqlBa);
-				
+
 				if(!empty($requestBa))
 				{
 					$base = $requestBa;
 				}else{
-					$base = $this->selectResumenAnterior($this->intIdRuta);	
+					$base = $this->selectResumenAnterior($this->intIdRuta);
 				}
 			}else{
 				$base = $this->selectResumenAnterior($this->intIdRuta);
@@ -54,7 +56,7 @@ class DashboardModel extends Mysql
 		//GASTOS
 		$sqlGa = "SELECT SUM(monto) AS totalGa FROM gastos WHERE codigoruta = $this->intIdRuta AND datecreated = '{$this->strFecha}' AND nombre != ''";
 		$requestGa = $this->select($sqlGa);
-		
+
 		if(!empty($requestGa['totalGa']))
 		{
 			$gastos = $requestGa;
@@ -70,19 +72,19 @@ class DashboardModel extends Mysql
 		}
 
 		//COBRADO
-		$sqlCo = "SELECT SUM(pa.abono) as totalCo FROM pagos pa 
+		$sqlCo = "SELECT SUM(pa.abono) as totalCo FROM pagos pa
 					INNER JOIN prestamos pr ON(pa.prestamoid = pr.idprestamo)
 					INNER JOIN persona pe ON(pr.personaid = pe.idpersona)
 					WHERE pe.codigoruta = $this->intIdRuta and pa.datecreated = '{$this->strFecha}'";
 		$requestCo = $this->select($sqlCo);
-		
-		if(!empty($requestCo['totalCo']))			
+
+		if(!empty($requestCo['totalCo']))
 		{
 			$cobrado = $requestCo;
 		}else{
 			if($fechaAnterior != "")
 			{
-				$sqlCo = "SELECT SUM(pa.abono) as totalCo FROM pagos pa 
+				$sqlCo = "SELECT SUM(pa.abono) as totalCo FROM pagos pa
 					INNER JOIN prestamos pr ON(pa.prestamoid = pr.idprestamo)
 					INNER JOIN persona pe ON(pr.personaid = pe.idpersona)
 					WHERE pe.codigoruta = $this->intIdRuta and pa.datecreated = '{$fechaAnterior}'";
@@ -94,33 +96,33 @@ class DashboardModel extends Mysql
 		}
 
 		//VENTAS
-		$sqlVe = "SELECT SUM(pr.monto) as totalVe FROM prestamos pr 
-					INNER JOIN persona pe ON(pr.personaid = pe.idpersona) 
+		$sqlVe = "SELECT SUM(pr.monto) as totalVe FROM prestamos pr
+					INNER JOIN persona pe ON(pr.personaid = pe.idpersona)
 					WHERE pe.codigoruta = $this->intIdRuta and pr.datecreated = '{$this->strFecha}' AND pr.status != 0";
 		$requestVe = $this->select($sqlVe);
-		
+
 		if(!empty($requestVe['totalVe']))
 		{
 			$ventas = $requestVe;
 		}else{
 			if($fechaAnterior != "")
 			{
-				$sqlVe = "SELECT SUM(pr.monto) as totalVe FROM prestamos pr 
-					INNER JOIN persona pe ON(pr.personaid = pe.idpersona) 
+				$sqlVe = "SELECT SUM(pr.monto) as totalVe FROM prestamos pr
+					INNER JOIN persona pe ON(pr.personaid = pe.idpersona)
 					WHERE pe.codigoruta = $this->intIdRuta and pr.datecreated = '{$fechaAnterior}' AND pr.status = 1";
 				$requestVe = $this->select($sqlVe);
 				$ventas = $requestVe;
 			}else{
 				$ventas['totalVe'] = 0;
 			}
-			
-		}		
+
+		}
 
 		//TOTAL
 		$total = ($base['total'] + $cobrado['totalCo']) - ($ventas['totalVe'] + $gastos['totalGa']);
-		
+
 		//dep($base['total'].' - '.$cobrado['totalCo'].' - '.$ventas['totalVe']. ' - ' .$gastos['totalGa']. ' - ' .$total);exit;
-		
+
 		return $total;
 	}
 
@@ -169,21 +171,172 @@ class DashboardModel extends Mysql
 		return $total;
 	}
 
-	public function ultimosPrestamo()
+	public function selectPagos(int $idprestamo)
 	{
-		$rutaId = $_SESSION['idRuta'];
-		$sql = "SELECT p.idprestamo, pr.nombres,pr.apellidos, p.monto, DATE_FORMAT(p.datecreated, '%d/%m/%Y') as datecreated, p.status FROM prestamos p 
-				INNER JOIN persona pr ON (p.personaid = pr.idpersona) where p.status = 1 AND pr.codigoruta = $rutaId ORDER BY p.idprestamo DESC LIMIT 6";
+		$this->intIdPrestamo = $idprestamo;
+		$pagos = "";
+		$detalles = "";
+		$dias = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+
+		$sql = "SELECT idpago,abono, datecreated FROM pagos WHERE prestamoid = $this->intIdPrestamo ORDER BY datecreated DESC";
 		$request = $this->select_all($sql);
-		return $request;
+		for ($i=0; $i < count($request); $i++) { 
+			$dia = $dias[date('w', strtotime($request[$i]['datecreated']))];
+		 		$pagos .= $dia.' ('.date('d-m-Y', strtotime($request[$i]['datecreated'])).') = '.$request[$i]['abono'].'<br>';
+		 	}
+
+		$sqlPr = "SELECT DATE_FORMAT(datecreated, '%d/%m/%Y') as datecreated, monto, formato, taza, parcela, pagado FROM prestamos WHERE idprestamo = $this->intIdPrestamo ORDER BY datecreated DESC";
+		$requestPr = $this->select_all($sqlPr);	
+
+		for ($i=0; $i < count($requestPr); $i++) { 
+			switch ($requestPr[$i]['formato']) {
+				case 1:
+					$requestPr[$i]['formato'] = "Diario";
+					break;
+				case 2:
+					$requestPr[$i]['formato'] = "Semanal";
+					break;
+				default:
+				$requestPr[$i]['formato'] = "Mensual";
+					break;
+			}
+		 	$detalles .= '<b>Inicio</b>:  '.$dia.' ('.$requestPr[$i]['datecreated'].')<br>
+						<b>Crédito</b>: '.$requestPr[$i]['monto'].'<br>
+						<b>Formato</b>: '.$requestPr[$i]['formato'].'<br>
+						<b>Taza</b>: '.$requestPr[$i]['taza'].'%<br>
+						<b>Parcela</b>: '.$requestPr[$i]['parcela'].'<br>
+						<b>Pagado</b>: '.$requestPr[$i]['pagado'].'<br>';
+		 	}
+
+		$arrData = array('pagos' => $pagos, 'detalles' => $detalles);
+
+		return $arrData;
+	}
+
+	public function ultimosPrestamo(int $ruta)
+	{
+		$this->intIdRuta = $ruta;
+		$arrDatos = array();
+		$contador = 0;
+		$sql = "SELECT
+					pr.idprestamo,
+					pr.personaid,
+					pe.nombres,
+					pe.apellidos,
+					pr.monto,
+					pr.formato,
+					pr.taza,
+					pr.parcela,
+					pr.plazo,
+					pr.pagado,
+					DATE_FORMAT(pr.datecreated, '%d/%m/%Y') as datecreated,
+					DATE_FORMAT(pr.datefinal, '%d/%m/%Y') as datefinal,
+					pr.orden
+				FROM prestamos pr
+				INNER JOIN persona pe
+				ON (pr.personaid = pe.idpersona)
+				WHERE pr.status = 2 AND pe.codigoruta = $this->intIdRuta ORDER BY pr.datefinal DESC LIMIT 6";
+		$request = $this->select_all($sql);
+
+		//dep($request);exit;
+
+		foreach ($request as $prestamo)
+		{
+			switch ($prestamo['formato']) {
+				case 1:
+					$prestamo['formato'] = "Diario";
+					break;
+				case 2:
+					$prestamo['formato'] = "Semanal";
+					break;
+				default:
+				$prestamo['formato'] = "Mensual";
+					break;
+			}
+
+			$clientes = $prestamo['datefinal'];
+			$clientes .= " | ";
+			$clientes .= $prestamo['nombres'].' '.$prestamo['apellidos'];
+			$clientes .= " | ";
+			$clientes .= $this->selectPagos($prestamo['idprestamo'])['pagos'];
+			$clientes .= " | ";
+			$clientes .= $this->selectPagos($prestamo['idprestamo'])['detalles'];
+			array_push($arrDatos, $clientes);
+			$contador++;
+		}
+		
+		//dep($arrDatos);exit;
+		return $arrDatos;
+	}
+
+	public function selectPrestamosFD(string $cliente, int $ruta)
+	{
+		$this->intIdRuta = $ruta;
+		$this->intIdCliente = $cliente;
+		$arrDatos = array();
+		$contador = 0;
+		//$juros = 0;
+		$sql = "SELECT
+					pr.idprestamo,
+					pr.personaid,
+					pe.nombres,
+					pe.apellidos,
+					pr.monto,
+					pr.formato,
+					pr.taza,
+					pr.parcela,
+					pr.plazo,
+					pr.pagado,
+					DATE_FORMAT(pr.datecreated, '%d/%m/%Y') as datecreated,
+					DATE_FORMAT(pr.datefinal, '%d/%m/%Y') as datefinal,
+					pr.orden
+				FROM prestamos pr
+				INNER JOIN persona pe
+				ON (pr.personaid = pe.idpersona)
+				WHERE pr.personaid = $this->intIdCliente AND pr.status = 2 AND pe.codigoruta = $this->intIdRuta ORDER BY pr.datefinal DESC";
+		$request = $this->select_all($sql);
+
+		//dep($request);exit;
+
+		foreach ($request as $cliente)
+		{
+			switch ($cliente['formato']) {
+				case 1:
+					$cliente['formato'] = "Diario";
+					break;
+				case 2:
+					$cliente['formato'] = "Semanal";
+					break;
+				default:
+				$cliente['formato'] = "Mensual";
+					break;
+			}
+
+			$juros = ($cliente['pagado'] - $cliente['monto']);
+
+			$clientes = $cliente['datefinal'];
+			$clientes .= " | ";
+			$clientes .= $cliente['nombres'].' '.$cliente['apellidos'];
+			$clientes .= " | ";
+			$clientes .= $this->selectPagos($cliente['idprestamo'])['pagos'];
+			$clientes .= " | ";
+			$clientes .= $this->selectPagos($cliente['idprestamo'])['detalles'];
+			$clientes .= " | ";
+			$clientes .= $juros;
+			array_push($arrDatos, $clientes);
+			$contador++;
+		}
+		
+		//dep($arrDatos);exit;
+		return $arrDatos;
 	}
 
 	public function ultimosResumenes()
 	{
 		$rutaId = $_SESSION['idRuta'];
 				$sql = "SELECT re.idresumen, ba.monto as base ,ga.nombre,ga.monto as gastos ,re.ventas,re.cobrado ,re.total, re.datecreated
-						FROM resumen re 
-						INNER JOIN base ba ON re.baseid = ba.idbase 
+						FROM resumen re
+						INNER JOIN base ba ON re.baseid = ba.idbase
 						INNER JOIN gastos ga ON re.gastoid = ga.idgasto WHERE re.codigoruta = $rutaId ORDER BY datecreated DESC LIMIT 6";
 		$request = $this->select_all($sql);
 		return $request;
@@ -197,22 +350,22 @@ class DashboardModel extends Mysql
 		$dias = cal_days_in_month(CAL_GREGORIAN,$mes,$anio);
 		$n_dia = 1;
 		for ($i=0; $i < $dias; $i++)
-		{ 
+		{
 			$date = date_create($anio.'-'.$mes.'-'.$n_dia);
 			$fechaVenta = date_format($date, "Y-m-d");
 			//$sql = "SELECT DAY(datecreated) as dia, COUNT(idprestamo) as cantidad, SUM(monto) as total FROM prestamos WHERE DATE(datecreated) = '$fechaVenta' AND status = 1";
 			$sql = "SELECT DAY(pr.datecreated) as dia, idprestamo, monto FROM prestamos pr INNER JOIN
-												 persona pe ON(pe.idpersona = pr.personaid) WHERE 
+												 persona pe ON(pe.idpersona = pr.personaid) WHERE
 												 DATE(pr.datecreated) = '$fechaVenta' AND pr.status != 0 AND pe.codigoruta = $rutaId";
 			$ventaDia = $this->select($sql);
 
 			$sqlCantidad = "SELECT COUNT(pr.idprestamo) as cantidad FROM prestamos pr INNER JOIN
-												 persona pe ON(pe.idpersona = pr.personaid) WHERE 
+												 persona pe ON(pe.idpersona = pr.personaid) WHERE
 												 DATE(pr.datecreated) = '$fechaVenta' AND pr.status != 0 AND pe.codigoruta = $rutaId";
 			$ventaDiaCantidad = $this->select($sqlCantidad);
 
 			$sqlTotal = "SELECT SUM(pr.monto) as total FROM prestamos pr INNER JOIN
-												 persona pe ON(pe.idpersona = pr.personaid) WHERE 
+												 persona pe ON(pe.idpersona = pr.personaid) WHERE
 												 DATE(pr.datecreated) = '$fechaVenta' AND pr.status != 0 AND pe.codigoruta = $rutaId";
 			$ventaDiaTotal = $this->select($sqlTotal);
 
@@ -224,7 +377,7 @@ class DashboardModel extends Mysql
 			$totalVentasMes += $totalVentasDia;
 			array_push($arrVentasDias, $ventaDia);
 			$n_dia++;
-			
+
 		}
 		$meses = Meses();
 		$arrData = array('anio' => $anio, 'mes' => $meses[intval($mes - 1)], 'total' => $totalVentasMes, 'ventas' => $arrVentasDias);
@@ -240,7 +393,7 @@ class DashboardModel extends Mysql
 		$dias = cal_days_in_month(CAL_GREGORIAN,$mes,$anio);
 		$n_dia = 1;
 		for ($i=0; $i < $dias; $i++)
-		{ 
+		{
 			$date = date_create($anio.'-'.$mes.'-'.$n_dia);
 			$fechaVenta = date_format($date, "Y-m-d");
 			//$sql = "SELECT DAY(datecreated) as dia, COUNT(idprestamo) as cantidad, SUM(monto) as total FROM prestamos WHERE DATE(datecreated) = '$fechaVenta' AND status = 1";
@@ -257,7 +410,7 @@ class DashboardModel extends Mysql
 			$totalCobradoMes += $cobradoDiaTotal;
 			array_push($arrVentasDias, $ventaDia);
 			$n_dia++;
-			
+
 		}
 		$meses = Meses();
 		$arrData = array('anio' => $anio, 'mes' => $meses[intval($mes - 1)], 'total' => $totalCobradoMes, 'ventas' => $arrVentasDias);
@@ -272,7 +425,7 @@ class DashboardModel extends Mysql
 		$dias = cal_days_in_month(CAL_GREGORIAN,$mes,$anio);
 		$n_dia = 1;
 		for ($i=0; $i < $dias; $i++)
-		{ 
+		{
 			$date = date_create($anio.'-'.$mes.'-'.$n_dia);
 			$fechaVenta = date_format($date, "Y-m-d");
 			//$sql = "SELECT DAY(datecreated) as dia, COUNT(idprestamo) as cantidad, SUM(monto) as total FROM prestamos WHERE DATE(datecreated) = '$fechaVenta' AND status = 1";
@@ -289,7 +442,7 @@ class DashboardModel extends Mysql
 			$totalCobradoMes += $cobradoDiaTotal;
 			array_push($arrVentasDias, $ventaDia);
 			$n_dia++;
-			
+
 		}
 		$meses = Meses();
 		$arrData = array('anio' => $anio, 'mes' => $meses[intval($mes - 1)], 'total' => $totalCobradoMes, 'gastos' => $arrVentasDias);
@@ -300,17 +453,17 @@ class DashboardModel extends Mysql
 	{
 		$fecha_actual = date("Y-m-d");
 		$rutaId = $_SESSION['idRuta'];
-		$sql = "SELECT SUM(pr.total) as total, 
-		SUM(pr.parcela) as parcela, 
-		SUM(pr.monto) as monto 
-		FROM prestamos pr INNER JOIN 
-		persona pe ON(pe.idpersona = pr.personaid) 
+		$sql = "SELECT SUM(pr.total) as total,
+		SUM(pr.parcela) as parcela,
+		SUM(pr.monto) as monto
+		FROM prestamos pr INNER JOIN
+		persona pe ON(pe.idpersona = pr.personaid)
 		WHERE pr.status = 1 AND pe.codigoruta = $rutaId";
 		$request = $this->select($sql);
 
 		$sql2 = "SELECT SUM(pr.parcela) as parcela
-		FROM prestamos pr INNER JOIN 
-		persona pe ON(pe.idpersona = pr.personaid) 
+		FROM prestamos pr INNER JOIN
+		persona pe ON(pe.idpersona = pr.personaid)
 		WHERE (pr.status = 1 || (pr.datefinal = '$fecha_actual')) AND pr.formato = 1 AND pe.codigoruta = $rutaId";
 		$request2 = $this->select($sql2);
 
@@ -324,7 +477,24 @@ class DashboardModel extends Mysql
 		$sql = "SELECT total FROM resumen WHERE codigoruta = $rutaId ORDER BY datecreated DESC";
 		$request = $this->select($sql);
 		return $request;
-	}	
+	}
+
+	public function selectResumenD(string $fechaI, string $fechaF, int $ruta)
+	{
+		$this->strFecha = $fechaI;
+		$this->strFecha2 = $fechaF;
+		$this->intIdRuta = $ruta;
+
+		$sql = "SELECT ba.monto as base, re.cobrado as cobrado, re.ventas as ventas, ga.monto as gastos, re.total as total, re.datecreated as fecha
+											FROM resumen re INNER JOIN base ba ON(re.baseid = ba.idbase)
+											INNER JOIN gastos ga ON(re.gastoid = ga.idgasto)
+											WHERE re.datecreated
+											BETWEEN '{$this->strFecha}' AND '{$this->strFecha2}' AND re.codigoruta = $ruta ORDER BY re.datecreated desc";
+		$request = $this->select_all($sql);
+
+		return $request;
+
+	}
 
 	public function selectCobradoD(string $fechaI, string $fechaF, int $ruta)
 	{
@@ -334,9 +504,9 @@ class DashboardModel extends Mysql
 		$contador = 1;
 		$arrDatos = array();
 
-		$sql = "SELECT datecreated, cobrado FROM resumen 
-											WHERE datecreated 
-											BETWEEN '{$this->strFecha}' AND '{$this->strFecha2}' 
+		$sql = "SELECT datecreated, cobrado FROM resumen
+											WHERE datecreated
+											BETWEEN '{$this->strFecha}' AND '{$this->strFecha2}'
 											AND codigoruta = $ruta";
 		$request = $this->select_all($sql);
 
@@ -349,15 +519,13 @@ class DashboardModel extends Mysql
 			$clientes .= forClientesPagos($cobrado['datecreated']);
 			array_push($arrDatos, $clientes);
 			$contador++;
-			
+
 		}
 
 		$arrData = array("cobrado" => $arrDatos);
-		
-		//dep($arrData);exit;
 
 		return $arrData;
-		
+
 	}
 
 	public function selectVentasD(string $fechaI, string $fechaF, int $ruta)
@@ -367,9 +535,9 @@ class DashboardModel extends Mysql
 		$this->intIdRuta = $ruta;
 		$arrDatos = array();
 
-		$sql = "SELECT datecreated, ventas FROM resumen 
-											WHERE datecreated 
-											BETWEEN '{$this->strFecha}' AND '{$this->strFecha2}' 
+		$sql = "SELECT datecreated, ventas FROM resumen
+											WHERE datecreated
+											BETWEEN '{$this->strFecha}' AND '{$this->strFecha2}'
 											AND codigoruta = $ruta";
 		$request = $this->select_all($sql);
 
@@ -384,9 +552,9 @@ class DashboardModel extends Mysql
 		}
 
 		$arrData = array("ventas" => $arrDatos);
-		
+
 		return $arrData;
-		
+
 	}
 
 	public function selectGastosD(string $fechaI, string $fechaF, int $ruta)
@@ -396,9 +564,9 @@ class DashboardModel extends Mysql
 		$this->intIdRuta = $ruta;
 		$arrDatos = array();
 
-		$sql = "SELECT re.datecreated, ga.monto FROM resumen re INNER JOIN gastos ga ON(re.gastoid = ga.idgasto) 
-											WHERE re.datecreated 
-											BETWEEN '{$this->strFecha}' AND '{$this->strFecha2}' 
+		$sql = "SELECT re.datecreated, ga.monto FROM resumen re INNER JOIN gastos ga ON(re.gastoid = ga.idgasto)
+											WHERE re.datecreated
+											BETWEEN '{$this->strFecha}' AND '{$this->strFecha2}'
 											AND re.codigoruta = $ruta";
 		$request = $this->select_all($sql);
 
@@ -415,9 +583,9 @@ class DashboardModel extends Mysql
 		}
 
 		$arrData = array("gastos" => $arrDatos);
-		
+
 		return $arrData;
-		
+
 	}
 
 	public function selectVentasAnio(string $anio) {
@@ -426,14 +594,14 @@ class DashboardModel extends Mysql
 		$totalVentas = 0;
 		$ruta = $_SESSION['idRuta'];
 
-		for ($i=1; $i <= 12; $i++) { 
+		for ($i=1; $i <= 12; $i++) {
 			$arrData = array('anio' => '', 'no_mes' => '', 'mes' => '');
-			$sql = "SELECT $anio AS anio, $i AS mes, sum(pr.monto) AS ventas 
-					FROM prestamos pr INNER JOIN persona pe ON(pe.idpersona = pr.personaid) WHERE month(pr.datecreated) = $i AND year(pr.datecreated) = $anio AND pr.status != 0 AND pe.codigoruta = $ruta 
+			$sql = "SELECT $anio AS anio, $i AS mes, sum(pr.monto) AS ventas
+					FROM prestamos pr INNER JOIN persona pe ON(pe.idpersona = pr.personaid) WHERE month(pr.datecreated) = $i AND year(pr.datecreated) = $anio AND pr.status != 0 AND pe.codigoruta = $ruta
 					GROUP BY month(pr.datecreated)";
 			$ventaMes = $this->select($sql);
 			$arrData['mes'] = $arrMeses[$i-1];
-			
+
 			if(empty($ventaMes)){
 				$arrData['anio'] = $anio;
 				$arrData['no_mes'] = $i;
@@ -458,14 +626,14 @@ class DashboardModel extends Mysql
 		$totalCobrado = 0;
 		$ruta = $_SESSION['idRuta'];
 
-		for ($i=1; $i <= 12; $i++) { 
+		for ($i=1; $i <= 12; $i++) {
 			$arrData = array('anio' => '', 'no_mes' => '', 'mes' => '');
-			$sql = "SELECT $anio AS anio, $i AS mes, sum(cobrado) AS cobrado FROM resumen 
-					WHERE month(datecreated) = $i AND year(datecreated) = $anio AND codigoruta = $ruta 
+			$sql = "SELECT $anio AS anio, $i AS mes, sum(cobrado) AS cobrado FROM resumen
+					WHERE month(datecreated) = $i AND year(datecreated) = $anio AND codigoruta = $ruta
 					GROUP BY month(datecreated)";
 			$cobradoMes = $this->select($sql);
 			$arrData['mes'] = $arrMeses[$i-1];
-			
+
 			if(empty($cobradoMes)){
 				$arrData['anio'] = $anio;
 				$arrData['no_mes'] = $i;
@@ -491,20 +659,20 @@ class DashboardModel extends Mysql
 		$totalGastos = 0;
 		$ruta = $_SESSION['idRuta'];
 
-		for ($i=1; $i <= 12; $i++) { 
+		for ($i=1; $i <= 12; $i++) {
 			$arrData = array('anio' => '', 'no_mes' => '', 'mes' => '');
 
-			$sql = "SELECT re.datecreated, ga.monto FROM resumen re INNER JOIN gastos ga ON(re.gastoid = ga.idgasto) 
-											WHERE re.datecreated 
-											BETWEEN '{$this->strFecha}' AND '{$this->strFecha2}' 
+			$sql = "SELECT re.datecreated, ga.monto FROM resumen re INNER JOIN gastos ga ON(re.gastoid = ga.idgasto)
+											WHERE re.datecreated
+											BETWEEN '{$this->strFecha}' AND '{$this->strFecha2}'
 											AND re.codigoruta = $ruta";
 
-			$sql = "SELECT $anio AS anio, $i AS mes, sum(monto) AS gastos FROM gastos 
+			$sql = "SELECT $anio AS anio, $i AS mes, sum(monto) AS gastos FROM gastos
 					WHERE month(datecreated) = $i AND year(datecreated) = $anio AND codigoruta = $ruta AND nombre != ''
 					GROUP BY month(datecreated)";
 			$gastosMes = $this->select($sql);
 			$arrData['mes'] = $arrMeses[$i-1];
-			
+
 			if(empty($gastosMes)){
 				$arrData['anio'] = $anio;
 				$arrData['no_mes'] = $i;
@@ -522,7 +690,7 @@ class DashboardModel extends Mysql
 		return $arrGastos;
 
 	}
-	
+
 
 	public function selectDatePagoPrestamo()
 	{
@@ -534,10 +702,10 @@ class DashboardModel extends Mysql
 
 		//dep($requestR);exit;
 
-		// $sql = "SELECT * FROM prestamos pr INNER JOIN persona pe ON(pr.personaid = pe.idpersona) 
+		// $sql = "SELECT * FROM prestamos pr INNER JOIN persona pe ON(pr.personaid = pe.idpersona)
 		// 		WHERE (pr.pagoid != '' AND pr.datepago != '$fecha_actual') AND (pe.codigoruta = $ruta AND pr.status != 0)";
-		$sql = "SELECT pa.datecreated as fechaPago FROM prestamos pr 
-					INNER JOIN persona pe ON(pr.personaid = pe.idpersona) 
+		$sql = "SELECT pa.datecreated as fechaPago FROM prestamos pr
+					INNER JOIN persona pe ON(pr.personaid = pe.idpersona)
 					INNER JOIN pagos pa ON(pr.idprestamo = pa.prestamoid)
 					WHERE (pa.datecreated != '$fecha_actual') AND (pe.codigoruta = $ruta AND pr.status != 0)
 					ORDER BY pa.datecreated desc";
@@ -552,5 +720,5 @@ class DashboardModel extends Mysql
 			return 2;
 		}
 	}
-	
+
 }
