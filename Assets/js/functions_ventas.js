@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function()
             let intTaza = document.querySelector('#txtTaza').value;
             let intPlazo = document.querySelector('#txtPlazo').value;
             let intFormato = document.querySelector('#listFormato').value;
-            let strObservacion = document.querySelector('#txtObservacion').value;
 
             if(intClienteId == "" || intMonto == "" || intTaza == "" || intPlazo == "" || intFormato == ""){
                 swal("Atención", "Todos los campos son obligatorios.", "error");

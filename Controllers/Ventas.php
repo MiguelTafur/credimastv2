@@ -28,7 +28,6 @@
 		public function setPrestamo()
 		{
 			if($_POST){
-				//dep($_POST);exit;
 				if(empty($_POST['listClientId']) || empty($_POST['txtMonto']) || empty($_POST['txtTaza']) || empty($_POST['txtPlazo']) || empty($_POST['listFormato']))
 				{
 					$arrResponse = array("status" => false, "msg" => "Datos incorrectos.");
@@ -39,7 +38,9 @@
 					$intPlazo = intval($_POST['txtPlazo']);
 					$intFormato = intval($_POST['listFormato']);
 					$strObservacion = strClean($_POST['txtObservacion']);
+					$cheked = isset($_POST['pagamentoSabado']) ?  1 : 0;
 					$contadorPlazo = 0;
+
 					if(!empty($_POST['fechaAnterior']))
 					{
 						$fecha_actual = $_POST['fechaAnterior'];
@@ -57,7 +58,7 @@
 					{
 						while($contador <= $intPlazo)
 						{
-							if(date("N", $fechaEnSegundos) == 7)
+							if(date("N", $fechaEnSegundos) == 7 || (date("N", $fechaEnSegundos) == 6 AND $cheked == 1))
 							{
 								$fechaEnSegundos += $dia;
 							}else{
@@ -67,9 +68,11 @@
 						}	
 					//SEMANAL
 					}
+
 					if($intFormato == 2)
 					{
 						$contadorPlazo = $intPlazo * 6;
+						
 						while($contador <= $contadorPlazo)
 						{
 							if(date("N", $fechaEnSegundos) == 7)
@@ -92,7 +95,9 @@
 						}	
 					}	
 					
-					$fechaFinal = date('Y-m-d' , $fechaEnSegundos);
+					$fechaFinal = ($cheked == 1) ? date('Y-m-d' , ($fechaEnSegundos)-$dia) : date('Y-m-d' , ($fechaEnSegundos));
+					//dep($cheked);exit;
+					//dep($fechaFinal);exit;
 
 					$request_prestamo = "";
 

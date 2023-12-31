@@ -39,11 +39,6 @@
                   </label>
                   <select class="form-control listClientId" id="listClientId" name="listClientId" required></select>
                 </div>
-                <!--<div class="form-group col-md-3 text-center" id="btnAddClients">
-                  <i class="app-menu__icon fa fa-user" aria-hidden="true"></i>
-                  <label for="listClientId"><b>Cliente</b> <span class="required">*</span></label>
-                  <button type="button" class="btn btn-outline-secondary btn-block" onclick="viewClientsList()"><i class="fa fa-address-book-o" aria-hidden="true" > SELECCIONAR</i></button>
-                </div>-->
               </div>
               <div class="form-row">
                 <div class="form-group col-md-3">
@@ -66,14 +61,18 @@
                     <option value="3">Mensual</option>
                   </select>
                 </div>
-                <div class="form-group col-md-12">
-                  
-                </div>
               </div>
               <div class="form-row">
                 <div class="col-md-12">
                   <label for="txtObservacion">Observación</label>
                   <textarea class="form-control" id="txtObservacion" name="txtObservacion"></textarea>
+                </div>
+              </div>
+              <br>
+              <div class="form-row">
+                <div class="col-md-12" style="align-items: center">
+                  <input type="checkbox" name="pagamentoSabado" id="pagamentoSabado" style="margin-right: 7px;">
+                  <label for="pagamentoSabado">Paga 5 días semanales</label>
                 </div>
               </div>
             </div>
