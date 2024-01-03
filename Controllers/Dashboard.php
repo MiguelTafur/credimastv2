@@ -27,7 +27,7 @@
 			$data['prestamos'] = $this->model->cantPrestamos();
 			$data['prestamosFinalizados'] = $this->model->cantPrestamosFinalizados();
 			$data['cartera'] = $this->model->selectCartera();
-			dep($data['cartera']);exit;
+			// dep($data['cartera']);exit;
 			
 			$data['ultimosPrestamo'] = $this->model->ultimosPrestamo($ruta);
 			$data['ultimosResumenes'] = $this->model->ultimosResumenes();
