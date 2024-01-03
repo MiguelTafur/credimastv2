@@ -278,7 +278,7 @@ class Prestamos extends Controllers{
 					if($arrData[$i]['pago'] != 0 && $arrData[$i]['datepago'] == $fecha_actual && $arrData[$i]['status'] == 2)
 					{
 						$btnAbono = '<p class="text-danger h5">
-										<button class="btn btn-success btn-sm" onclick="fntRenovarPrestamo('.$arrData[$i]['idprestamo'].')">RENOVAR</button> &nbsp;&nbsp;
+										<button class="btn btn-success btn-sm" onclick="fntRenovarPrestamo('.$arrData[$i]['idprestamo'].', '."".')">RENOVAR</button> &nbsp;&nbsp;
 										<button class="btn btn-danger btn-sm" onclick="fntDelPago('.$arrData[$i]['pagoid'].')" title="Eliminar pago">
 									  '.$arrData[$i]['pago'].'
 										</button>
@@ -392,12 +392,16 @@ class Prestamos extends Controllers{
 		die();
 	}
 
-	public function getPrestamo($idprestamo)
+	public function getPrestamo()
 	{
+		//dep($_POST);exit;
 		if($_SESSION['permisosMod']['r']){
-			$idPrestamo = intval($idprestamo);
+			$idPrestamo = $_POST['idPrestamo'];
+			$fecha = $_POST['datefinal'];
+			$fecha_actual = date("Y-m-d");
+			$fechaFinal = ($fecha != 'undefined') ? $fecha : $fecha_actual;
 			if($idPrestamo > 0){
-				$arrData = $this->model->selectPrestamo($idPrestamo);
+				$arrData = $this->model->selectPrestamo($idPrestamo,$fechaFinal);
 				$dias = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
 				$diaPagamento = "";
 

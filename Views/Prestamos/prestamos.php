@@ -170,7 +170,7 @@
                           <?php
                             if($prestamo['datepago'] == $data['pagamentos']['datepago'] && $prestamo['total'] == 0){
                           ?>
-                              <a href="'.base_url().'/ventas"><span class="badge badge-success badge-lg p-2">RENOVAR</span></a> &nbsp;&nbsp;
+                              <button class="btn btn-success btn-sm" onclick="fntRenovarPrestamo(<?= $prestamo['idprestamo'] ?>, '<?= $prestamo['datefinal'] ?>')">RENOVAR</button> &nbsp;&nbsp;
                               <button class="btn btn-danger btn-sm" onclick="fntDelPagoFinalizado(<?= $prestamo['pagoid'] ?>)" title="Eliminar pago">
                                   <?= /*SMONEY.*/' '.$prestamo['pago'] ?>&nbsp;
                               </button>

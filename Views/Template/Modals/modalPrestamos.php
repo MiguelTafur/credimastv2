@@ -317,6 +317,9 @@
       </div>
       <div class="modal-body">
         <form id="formRenovarPrestamo" name="formRenovarPrestamo" class="form-horizontal">
+          <?php if($data['pagamentos'] != 2){ ?>
+            <input type="hidden" name="fechaAnterior" id="fechaAnterior" value="<?= $data['pagamentos']['datepago']; ?>">
+          <?php } ?>
           <input type="hidden" name="inputClienteRenovar" id="inputClienteRenovar">
           <div id="div-addPrestamo">
             <p class="text-primary">Los campos con asterisco (<span class="required">*</span>) son obligatorios.</p>

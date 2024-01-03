@@ -112,9 +112,9 @@
 			return $request;
 		}
 
-		public function selectPrestamo(int $idprestamo)
+		public function selectPrestamo(int $idprestamo, string $fecha)
 		{
-			$fecha_actual = date('Y-m-d');
+			$this->fecha_actual = $fecha;
 			$this->intIdPrestamo = $idprestamo;
 			$sql = "SELECT pr.idprestamo,
 						   pr.personaid,
@@ -133,7 +133,7 @@
 						FROM prestamos pr 
 						INNER JOIN persona pe 
 						ON pr.personaid = pe.idpersona 
-						WHERE (pr.idprestamo = $this->intIdPrestamo AND pr.status = 1) or (pr.datefinal = '{$fecha_actual}' and pr.status = 2 and pr.idprestamo = $this->intIdPrestamo)";
+						WHERE (pr.idprestamo = $this->intIdPrestamo AND pr.status = 1) or (pr.datefinal = '{$this->fecha_actual}' and pr.status = 2 and pr.idprestamo = $this->intIdPrestamo)";
 			$request = $this->select($sql);
 			return $request;
 		}

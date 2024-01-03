@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function()
             let intTaza = document.querySelector('#txtTaza').value;
             let intPlazo = document.querySelector('#txtPlazo').value;
             let intFormato = document.querySelector('#listFormato').value;
+            let estado = 1;
 
             if(intMonto == "" || intTaza == "" || intPlazo == "" || intFormato == ""){
                 swal("Atención", "Todos los campos son obligatorios.", "error");
@@ -367,14 +368,18 @@ function fntViewPrestamo(idprestamo)
     }
 }
 
-function fntRenovarPrestamo(idprestamo)
+function fntRenovarPrestamo(idprestamo, fecha)
 {
     $('#modalRenovarPrestamo').modal('show'); 
     divLoading.style.display = "flex";
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let ajaxUrl = base_url + '/Prestamos/getPrestamo/'+idprestamo;
-    request.open("GET",ajaxUrl,true);
-    request.send();
+    let ajaxUrl = base_url + '/Prestamos/getPrestamo/';
+    let formData = new FormData();
+    formData.append('idPrestamo',idprestamo);
+    formData.append('datefinal',fecha);
+
+    request.open("POST",ajaxUrl,true);
+    request.send(formData);
     request.onreadystatechange = function()
     {
         if(request.readyState == 4 && request.status == 200)
@@ -388,7 +393,6 @@ function fntRenovarPrestamo(idprestamo)
         divLoading.style.display = "none";
         return false;
     }
-    
 }
 
 function listPagos()

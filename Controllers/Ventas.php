@@ -40,6 +40,7 @@
 					$strObservacion = strClean($_POST['txtObservacion']);
 					$cheked = isset($_POST['pagamentoSabado']) ?  1 : 0;
 					$contadorPlazo = 0;
+					$contador = 0;
 
 					if(!empty($_POST['fechaAnterior']))
 					{
@@ -47,24 +48,33 @@
 					}else{
 						$fecha_actual = date("Y-m-d");
 					}
-					
+
 					//Calculando el vencimiento del crédito
 					$fechaEnSegundos = strtotime($fecha_actual);
 					$dia = 86400;
-					$contador = 1;
+
 
 					//DIARIO
 					if($intFormato == 1)
 					{
-						while($contador <= $intPlazo)
+						while($contador < $intPlazo)
 						{
-							if(date("N", $fechaEnSegundos) == 7 || (date("N", $fechaEnSegundos) == 6 AND $cheked == 1))
+							if(date("N", $fechaEnSegundos) == 6)// VALIDANDO EL DIA DOMINGO
 							{
 								$fechaEnSegundos += $dia;
-							}else{
+							}
+							if(date("N", $fechaEnSegundos) == 5 AND $cheked == 1)// VALIDANDO EL DIA SÁBADO
+							{
+								$fechaEnSegundos += $dia;
+								if(date("N", $fechaEnSegundos) == 6)// VALIDANDO EL DIA DOMINGO
+								{
+									$fechaEnSegundos += $dia;
+								}
+							}
 								$fechaEnSegundos += $dia;
 								$contador += 1;
-							}
+		
+							$fechaFinal = date('Y-m-d' , ($fechaEnSegundos));
 						}	
 					//SEMANAL
 					}
@@ -83,7 +93,6 @@
 								$contador += 1;
 							}
 						}
-						//dep($intPlazo);exit;
 					//MES		
 					}
 					if($intFormato == 3){
@@ -95,9 +104,7 @@
 						}	
 					}	
 					
-					$fechaFinal = ($cheked == 1) ? date('Y-m-d' , ($fechaEnSegundos)-$dia) : date('Y-m-d' , ($fechaEnSegundos));
-					//dep($cheked);exit;
-					//dep($fechaFinal);exit;
+					$fechaFinal = date('Y-m-d' , ($fechaEnSegundos));
 
 					$request_prestamo = "";
 
