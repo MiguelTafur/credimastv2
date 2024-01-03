@@ -320,14 +320,18 @@ function fntSalesToday(){
 
 function fntViewPrestamo(idprestamo)
 {
+    let fecha = "undefined";
     divLoading.style.display = "flex";
     document.querySelector('#titleModal').innerHTML = "Datos de Préstamo";
     document.querySelector("#tableViewPrestamo").classList.remove('d-none');
     document.querySelector("#containerPagos").classList.add('d-none');
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let ajaxUrl = base_url + '/Prestamos/getPrestamo/'+idprestamo;
-    request.open("GET",ajaxUrl,true);
-    request.send();
+    let ajaxUrl = base_url + '/Prestamos/getPrestamo/';
+    let formData = new FormData();
+    formData.append('idPrestamo',idprestamo);
+    formData.append('datefinal',fecha);
+    request.open("POST",ajaxUrl,true);
+    request.send(formData);
     request.onreadystatechange = function()
     {
         if(request.readyState == 4 && request.status == 200)
