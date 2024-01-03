@@ -453,21 +453,41 @@ class DashboardModel extends Mysql
 	{
 		$fecha_actual = date("Y-m-d");
 		$rutaId = $_SESSION['idRuta'];
+		$estimadoCobrar = 0;
+
 		$sql = "SELECT SUM(pr.total) as total,
 		SUM(pr.parcela) as parcela,
 		SUM(pr.monto) as monto
-		FROM prestamos pr INNER JOIN
-		persona pe ON(pe.idpersona = pr.personaid)
+		FROM prestamos pr 
+		INNER JOIN persona pe ON(pe.idpersona = pr.personaid)
 		WHERE pr.status = 1 AND pe.codigoruta = $rutaId";
 		$request = $this->select($sql);
 
-		$sql2 = "SELECT SUM(pr.parcela) as parcela
-		FROM prestamos pr INNER JOIN
-		persona pe ON(pe.idpersona = pr.personaid)
+		/*$sql2 = "SELECT SUM(pr.parcela) as parcela
+		FROM prestamos pr 
+		INNER JOIN persona pe ON(pe.idpersona = pr.personaid)
 		WHERE (pr.status = 1 || (pr.datefinal = '$fecha_actual')) AND pr.formato = 1 AND pe.codigoruta = $rutaId";
-		$request2 = $this->select($sql2);
+		$request2 = $this->select($sql2);*/
 
-		$arrData = array('total' => $request['total'], 'monto' => $request['monto'], 'parcela' => $request2['parcela']);
+		$dias = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+		$dia = $dias[date('w', strtotime(date("Y-m-d")))];
+
+		$sql2 = "SELECT pr.parcela, pr.formato, pr.datecreated, pr.fechavence
+		FROM prestamos pr 
+		INNER JOIN persona pe ON(pe.idpersona = pr.personaid)
+		WHERE (pr.status = 1 
+				|| (pr.datefinal = '$fecha_actual')) 
+				AND pe.codigoruta = $rutaId -- AND (pr.formato = 1)
+				AND (CONCAT(ELT(WEEKDAY(pr.fechavence) + 1, 'Lunes', 'Martes', 'Miercoles', 'Juevez', 'Viernes', 'Sabado', 'Domingo')) = '{$dia}' OR pr.formato = 1)
+				ORDER BY pr.formato DESC";
+		$request2 = $this->select_all($sql2);
+
+		foreach ($request2 as $cartera) {
+			$estimadoCobrar += $cartera['parcela'];
+		}
+
+
+		$arrData = array('total' => $request['total'], 'monto' => $request['monto'], 'parcela' => $estimadoCobrar);
 		return $arrData;
 	}
 

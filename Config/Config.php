@@ -13,7 +13,7 @@
 	// const DB_PASSWORD = "m1Guel03";
 
 	const DB_HOST = "127.0.0.1:3307";
-	const DB_NAME = "test";
+	const DB_NAME = "qahi319";
 	const DB_USER = "root";
 	const DB_PASSWORD = "";
 

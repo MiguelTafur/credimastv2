@@ -62,11 +62,11 @@
                   <p>
                     <b>Valor Neto:</b> 
                     <i class="text-secondary">
-                      <?php if(!empty($data['prestamos'])){ echo /*SMONEY.' '.*/$data['cartera']['monto'];}else{echo SMONEY."0";} ?>
+                      <?php if(!empty($data['prestamos'])){ echo $data['cartera']['monto'];}else{echo "0";} ?>
                     </i>
                   </p>
                   <p >
-                    <b>Valor Activo:</b> <i class="text-success"><?php if(!empty($data['prestamos'])){ echo /*SMONEY.' '.*/$data['cartera']['total'];}else{echo /*SMONEY.*/"0";} ?></i>
+                    <b>Valor Activo:</b> <i class="text-success"><?php if(!empty($data['prestamos'])){ echo $data['cartera']['total'];}else{echo "0";} ?></i>
                   </p>
                 </div>
               </div>
@@ -81,7 +81,7 @@
             <div class="widget-small warning coloured-icon"><i class="icon fa fa-usd fa-3x"></i>
               <div class="info">
                 <h4>Estimado Cobrar</h4>
-                <p><b><?php if(!empty($data['totalResumen'])){ echo /*SMONEY.' '.*/$data['cartera']['parcela'];}else{echo /*SMONEY.*/"0";} ?></b></p>
+                <p><b><?php if(!empty($data['totalResumen'])){ echo $data['cartera']['parcela'];}else{echo "0";} ?></b></p>
               </div>
             </div>
           </a>
@@ -101,10 +101,10 @@
                   <?php 
                     if(!empty($data['prestamos']))
                     { 
-                      echo /*SMONEY.' '.*/$data['cartera']['total'] + $data['totalCartera'];
+                      echo $data['cartera']['total'] + $data['totalCartera'];
                       
                     }else{
-                      echo /*SMONEY.*/"0";
+                      echo "0";
                     } 
                     ?>
                   </i>
@@ -119,7 +119,7 @@
                   <?php }else{ ?>
                     <i class="text-danger">                  
                   <?php } ?>
-                  <?php if(!empty($data['totalCartera'])){ echo /*SMONEY.' '.*/$data['totalCartera'];}else{echo /*SMONEY. */"0";} ?>
+                  <?php if(!empty($data['totalCartera'])){ echo $data['totalCartera'];}else{echo "0";} ?>
                   </i>
                 </p>
               </div>
@@ -311,7 +311,7 @@
           text: 'Cobrado de <?= $data['CobradoMDia']['mes'].' del '.$data['CobradoMDia']['anio'] ?>'
       },
       subtitle: {
-          text: 'Total Cobrado <?= SMONEY.' '.formatMoney($data['CobradoMDia']['total']) ?>'
+          text: 'Total Cobrado <?= formatMoney($data['CobradoMDia']['total']) ?>'
       },
       xAxis: {
           categories: [
@@ -354,7 +354,7 @@
         text: 'Ventas de <?= $data['ventasMDia']['mes'].' del '.$data['ventasMDia']['anio'] ?>'
     },
     subtitle: {
-        text: 'Total Ventas <?= SMONEY.' '.formatMoney($data['ventasMDia']['total']) ?>'
+        text: 'Total Ventas <?= formatMoney($data['ventasMDia']['total']) ?>'
     },
     xAxis: {
         categories: [
@@ -398,7 +398,7 @@
         text: 'Gastos de <?= $data['gastosMDia']['mes'].' del '.$data['gastosMDia']['anio'] ?>'
     },
     subtitle: {
-        text: 'Total Gastos <?= SMONEY.' '.formatMoney($data['gastosMDia']['total']) ?>'
+        text: 'Total Gastos <?= formatMoney($data['gastosMDia']['total']) ?>'
     },
     xAxis: {
         categories: [
