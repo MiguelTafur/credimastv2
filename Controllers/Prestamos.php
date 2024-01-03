@@ -291,7 +291,7 @@ class Prestamos extends Controllers{
 					}else{
 						$btnAbono = '<div class="text-center divPagoPrestamo">
 										<input type="tel" class="inpPago '.$arrData[$i]['idprestamo'].' my-1" id="'.$arrData[$i]['idprestamo'].'" style="width: 73px; height: 35px; padding: 5px" placeholder="'/*.SMONEY.' '*/.$arrData[$i]['parcela'].'" onkeypress="return controlTag(event)">
-										<button id="btn-'.$arrData[$i]['idprestamo'].'" class="btn btn-success btn-sm pagoPrestamo" title="Agregar Pago" onclick="fntPagoPrestamo('.$arrData[$i]['idprestamo'].')"><i class="fas fa-hand-holding-usd"></i> Pagar
+										<button id="btn-'.$arrData[$i]['idprestamo'].'" class="btn btn-secondary btn-sm pagoPrestamo" title="Agregar Pago" onclick="fntPagoPrestamo('.$arrData[$i]['idprestamo'].')"><i class="fas fa-hand-holding-usd"></i> Pagar
 										</button>
 									</div>';
 					}
