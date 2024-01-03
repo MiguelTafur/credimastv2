@@ -305,5 +305,79 @@
   </div>
 </div>
 
+<!-- Modal ver prestamo-->
+<div class="modal fade" id="modalRenovarPrestamo" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header header-primary">
+        <h5 class="modal-title" id="titleModal">Renovar Préstamo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formRenovarPrestamo" name="formRenovarPrestamo" class="form-horizontal">
+          <input type="hidden" name="inputClienteRenovar" id="inputClienteRenovar">
+          <div id="div-addPrestamo">
+            <p class="text-primary">Los campos con asterisco (<span class="required">*</span>) son obligatorios.</p>
+            <div class="form-row justify-content-center shadow-sm p-3 mb-5 bg-white rounded">
+              <div class="form-group mb-0 col-md-9 text-center" id="listAddClients">
+                <p><i class="app-menu__icon fa fa-user" aria-hidden="true"></i><b>Cliente</b></p>
+                <p class="" id="clienteRenovar"></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="txtMonto">Monto <?= SMONEY; ?> <span class="required">*</span></label>
+                <input type="tel" class="form-control valid validNumber" id="txtMonto" name="txtMonto" required="">
+              </div>  
+              <div class="form-group col-md-6">
+                <label for="txtTaza">Tasa(%) <span class="required">*</span></label>
+                <input type="tel" class="form-control valid validNumber" id="txtTaza" name="txtTaza" required="">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="listFormato">Formato <span class="required">*</span></label>
+                <select class="form-control" id="listFormato" name="listFormato" required>
+                  <option value="1">Diario</option>
+                  <option value="2">Semanal</option>
+                  <option value="3">Mensual</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="txtPlazo">Plazo(Días) <span class="required">*</span></label>
+                <input type="tel" class="form-control valid validNumber" id="txtPlazo" name="txtPlazo" required="">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-md-12">
+                <label for="txtObservacion">Observación</label>
+                <textarea class="form-control" id="txtObservacion" name="txtObservacion"></textarea>
+              </div>
+            </div>
+            <br>
+            <div class="form-row">
+              <div class="col-md-12" style="align-items: center">
+                <input type="checkbox" name="pagamentoSabado" id="pagamentoSabado" style="margin-right: 7px;">
+                <label for="pagamentoSabado">Paga 5 días semanales</label>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="tile-footer">
+            <button id="btnActionForm" class="btn btn-warning" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 

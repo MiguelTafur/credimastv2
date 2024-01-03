@@ -273,20 +273,20 @@ class Prestamos extends Controllers{
 					$dias = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
 
 					$arrData[$i]['monto'] = '<strong>'.$arrData[$i]['monto'].'</strong>';
-					$arrData[$i]['pa'] = (/*SMONEY.*/' <strong>'.$parcela.' x '.$arrData[$i]['plazo'].'</strong>');
+					$arrData[$i]['pa'] = (' <strong>'.$parcela.' x '.$arrData[$i]['plazo'].'</strong>');
 
 					if($arrData[$i]['pago'] != 0 && $arrData[$i]['datepago'] == $fecha_actual && $arrData[$i]['status'] == 2)
 					{
 						$btnAbono = '<p class="text-danger h5">
-										<a href="'.base_url().'/ventas"><span class="badge badge-success badge-lg p-2">RENOVAR</span></a> &nbsp;&nbsp;
+										<button class="btn btn-success btn-sm" onclick="fntRenovarPrestamo('.$arrData[$i]['idprestamo'].')">RENOVAR</button> &nbsp;&nbsp;
 										<button class="btn btn-danger btn-sm" onclick="fntDelPago('.$arrData[$i]['pagoid'].')" title="Eliminar pago">
-									  './*SMONEY.*/' '.$arrData[$i]['pago'].'
+									  '.$arrData[$i]['pago'].'
 										</button>
 									</p>';
 
 					}else if($arrData[$i]['pago'] != 0 && $arrData[$i]['datepago'] == $fecha_actual && $arrData[$i]['pagoid'] != NULL){
 						$btnAbono = '<button class="btn btn-success btn-sm" onclick="fntDelPago('.$arrData[$i]['pagoid'].')" title="Eliminar pago">
-									  './*SMONEY.*/$arrData[$i]['pago'].'
+									  '.$arrData[$i]['pago'].'
 									</button>';
 					}else{
 						$btnAbono = '<div class="text-center divPagoPrestamo">
@@ -299,7 +299,7 @@ class Prestamos extends Controllers{
 					$arrData[$i]['pagamento'] = '<div id="div-'.$arrData[$i]['idprestamo'].'" class="text-center">
 													'.$btnAbono.' 
 													<button class="btn btn-success btn-sm d-none" onclick="fntDelPago('.$arrData[$i]['pagoid'].')" id="btn2-'.$arrData[$i]['idprestamo'].'" title="Eliminar pago">
-									  					'/*.SMONEY*/.$arrData[$i]['pago'].';
+									  					'.$arrData[$i]['pago'].';
 													</button>
 												</div>';
 

@@ -28,11 +28,11 @@
 		public function setPrestamo()
 		{
 			if($_POST){
-				if(empty($_POST['listClientId']) || empty($_POST['txtMonto']) || empty($_POST['txtTaza']) || empty($_POST['txtPlazo']) || empty($_POST['listFormato']))
+				if(empty($_POST['txtMonto']) || empty($_POST['txtTaza']) || empty($_POST['txtPlazo']) || empty($_POST['listFormato']))
 				{
 					$arrResponse = array("status" => false, "msg" => "Datos incorrectos.");
 				}else{
-					$intClienteId = intval($_POST['listClientId']);
+					$intClienteId = intval($_POST['inputClienteRenovar']);
 					$intMonto = intval($_POST['txtMonto']);
 					$intTaza = intval($_POST['txtTaza']);
 					$intPlazo = intval($_POST['txtPlazo']);

@@ -117,6 +117,7 @@
 			$fecha_actual = date('Y-m-d');
 			$this->intIdPrestamo = $idprestamo;
 			$sql = "SELECT pr.idprestamo,
+						   pr.personaid,
 						   pe.nombres,
 						   pe.apellidos,
 						   pr.total,

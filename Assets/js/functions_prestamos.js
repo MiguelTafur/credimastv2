@@ -20,75 +20,6 @@ let formateo = `${anio}-${mes}-${dia}`;
 document.addEventListener('DOMContentLoaded', function()
 {
 
-    //NUEVO PRÉSTAMO
-    if(document.querySelector("#formPrestamos"))
-    {
-        let formPrestamos = document.querySelector("#formPrestamos");
-        formPrestamos.onsubmit = function(e){
-            e.preventDefault();
-
-            let intClienteId = document.querySelector('#listClientId').value;
-            let intMonto = document.querySelector('#txtMonto').value;
-            let intTaza = document.querySelector('#txtTaza').value;
-            let intPlazo = document.querySelector('#txtPlazo').value;
-            let intFormato = document.querySelector('#listFormato').value;
-            let strObservacion = document.querySelector('#txtObservacion').value;
-
-            if(intClienteId == "" || intMonto == "" || intTaza == "" || intPlazo == "" || intFormato == ""){
-                swal("Atención", "Todos los campos son obligatorios.", "error");
-                return false;
-            }
-
-            let ElementsValid = document.getElementsByClassName("valid");
-            for (let i = 0; i < ElementsValid.length; i++) {
-                if(ElementsValid[i].classList.contains('is-invalid')){
-                    swal("Atencion!", "Por favor verifique los campos en rojo.", "error");
-                    return false;
-                }
-            }
-
-            divLoading.style.display = "flex";
-            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+'/Prestamos/setPrestamo';
-            let formData = new FormData(formPrestamos);
-            request.open("POST",ajaxUrl,true);
-            request.send(formData);
-
-            request.onreadystatechange = function(){
-                if(request.readyState == 4 && request.status == 200){
-                    let objData = JSON.parse(request.responseText);
-                    if(objData.status){
-                        swal({
-                            title: "Préstamo agregado",
-                            text: "El préstamo se ha adicionado a la lista",
-                            type: "success",
-                            showCancelButton: true,
-                            confirmButtonText: "Ver lista",
-                            cancelButtonText: "Nuevo préstamo",
-                            closeOnConfirm: false,
-                            closeOnCancel: true
-                        }, function(isConfirm)
-                        {
-                            if(isConfirm)
-                            {
-                                window.location = base_url+'/prestamos';
-                            }
-                        }); 
-                        formPrestamos.reset();
-                        if(tablePrestamos)
-                        {
-                            tablePrestamos.api().ajax.reload();
-                        }
-                    }else{
-                        swal("Error", objData.msg, "error");
-                    }
-                } 
-                divLoading.style.display = "none";
-                return false;   
-            }
-        }
-    }
-
     //NUEVO PAGO
     if(document.querySelector("#formPagos"))
     {
@@ -130,6 +61,70 @@ document.addEventListener('DOMContentLoaded', function()
                             tablePrestamos.ajax.reload();
                         }
                             formPagos.reset();
+                    }else{
+                        swal("Error", objData.msg, "error");
+                    }
+                } 
+                divLoading.style.display = "none";
+                return false;   
+            }
+        }
+    }
+
+    //RENOVAR PRÉSTAMO
+    if(document.querySelector("#formRenovarPrestamo"))
+    {
+        let formRenovarPrestamo = document.querySelector("#formRenovarPrestamo");
+        formRenovarPrestamo.onsubmit = function(e){
+            e.preventDefault();
+
+            let intMonto = document.querySelector('#txtMonto').value;
+            let intTaza = document.querySelector('#txtTaza').value;
+            let intPlazo = document.querySelector('#txtPlazo').value;
+            let intFormato = document.querySelector('#listFormato').value;
+
+            if(intMonto == "" || intTaza == "" || intPlazo == "" || intFormato == ""){
+                swal("Atención", "Todos los campos son obligatorios.", "error");
+                return false;
+            }
+
+            let ElementsValid = document.getElementsByClassName("valid");
+            for (let i = 0; i < ElementsValid.length; i++) {
+                if(ElementsValid[i].classList.contains('is-invalid')){
+                    swal("Atencion!", "Por favor verifique los campos en rojo.", "error");
+                    return false;
+                }
+            }
+
+            divLoading.style.display = "flex";
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url+'/Ventas/setPrestamo';
+            let formData = new FormData(formRenovarPrestamo);
+            request.open("POST",ajaxUrl,true);
+            request.send(formData);
+
+            request.onreadystatechange = function(){
+                if(request.readyState == 4 && request.status == 200){
+                    let objData = JSON.parse(request.responseText);
+                    if(objData.status){
+                        swal({
+                            title: "Préstamo agregado",
+                            text: "El préstamo se ha adicionado a la lista",
+                            type: "success",
+                            showCancelButton: true,
+                            confirmButtonText: "Ver lista",
+                            cancelButtonText: "Nuevo préstamo",
+                            closeOnConfirm: true,
+                            closeOnCancel: true
+                        }, function(isConfirm)
+                        {
+                            if(isConfirm)
+                            {
+                                tablePrestamos.ajax.reload();
+                                $('#modalRenovarPrestamo').modal('hide'); 
+                            }
+                        }); 
+                        formRenovarPrestamo.reset();
                     }else{
                         swal("Error", objData.msg, "error");
                     }
@@ -372,6 +367,30 @@ function fntViewPrestamo(idprestamo)
     }
 }
 
+function fntRenovarPrestamo(idprestamo)
+{
+    $('#modalRenovarPrestamo').modal('show'); 
+    divLoading.style.display = "flex";
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/Prestamos/getPrestamo/'+idprestamo;
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function()
+    {
+        if(request.readyState == 4 && request.status == 200)
+        {
+            let objData = JSON.parse(request.responseText);
+            if(objData.status){
+                document.querySelector("#clienteRenovar").innerHTML = objData.data.nombres.toUpperCase() + ' ' + objData.data.apellidos.toUpperCase();
+                document.querySelector("#inputClienteRenovar").value = objData.data.personaid;
+            }
+        }
+        divLoading.style.display = "none";
+        return false;
+    }
+    
+}
+
 function listPagos()
 {  
     document.querySelector("#tableViewPrestamo").classList.add('d-none');
@@ -405,6 +424,8 @@ function backFntViewPrestamo()
     document.querySelector("#tableViewPrestamo").classList.remove('d-none');
     document.querySelector("#containerPagos").classList.add('d-none');
 }
+
+
 
 function fntPagoPrestamo(idprestamo)
 {
