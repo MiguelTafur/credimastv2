@@ -541,18 +541,9 @@ class Prestamos extends Controllers{
 									</button>'.'</td>';
 									
 							}else{
-								$trPagos .= '<td>'.SMONEY.$arrData[$i]['abono'].'</td>';
+								$trPagos .= '<td>'.$arrData[$i]['abono'].'</td>';
 							}
 							$trPagos .= '</tr>';
-						/*else{
-							$arrData[$i]['datecreated'] = date("d-m-Y", strtotime($arrData[$i]['datecreated']));
-							$trPagos .= '
-								<tr class="text-center">
-									<td>'.$arrData[$i]['datecreated'].'</td>
-									<td>'.SMONEY.$arrData[$i]['abono'].'</td>
-								</tr>';	
-						}*/
-						
 					}
 					$arrResponse = array('status' => true, 'data' => $trPagos);
 				}

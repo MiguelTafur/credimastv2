@@ -294,7 +294,7 @@ function fntPayToday(){
             {
                 if(document.querySelector("#iCobrado"))
                 {
-                    document.querySelector("#iCobrado").innerHTML = /*smoney+" "+*/objData.cobrado;
+                    document.querySelector("#iCobrado").innerHTML = objData.cobrado;
                 }
             }
         }
@@ -315,7 +315,7 @@ function fntSalesToday(){
             {
                 if(document.querySelector("#iVentas"))
                 {
-                    document.querySelector("#iVentas").innerHTML = /*smoney+" "+*/objData.ventas;
+                    document.querySelector("#iVentas").innerHTML = objData.ventas;
                 }
             }
         }
@@ -350,13 +350,13 @@ function fntViewPrestamo(idprestamo)
                 document.querySelector("#celVence").innerHTML = objData.data.fechavence;
                 document.querySelector("#celNombres").innerHTML = objData.data.nombres;
                 document.querySelector("#celNegocio").innerHTML = objData.data.apellidos;
-                document.querySelector("#celMonto").innerHTML = smoney + objData.data.monto;
+                document.querySelector("#celMonto").innerHTML = objData.data.monto;
                 document.querySelector("#celFormato").innerHTML =  objData.data.formato;
                 document.querySelector("#celTaza").innerHTML = objData.data.taza;
                 document.querySelector("#celPlazo").innerHTML = objData.data.plazo;
-                document.querySelector("#celParcela").innerHTML = smoney + objData.data.parcela;
-                document.querySelector("#celSaldo").innerHTML = smoney + objData.data.total;
-                document.querySelector("#celPagado").innerHTML = smoney + objData.data.pagado;
+                document.querySelector("#celParcela").innerHTML = objData.data.parcela;
+                document.querySelector("#celSaldo").innerHTML = objData.data.total;
+                document.querySelector("#celPagado").innerHTML = objData.data.pagado;
                 document.querySelector("#celPendiente").innerHTML = objData.data.pendiente;
                 document.querySelector("#celCancelado").innerHTML = objData.data.cancelado;
                 document.querySelector("#idPrestamoP").value = objData.data.idprestamo;
@@ -472,16 +472,16 @@ function fntPagoPrestamo(idprestamo)
                             let btnDelPay;
                             if(objData.total == 0)
                             {
-                                btnDelPay = '<p class="text-danger"><b><i>FINALIZADO</i><b/></p><button class="btn btn-danger btn-sm" onclick="fntDelPago('+objData.idpago+')" title="Eliminar pago">'+smoney+" "+objData.pago+'</button>';
+                                btnDelPay = '<p class="text-danger"><b><i>FINALIZADO</i><b/></p><button class="btn btn-danger btn-sm" onclick="fntDelPago('+objData.idpago+')" title="Eliminar pago">'+objData.pago+'</button>';
                             }else{
-                                btnDelPay = '<button class="btn btn-success btn-sm" onclick="fntDelPago('+objData.idpago+')" title="Eliminar pago">'+smoney+" "+objData.pago+'</button>';
+                                btnDelPay = '<button class="btn btn-success btn-sm" onclick="fntDelPago('+objData.idpago+')" title="Eliminar pago">'+objData.pago+'</button>';
                             }
                             let divDelPay = document.getElementById("div-"+idprestamo);
                             divDelPay.innerHTML = btnDelPay;
 
                             if(document.getElementById("tot-"+idprestamo))
                             {
-                                let pTotal = document.getElementById("tot-"+idprestamo).innerHTML = '<p class="font-weight-bold font-italic text-danger">'+smoney+" "+objData.total+'</p>';
+                                let pTotal = document.getElementById("tot-"+idprestamo).innerHTML = '<p class="font-weight-bold font-italic text-danger">'+objData.total+'</p>';
                             }
                             fntPayToday();
                         }else{
