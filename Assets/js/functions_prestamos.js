@@ -433,8 +433,6 @@ function backFntViewPrestamo()
     document.querySelector("#containerPagos").classList.add('d-none');
 }
 
-
-
 function fntPagoPrestamo(idprestamo)
 {
     let fechaAnterior = "";

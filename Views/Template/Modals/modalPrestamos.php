@@ -194,7 +194,7 @@
           </div>
           <hr>
           <div class="tile-footer">
-            <button id="btnActionForm" class="btn btn-primary btn-sm" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;
+            <button id="btnActionForm" class="btn btn-warning btn-sm" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;
             <button class="btn btn-danger btn-sm" type="button" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cerrar</button>
           </div>
         </form>

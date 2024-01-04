@@ -70,14 +70,14 @@ document.addEventListener('DOMContentLoaded', function()
             let strObservacion = document.querySelector('#txtObservacion').value;
 
             if(intGasto == ""){
-                swal("Atención", "Debes ingresar una gastos.", "error");
+                swal("Atención", "Debes ingresar un gasto.", "error");
                 return false;
             }
 
             let ElementsValid = document.getElementsByClassName("valid");
             for (let i = 0; i < ElementsValid.length; i++) {
                 if(ElementsValid[i].classList.contains('is-invalid')){
-                    swal("Atencion!", "Solo puedes agregar números al monto.", "error");
+                    swal("Atencion!", "Solo puedes ingresar números.", "error");
                     return false;
                 }
             }
