@@ -1,6 +1,6 @@
 <?php 
   headerAdmin($data);
-  getModal('modalClientes',$data); 
+  getModal('modalRutas',$data); 
 ?>
 <main class="app-content">
   <div class="app-title">
@@ -8,7 +8,7 @@
         <h1>
           <i class="fas fa-user-tag"></i> <?= $data['page_title'] ?>
             <?php if($_SESSION['permisosMod']['w']){ ?>
-            <button class="btn btn-warning" type="button" onclick="openModal();" ><i class="fas fa-plus-circle"></i> Nuevo</button>
+            <button class="btn btn-warning" type="button" onclick="openModal();" ><i class="fas fa-plus-circle"></i> Nueva</button>
             <?php } ?>
         </h1>
     </div>
@@ -22,25 +22,25 @@
     <div class="col-md-12">
       <div class="tile">
         <div class="tile-body">
-          <?php 
-            if($data['pagamentos'] != 2)
-            {
+          <!-- <?php 
+            //if($data['pagamentos'] != 2)
+            //{
           ?>
           <div class="alert alert-danger" role="alert">
             <strong>Error Resumen - </strong> Debes cerrar el resumen anterior!
           </div>
-          <?php } ?>
+          <?php //} ?> -->
           <div class="table-responsive">
-            <table class="table table-striped text-center" id="tableClientes">
+            <table class="table table-striped" id="tableRutas">
               <thead>
-                <tr>
+                <tr class="text-center">
                   <th>Nombre</th>
-                  <th>Negocio</th>
-                  <th>Teléfono</th>
+                  <th>Código</th>
+                  <th>Dia Pagamento</th>
                   <th class="text-center">Acciones</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="text-center">
               </tbody>
             </table>
           </div>

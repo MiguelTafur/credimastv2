@@ -77,7 +77,7 @@ class Clientes extends Controllers{
 						$arrResponse = array('status' => true, 'msg' => 'Datos actualizados correctamente.');
 					}
 				}else if($request_user == '0'){
-					$arrResponse = array('status' => false, 'msg' => 'Atencion! el email o la identificación ya existe, ingrese otro.');
+					$arrResponse = array('status' => false, 'msg' => 'Atención! el email o la identificación ya existe, ingresa otro.');
 				}else{
 					$arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
 				}

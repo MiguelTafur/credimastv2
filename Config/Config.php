@@ -38,6 +38,7 @@
 	const MCLIENTES = 3;
 	const MPRESTAMOS = 4;
 	const MRESUMEN = 5;
+	const MRUTAS = 6;
 
 	//Roles
 	//Roles
