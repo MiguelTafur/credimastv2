@@ -374,7 +374,7 @@ function fntViewPrestamo(idprestamo)
 
 function fntRenovarPrestamo(idprestamo, fecha)
 {
-    $('#modalRenovarPrestamo').modal('show'); 
+    
     divLoading.style.display = "flex";
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url + '/Prestamos/getPrestamo/';
@@ -392,6 +392,7 @@ function fntRenovarPrestamo(idprestamo, fecha)
             if(objData.status){
                 document.querySelector("#clienteRenovar").innerHTML = objData.data.nombres.toUpperCase() + ' ' + objData.data.apellidos.toUpperCase();
                 document.querySelector("#inputClienteRenovar").value = objData.data.personaid;
+                $('#modalRenovarPrestamo').modal('show'); 
             }
         }
         divLoading.style.display = "none";
