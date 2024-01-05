@@ -514,7 +514,7 @@ function fntPagoPrestamo(idprestamo)
                             let btnDelPay;
                             if(objData.total == 0)
                             {
-                                btnDelPay = '<p class="text-danger"><b><i>FINALIZADO</i><b/></p><button class="btn btn-danger btn-sm" onclick="fntDelPago('+objData.idpago+')" title="Eliminar pago">'+objData.pago+'</button>';
+                                btnDelPay = '<p class="text-danger"><button class="btn btn-success btn-sm">RENOVAR</button>&nbsp;&nbsp;<button class="btn btn-danger btn-sm" onclick="fntDelPago('+objData.idpago+')" title="Eliminar pago">'+objData.pago+'</button></p>';
                             }else{
                                 btnDelPay = '<button class="btn btn-success btn-sm" onclick="fntDelPago('+objData.idpago+')" title="Eliminar pago">'+objData.pago+'</button>';
                             }
