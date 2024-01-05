@@ -11,7 +11,7 @@
             parent::__construct();
         }
         
-        public function insertRuta(string $nombre, $dia)
+        public function insertRuta(string $nombre, string $dia)
         {
             $this->strNombre = $nombre;
             $this->strDia = $dia;
