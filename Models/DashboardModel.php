@@ -472,15 +472,15 @@ class DashboardModel extends Mysql
 		$dias = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado");
 		$dia = $dias[date('w', strtotime(date("Y-m-d")))];
 
-		$sql2 = "SELECT pr.parcela, pr.formato, pe.nombres
+		$sql2 = "SELECT pr.parcela, pr.formato, pe.nombres, CONCAT(ELT(WEEKDAY(pr.datecreated) + 1, 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')) as fecha
 		FROM prestamos pr 
 		INNER JOIN persona pe ON(pe.idpersona = pr.personaid)
 		WHERE (pr.status = 1 
 				|| (pr.datefinal = '$fecha_actual')) 
 				AND pe.codigoruta = $rutaId -- AND (pr.formato = 1)
-				AND (CONCAT(ELT(WEEKDAY(pr.fechavence) + 1, 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')) = '{$dia}' OR pr.formato = 1)
+				AND (CONCAT(ELT(WEEKDAY(pr.datecreated) + 1, 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')) = '{$dia}' OR pr.formato = 1)
 				AND (pr.datecreated != '$fecha_actual')
-				ORDER BY pe.nombres ASC";
+				ORDER BY pr.formato DESC";
 		$request2 = $this->select_all($sql2);
 
 		foreach ($request2 as $cartera) {
