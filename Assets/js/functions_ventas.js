@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function()
 {
+    
+
     if(document.querySelector("#formPrestamos"))
     {
         let formPrestamos = document.querySelector("#formPrestamos");
@@ -120,6 +122,30 @@ document.addEventListener('DOMContentLoaded', function()
     }
     fntClientesPrestamo();
 }, false);
+
+// if(document.querySelector("#listFormato")) {
+//     const optionChanged = () => {
+//         let seleted = document.querySelector("#listFormato").value;
+//         console.log("cambio" + ' - '+ seleted);
+//     }
+// }
+
+let selected = document.querySelector("#listFormato");
+
+const optionChanged = () => {
+    if(selected.value == 1) {
+        let checkbox = document.querySelector("#pagamentoSabado").parentElement;
+        checkbox.classList.remove('d-none');
+    }
+
+    if(selected.value == 2 || selected.value == 3) {
+        let checkbox = document.querySelector("#pagamentoSabado").parentElement;
+        checkbox.classList.add('d-none');
+    }
+}
+
+selected.addEventListener('change', optionChanged);
+
 
 function fntClientesPrestamo()
 {

@@ -305,7 +305,7 @@
   </div>
 </div>
 
-<!-- Modal ver prestamo-->
+<!-- Modal renovar prestamo-->
 <div class="modal fade" id="modalRenovarPrestamo" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
