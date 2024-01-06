@@ -375,6 +375,7 @@ function fntViewPrestamo(idprestamo)
 function fntRenovarPrestamo(idprestamo, fecha)
 {
     let selected = document.querySelector("#listFormato");
+    let bool = 1;
 
     const optionChanged = () => {
         if(selected.value == 1) {
@@ -388,6 +389,8 @@ function fntRenovarPrestamo(idprestamo, fecha)
         }
     }
 
+    //console.log(fecha);return;
+
     selected.addEventListener('change', optionChanged);
     divLoading.style.display = "flex";
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -395,6 +398,7 @@ function fntRenovarPrestamo(idprestamo, fecha)
     let formData = new FormData();
     formData.append('idPrestamo',idprestamo);
     formData.append('datefinal',fecha);
+    formData.append('bool',bool);
 
     request.open("POST",ajaxUrl,true);
     request.send(formData);
@@ -406,6 +410,19 @@ function fntRenovarPrestamo(idprestamo, fecha)
             if(objData.status){
                 document.querySelector("#clienteRenovar").innerHTML = objData.data.nombres.toUpperCase() + ' ' + objData.data.apellidos.toUpperCase();
                 document.querySelector("#inputClienteRenovar").value = objData.data.personaid;
+                document.querySelector("#txtMonto").value = objData.data.monto;
+                document.querySelector("#txtTaza").value = objData.data.taza;
+                if(objData.data.formato === "Diário"){
+                    selected.options[0].selected = true;
+                }
+                if(objData.data.formato === "Semanal"){
+                    selected.options[1].selected = true;
+                }
+                if(objData.data.formato == "Mensual"){
+                    selected.options[2].selected = true;
+                }
+                document.querySelector("#txtPlazo").value = objData.data.plazo;
+                document.querySelector("#txtObservacion").value = objData.data.observacion;
                 $('#modalRenovarPrestamo').modal('show'); 
             }
         }

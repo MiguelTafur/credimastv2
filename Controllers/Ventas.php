@@ -27,7 +27,6 @@
 
 		public function setPrestamo()
 		{
-			//dep($_POST);exit;
 			if($_POST){
 				if(empty($_POST['txtMonto']) || empty($_POST['txtTaza']) || empty($_POST['txtPlazo']) || empty($_POST['listFormato']))
 				{

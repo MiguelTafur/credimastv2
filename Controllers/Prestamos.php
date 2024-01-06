@@ -400,10 +400,14 @@ class Prestamos extends Controllers{
 			$fecha = $_POST['datefinal'];
 			$fecha_actual = date("Y-m-d");
 			$fechaFinal = ($fecha != 'undefined') ? $fecha : $fecha_actual;
+			
+			//dep($bool);exit;
 			if($idPrestamo > 0){
 				$arrData = $this->model->selectPrestamo($idPrestamo,$fechaFinal);
 				$dias = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
 				$diaPagamento = "";
+
+				$plazo = $arrData['plazo']; 
 
 				$arrData['datecreated'] = date("d-m-Y", strtotime($arrData['datecreated']));
 				
@@ -446,11 +450,13 @@ class Prestamos extends Controllers{
 					}
 				}
 
-				//$arrData['parcela'] = SMONEY.$arrData['parcela'];
+				$arrData['plazo'] = (isset($_POST['bool'])) ? $plazo : $arrData['plazo'];
 
 				$arrData['pendiente'] = round(($restante/$parcela), 0, PHP_ROUND_HALF_UP);
 				$arrData['cancelado'] = round(($arrData['pagado']/$parcela), 0, PHP_ROUND_HALF_DOWN);
 				$arrData['diaPagamento'] = $diaPagamento;
+
+				//dep($arrData['plazo']);
 
 				if(empty($arrData))
 				{
