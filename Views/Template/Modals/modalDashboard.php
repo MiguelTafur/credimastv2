@@ -1,6 +1,6 @@
 <!-- Modal detalle Resumen -->
 <div class="modal fade" id="modalDetalleR" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog ">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="titleModal">Resumenes</h5>
@@ -24,7 +24,11 @@
             <thead>
             <tr class="text-center">
                 <th>Fecha</th>
-                <th>Resumen</th>
+                <th>Base</th>
+                <th>Cobrado</th>
+                <th>Ventas</th>
+                <th>Gastos</th>
+                <th>Total</th>
               </tr>
             </thead>
             <tbody id="datosResumenD"></tbody>

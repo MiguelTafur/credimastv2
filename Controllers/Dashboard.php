@@ -158,12 +158,17 @@
 									"Total = ". number_format($resumenD[$i]['total']);
 
 					$detalles .= '<tr class="text-center">';
-					$detalles .= '<td>'.$dia.'</td>';
-					$detalles .= '<td>
-									<a tabindex="0" role="button" class="btn btn-info btn-sm" data-toggle="popover" data-placement="left" data-content="'.$datosResumen.'" title="Fecha:&nbsp; <small>'.$fechaFormateada.'</small>">
-										<i class="fas fa-info-circle fa-sm" aria-hidden="true"></i>
-									</a>
-									</td>';	
+					$detalles .= '<td>'.$fechaFormateada.'</td>';
+					$detalles .= '<td>'.$resumenD[$i]['base'].'</td>';
+					$detalles .= '<td><button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forClientesPagos($resumenD[$i]['fecha']).'" title="Fecha:&nbsp; <small>'.$dia.'</small>">'.round($resumenD[$i]['cobrado'], 0).'</button></td>';
+					$detalles .= '<td><button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forClientesVentas($resumenD[$i]['fecha']).'" title="Fecha:&nbsp; <small>'.$dia.'</small>">'.round($resumenD[$i]['ventas'], 0).'</button></td>';
+					$detalles .= '<td><button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forGastoResumen($resumenD[$i]['fecha']).'" title="Fecha:&nbsp; <small>'.$dia.'</small>">'.round($resumenD[$i]['gastos'], 0).'</button></td>';
+					$detalles .= '<td>'.$resumenD[$i]['total'].'</td>';
+					// $detalles .= '<td>
+					// 				<a tabindex="0" role="button" class="btn btn-info btn-sm" data-toggle="popover" data-placement="left" data-content="'.$datosResumen.'" title="Fecha:&nbsp; <small>'.$fechaFormateada.'</small>">
+					// 					<i class="fas fa-info-circle fa-sm" aria-hidden="true"></i>
+					// 				</a>
+					// 				</td>';	
 					$detalles .= '</tr>';
 				}
 				

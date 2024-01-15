@@ -347,26 +347,26 @@ function fntViewDetalleR()
             "cancelLabel": "Cancelar",
             "daysOfWeek": [
                 "Dom",
-                "Seg",
-                "Ter",
-                "Qua",
-                "Qui",
-                "Sex",
+                "Lun",
+                "Mar",
+                "Mie",
+                "Jue",
+                "Vie",
                 "Sab"
             ],
             "monthNames": [
-                "Janeiro",
-                "Fevereiro",
-                "Março",
+                "Enero",
+                "Febrero",
+                "Marzo",
                 "Abil",
-                "Maio",
-                "Junho",
-                "Julho",
+                "Mayo",
+                "Junio",
+                "Julio",
                 "Agosto",
-                "Setembro",
-                "Outubro",
-                "Novembro",
-                "Dezembro"
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
             ],
             "firstDay": 1
         }
