@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function()
                         {
                             tablePrestamos.ajax.reload();
                         }
-                            formPagos.reset();
+                        formPagos.reset();
                     }else{
                         swal("Error", objData.msg, "error");
                     }
@@ -117,15 +117,88 @@ document.addEventListener('DOMContentLoaded', function()
                             cancelButtonText: "Nuevo préstamo",
                             closeOnConfirm: true,
                             closeOnCancel: true
-                        }, function(isConfirm)
-                        {
+                        }, function(isConfirm){
                             if(isConfirm)
                             {
-                                tablePrestamos.ajax.reload();
+                                tablePrestamos.ajax.reload(
+                                    function(){
+                                        for (let i = 0; i < tablePrestamos.rows().count(); i++)
+                                        {
+                                            let row = tablePrestamos.row(i);
+                                            let fechaInicio = row.data().datecreated;
+                                            let fechaFinal = row.data().datefinal;
+                                            let vencimiento = row.data().diasVence;
+                                    
+                                            //console.log(row.data());
+                                    
+                                            if(fechaInicio == formateo)
+                                            {
+                                                $(row.node()).addClass("table-success");
+                                            }
+                                            if(fechaFinal == formateo)
+                                            {
+                                                $(row.node()).addClass("table-dark");
+                                            }
+                                            if(vencimiento == false)
+                                            {
+                                                $(row.node()).addClass("table-warning");
+                                            }
+                                            if(vencimiento == "vencido")
+                                            {
+                                                $(row.node()).addClass("table-danger");
+                                            }
+                                            
+                                        }
+                                    }
+                                );
+                                if(document.querySelector("#iVentas"))
+                                {
+                                    let ventas = $('#iVentas').text();
+                                    let totalVentas = parseInt(ventas) + parseInt(intMonto);
+                                    document.querySelector("#iVentas").innerHTML = totalVentas;
+                                }
+                                
                                 $('#modalRenovarPrestamo').modal('hide'); 
                             }
                         }); 
                         formRenovarPrestamo.reset();
+                        tablePrestamos.ajax.reload(
+                            function(){
+                                for (let i = 0; i < tablePrestamos.rows().count(); i++)
+                                {
+                                    let row = tablePrestamos.row(i);
+                                    let fechaInicio = row.data().datecreated;
+                                    let fechaFinal = row.data().datefinal;
+                                    let vencimiento = row.data().diasVence;
+                            
+                                    //console.log(row.data());
+                            
+                                    if(fechaInicio == formateo)
+                                    {
+                                        $(row.node()).addClass("table-success");
+                                    }
+                                    if(fechaFinal == formateo)
+                                    {
+                                        $(row.node()).addClass("table-dark");
+                                    }
+                                    if(vencimiento == false)
+                                    {
+                                        $(row.node()).addClass("table-warning");
+                                    }
+                                    if(vencimiento == "vencido")
+                                    {
+                                        $(row.node()).addClass("table-danger");
+                                    }
+                                    
+                                }
+                            }
+                        );
+                        if(document.querySelector("#iVentas"))
+                        {
+                            let ventas = $('#iVentas').text();
+                            let totalVentas = parseInt(ventas) + parseInt(intMonto);
+                            document.querySelector("#iVentas").innerHTML = totalVentas;
+                        }
                     }else{
                         swal("Error", objData.msg, "error");
                     }
