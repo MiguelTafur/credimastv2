@@ -30,7 +30,7 @@
 			// dep($data['cartera']);exit;
 			
 			$data['ultimosPrestamo'] = $this->model->ultimosPrestamo($ruta);
-			$data['ultimosResumenes'] = $this->model->ultimosResumenes();
+			//$data['ultimosResumenes'] = $this->model->ultimosResumenes();
 			$anio = date("Y");
 			$mes = date("m");
 			$data['ventasMDia'] = $this->model->selectVentasMes($anio,$mes);
@@ -98,6 +98,41 @@
 				echo $script;
 				die();
 			}
+		}
+
+		public function getUltimosResumenes()
+		{
+			$resumenes = $this->model->ultimosResumenes();
+			//dep($resumenes);exit;
+			$datos = '';
+
+			for ($i=0; $i < COUNT($resumenes); $i++)
+			{ 
+				$datos .= '<tr class="text-center">';
+				$datos .= '<td>'.date("d-m-Y", strtotime($resumenes[$i]['datecreated'])).'</td>';
+				$datos .= '<td>'.number_format($resumenes[$i]['base']).'</td>';
+				$datos .= '<td>
+							<button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forClientesPagos($resumenes[$i]['datecreated']).'" title="Fecha:&nbsp; <small>'.$resumenes[$i]['datecreated'].'</small>">
+								'.number_format($resumenes[$i]['cobrado']).'
+							</button>
+						   </td>';
+				$datos .= '<td>
+							<button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forClientesVentas($resumenes[$i]['datecreated']).'" title="Fecha:&nbsp; <small>'.$resumenes[$i]['datecreated'].'</small>">
+								'.number_format($resumenes[$i]['ventas']).'
+							</button>
+							</td>';
+				$datos .= '<td>
+							<button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forGastoResumen($resumenes[$i]['datecreated']).'" title="Fecha:&nbsp; <small>'.$resumenes[$i]['datecreated'].'</small>">
+								'.number_format($resumenes[$i]['gastos']).'
+							</button>
+							</td>';
+				$datos .= '<td>'.number_format($resumenes[$i]['total']).'</td>';
+				$datos .= '</tr>';
+			}
+			
+			$arrResponse = array('resumenes' => $datos);
+
+			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);	
 		}
 
 		public function getResumenD()

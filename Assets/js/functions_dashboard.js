@@ -1,6 +1,33 @@
 let divLoading = document.querySelector("#divLoading");
 
-//swal("Pagamento dia 30", "Recuerda efectuar el pagamento hasta el dia 30", "warning");
+document.addEventListener('DOMContentLoaded', function()
+{
+    if(document.querySelector("#ultimosResumenes")){
+        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url + '/Dashboard/getUltimosResumenes';
+        request.open("POST",ajaxUrl,true);
+        request.send();
+        request.onreadystatechange = function()
+        {
+            if(request.readyState == 4 && request.status == 200)
+            {
+                let objData = JSON.parse(request.responseText);
+                if(objData)
+                {
+                    $(function () {
+                        $('[data-toggle="popover"]').popover({
+                            container: "body",
+                            trigger: "focus",
+                            html: true
+                        });
+                    });
+                    
+                    document.querySelector("#ultimosResumenes").innerHTML = objData.resumenes;
+                }
+            }
+        }  
+    }
+}, false);
 
 $('.date-picker').datepicker( {
     closeText: 'Cerrar',
@@ -31,6 +58,8 @@ $( function() {
         trigger: "focus",
         html: true
     })
+
+    //fntViewResumen();    
 
     $( "#accordion2" ).accordion({
         heightStyle: "content",
@@ -300,6 +329,11 @@ function fntSearchGMes()
     }
 }
 
+function fntViewResumen()
+{
+    //let btn = document.querySelector("#popover").setAttribute('data-content', 'nuevos datos');
+}
+
 function fntViewDetalleR()
 {
     $('#modalDetalleR').modal('show');
@@ -542,8 +576,8 @@ function fntSearchResumenD()
                     container: "body",
                     trigger: "focus",
                     html: true
-                })
-              })
+                });
+            });
 
             document.querySelector("#divResumenD").classList.remove("d-none");
             document.querySelector("#datosResumenD").innerHTML = arrResumen;

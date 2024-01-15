@@ -129,6 +129,7 @@
         <?php } ?>
       </div>
 
+      <!-- INFORMACION GENEREAL -->
       <div class="tile py-3 m-0 mt-5">
         <h3 class="tile-title text-center">INFORMACIÓN GENERAL</h3>
         <div id="accordion">
@@ -138,29 +139,17 @@
               <div class="table-responsive">
                 <table class="table table-striped table-sm">
                   <thead>
-                    <tr class="text-right">
-                      <th class="text-center">Fecha</th>
+                    <tr class="text-center">
+                      <th>Fecha</th>
                       <th>Base</th>
                       <th>Cobrado</th>
                       <th>Ventas</th>
                       <th>Gastos</th>
-                      <th class="text-right">Total</th>
+                      <th>Total</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <?php if(count($data['ultimosResumenes']) > 0){
-                          foreach ($data['ultimosResumenes'] as $resumenes) {
-                            $dateFormat = date("d-m-Y", strtotime($resumenes['datecreated']))
-                      ?>
-                      <tr class="text-right">
-                      <td class="text-center"><?= $dateFormat ?></td>
-                        <td><?= $resumenes['base'] ?></td>
-                        <td><?= intval($resumenes['cobrado']) ?></td>
-                        <td><?= intval($resumenes['ventas']) ?></td>
-                        <td><?= $resumenes['gastos'] ?></td>
-                        <td><?= $resumenes['total'] ?></td>
-                      </tr>
-                    <?php }} ?>
+                  <tbody id="ultimosResumenes">
+                   
                   </tbody>
                 </table>
               </div>
@@ -212,8 +201,9 @@
         </div>
       </div>
 
+      <!-- GRÁFICA MENSUAL -->                            
       <div class="tile py-3 m-0 mt-5">
-      <h3 class="tile-title text-center">GRÁFICA POR DIA</h3>
+        <h3 class="tile-title text-center">GRÁFICA POR DIA DEL MES</h3>
         <div id="accordion2">
           <h3>Cobrado</h3>
           <div>
@@ -257,8 +247,9 @@
         </div>
       </div>
 
+      <!-- GRÁFICA ANUAL -->
       <div class="tile py-3 m-0 mt-5">
-      <h3 class="tile-title text-center">GRÁFICA POR MES</h3>
+      <h3 class="tile-title text-center">GRÁFICA POR MES DEL AÑO</h3>
         <div id="accordion3">
           <h3>Cobrado</h3>
           <div class="">
