@@ -450,21 +450,7 @@ function fntRenovarPrestamo(idprestamo, fecha)
     let selected = document.querySelector("#listFormato");
     let bool = 1;
 
-    const optionChanged = () => {
-        if(selected.value == 1) {
-            let checkbox = document.querySelector("#pagamentoSabado").parentElement;
-            checkbox.classList.remove('d-none');
-        }
-
-        if(selected.value == 2 || selected.value == 3) {
-            let checkbox = document.querySelector("#pagamentoSabado").parentElement;
-            checkbox.classList.add('d-none');
-        }
-    }
-
-    //console.log(fecha);return;
-
-    selected.addEventListener('change', optionChanged);
+    
     divLoading.style.display = "flex";
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url + '/Prestamos/getPrestamo/';
@@ -487,12 +473,15 @@ function fntRenovarPrestamo(idprestamo, fecha)
                 document.querySelector("#txtTaza").value = objData.data.taza;
                 if(objData.data.formato === "Diário"){
                     selected.options[0].selected = true;
+                    document.querySelector("#pagamentoSabado").parentNode.classList.remove('d-none');
                 }
                 if(objData.data.formato === "Semanal"){
                     selected.options[1].selected = true;
+                    document.querySelector("#pagamentoSabado").parentNode.classList.add('d-none');
                 }
                 if(objData.data.formato == "Mensual"){
                     selected.options[2].selected = true;
+                    document.querySelector("#pagamentoSabado").parentNode.classList.add('d-none');
                 }
                 document.querySelector("#txtPlazo").value = objData.data.plazo;
                 document.querySelector("#txtObservacion").value = objData.data.observacion;
