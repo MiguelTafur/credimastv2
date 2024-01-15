@@ -27,10 +27,8 @@
 			$data['prestamos'] = $this->model->cantPrestamos();
 			$data['prestamosFinalizados'] = $this->model->cantPrestamosFinalizados();
 			$data['cartera'] = $this->model->selectCartera();
-			// dep($data['cartera']);exit;
 			
 			$data['ultimosPrestamo'] = $this->model->ultimosPrestamo($ruta);
-			//$data['ultimosResumenes'] = $this->model->ultimosResumenes();
 			$anio = date("Y");
 			$mes = date("m");
 			$data['ventasMDia'] = $this->model->selectVentasMes($anio,$mes);
@@ -103,26 +101,27 @@
 		public function getUltimosResumenes()
 		{
 			$resumenes = $this->model->ultimosResumenes();
-			//dep($resumenes);exit;
+			$dias = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
 			$datos = '';
 
 			for ($i=0; $i < COUNT($resumenes); $i++)
 			{ 
+				$dia = $dias[date('w', strtotime($resumenes[$i]['datecreated']))];
 				$datos .= '<tr class="text-center">';
 				$datos .= '<td>'.date("d-m-Y", strtotime($resumenes[$i]['datecreated'])).'</td>';
 				$datos .= '<td>'.number_format($resumenes[$i]['base']).'</td>';
 				$datos .= '<td>
-							<button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forClientesPagos($resumenes[$i]['datecreated']).'" title="Fecha:&nbsp; <small>'.$resumenes[$i]['datecreated'].'</small>">
+							<button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forClientesPagos($resumenes[$i]['datecreated']).'" title="Fecha:&nbsp; <small>'.$dia.'</small>">
 								'.number_format($resumenes[$i]['cobrado']).'
 							</button>
 						   </td>';
 				$datos .= '<td>
-							<button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forClientesVentas($resumenes[$i]['datecreated']).'" title="Fecha:&nbsp; <small>'.$resumenes[$i]['datecreated'].'</small>">
+							<button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forClientesVentas($resumenes[$i]['datecreated']).'" title="Fecha:&nbsp; <small>'.$dia.'</small>">
 								'.number_format($resumenes[$i]['ventas']).'
 							</button>
 							</td>';
 				$datos .= '<td>
-							<button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forGastoResumen($resumenes[$i]['datecreated']).'" title="Fecha:&nbsp; <small>'.$resumenes[$i]['datecreated'].'</small>">
+							<button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forGastoResumen($resumenes[$i]['datecreated']).'" title="Fecha:&nbsp; <small>'.$dia.'</small>">
 								'.number_format($resumenes[$i]['gastos']).'
 							</button>
 							</td>';
