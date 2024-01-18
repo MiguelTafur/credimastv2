@@ -20,19 +20,21 @@
           </div>
         </form>
         <div id="divResumenD">
-          <table class="table">
-            <thead>
-            <tr class="text-center">
-                <th>Fecha</th>
-                <th>Base</th>
-                <th>Cobrado</th>
-                <th>Ventas</th>
-                <th>Gastos</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody id="datosResumenD"></tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+              <tr class="text-center">
+                  <th>Fecha</th>
+                  <th>Base</th>
+                  <th>Cobrado</th>
+                  <th>Ventas</th>
+                  <th>Gastos</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="datosResumenD"></tbody>
+            </table>
+          </div>
           <br>
         </div>
       </div>
