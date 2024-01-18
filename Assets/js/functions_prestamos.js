@@ -450,6 +450,19 @@ function fntRenovarPrestamo(idprestamo, fecha)
     let selected = document.querySelector("#listFormato");
     let bool = 1;
 
+    const optionChanged = () => {
+        if(selected.value == 1) {
+            let checkbox = document.querySelector("#pagamentoSabado").parentElement;
+            checkbox.classList.remove('d-none');
+        }
+
+        if(selected.value == 2 || selected.value == 3) {
+            let checkbox = document.querySelector("#pagamentoSabado").parentElement;
+            checkbox.classList.add('d-none');
+        }
+    }
+
+    selected.addEventListener('change', optionChanged);
     
     divLoading.style.display = "flex";
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
