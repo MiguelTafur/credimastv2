@@ -193,12 +193,6 @@ document.addEventListener('DOMContentLoaded', function()
                                 }
                             }
                         );
-                        if(document.querySelector("#iVentas"))
-                        {
-                            let ventas = $('#iVentas').text();
-                            let totalVentas = parseInt(ventas) + parseInt(intMonto);
-                            document.querySelector("#iVentas").innerHTML = totalVentas;
-                        }
                     }else{
                         swal("Error", objData.msg, "error");
                     }
