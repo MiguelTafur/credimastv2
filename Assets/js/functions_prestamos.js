@@ -477,7 +477,7 @@ function fntRenovarPrestamo(idprestamo, fecha)
                 document.querySelector("#clienteRenovar").innerHTML = objData.data.nombres.toUpperCase() + ' ' + objData.data.apellidos.toUpperCase();
                 document.querySelector("#inputClienteRenovar").value = objData.data.personaid;
                 document.querySelector("#txtMonto").value = objData.data.monto;
-                document.querySelector("#txtTaza").value = objData.data.taza;
+                document.querySelector("#txtTaza").value = parseInt(objData.data.taza);
                 if(objData.data.formato === "Diário"){
                     selected.options[0].selected = true;
                     document.querySelector("#pagamentoSabado").parentNode.classList.remove('d-none');
