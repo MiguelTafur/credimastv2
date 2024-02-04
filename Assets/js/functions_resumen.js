@@ -207,6 +207,7 @@ function fntViewResumen()
         if(request.readyState == 4 && request.status == 200)
         {
             let objData = JSON.parse(request.responseText);
+            console.log(objData);
             if(objData)
             {
                 //BASE
@@ -432,8 +433,8 @@ function fntDelBase()
                             document.querySelector("#celAddBase").classList.remove("d-none");
                         }
                         swal("Eliminar!", objData.msg , "success");
-                        if(document.querySelector("#celDelBaseAnterior"))
-                        {
+                        // if(document.querySelector("#celDelBaseAnterior"))
+                        // {
                             swal({
                                 title: "",
                                 text: objData.msg,
@@ -443,8 +444,8 @@ function fntDelBase()
                             }, function(isConfirm){
                                 location.reload();
                             });
-                        }
-                        fntViewResumen();
+                        // }
+                        //fntViewResumen();
                     }else{
                         swal("Atención!", objData.msg , "error");
                     }
@@ -482,8 +483,8 @@ function fntDelGasto(idgasto)
                     if(objData.status)
                     {
                         swal("Eliminar!", objData.msg , "success");
-                        if(document.querySelector("#celDelGastosAnterior"))
-                        {
+                        // if(document.querySelector("#celDelGastosAnterior"))
+                        // {
                             swal({
                                 title: "",
                                 text: objData.msg,
@@ -493,8 +494,8 @@ function fntDelGasto(idgasto)
                             }, function(isConfirm){
                                 location.reload();
                             });
-                        }
-                        fntViewResumen();
+                        // }
+                        // fntViewResumen();
                     }else{
                         swal("Atención!", objData.msg , "error");
                     }

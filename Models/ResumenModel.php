@@ -192,7 +192,7 @@
 			$this->intGasto = $gastoId;
 			$this->fecha_actual = $fecha;
 			
-			$sql = "DELETE FROM gastos WHERE idgasto = $this->intGasto or datecreated = '{$this->fecha_actual}'";
+			$sql = "DELETE FROM gastos WHERE idgasto = $this->intGasto AND datecreated = '{$this->fecha_actual}'";
 			$request = $this->delete($sql);
 			return $request;
 		}
@@ -200,11 +200,22 @@
 		public function deleteResumen(int $resumenId, string $fecha_actual)
 		{
 			$this->intIdResumen = $resumenId;
+
+			$query_resumen = "SELECT * FROM resumen WHERE idresumen = $this->intIdResumen";
+			$request_resumen = $this->select($query_resumen);
+			$gastos = $request_resumen['gastoid'];
+			
+			$sqlGastos = "DELETE FROM gastos WHERE idgasto = $gastos AND monto = 0";
+			$requestGastos = $this->delete($sqlGastos);
+			
 			$sql = "DELETE FROM resumen WHERE idresumen = $this->intIdResumen";
 			$request = $this->delete($sql);
 			if($request)
 			{
 				$ruta = $_SESSION['idRuta'];
+
+				$query_gastos = "";
+
 				$query_prestamos = "SELECT pa.idpago,pa.abono,pa.datecreated FROM pagos pa 
 									INNER JOIN prestamos pr ON(pa.prestamoid = pr.idprestamo) 
 									INNER JOIN persona pe ON pe.idpersona = pr.personaid WHERE pe.codigoruta = $ruta AND pa.datecreated = '{$fecha_actual}'";

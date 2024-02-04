@@ -29,7 +29,7 @@
             <?php } ?>
             <div id="div-addPrestamo">
               <p class="text-primary">Los campos con asterisco (<span class="required">*</span>) son obligatorios.</p>
-              <div class="form-row justify-content-center shadow-sm p-3 mb-5 bg-white rounded">
+              <div class="form-row justify-content-center shadow-sm p-3 bg-white rounded">
                 <div class="form-group col-md-3 text-center" id="listAddClients">
                   <i class="app-menu__icon fa fa-user" aria-hidden="true"></i>
                   <label for="listClientId">
@@ -50,16 +50,16 @@
                   <input type="tel" class="form-control valid validNumber" id="txtTaza" name="txtTaza" required="">
                 </div>
                 <div class="form-group col-md-3">
-                  <label for="txtPlazo">Plazo(Días) <span class="required">*</span></label>
-                  <input type="tel" class="form-control valid validNumber" id="txtPlazo" name="txtPlazo" required="">
-                </div>
-                <div class="form-group col-md-3">
                   <label for="listFormato">Formato <span class="required">*</span></label>
                   <select class="form-control" id="listFormato" name="listFormato" required>
                     <option value="1">Diario</option>
                     <option value="2">Semanal</option>
                     <option value="3">Mensual</option>
                   </select>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="txtPlazo">Plazo(Días) <span class="required">*</span></label>
+                  <input type="tel" class="form-control valid validNumber" id="txtPlazo" name="txtPlazo" required="">
                 </div>
               </div>
               <div class="form-row">
@@ -69,6 +69,11 @@
                 </div>
               </div>
               <br>
+              <div class="form-row justify-content-right d-none" id="div-valorParcela">
+                <div class="form-group col-md-12 text-right">
+                  <h5 class="text-secondary"><b>Valor Parcela: <i>30</i></b></h5>
+                </div>
+              </div>
               <div class="form-row">
                 <div class="col-md-12" style="align-items: center">
                   <input type="checkbox" name="pagamentoSabado" id="pagamentoSabado" style="margin-right: 7px;">

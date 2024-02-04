@@ -116,7 +116,7 @@
 				$arrDataB = $this->model->selectBase($fecha_actual);
 				$arrDataRA = $this->model->selectResumenAnterior($rutaId);
 				$baseResumenAnterior = $arrDataRA > 0 ? $baseAnterior = $arrDataRA['total'] : $baseAnterior = 0; 
-				
+
 				if($arrDataB > 0){
 
 					$base = $arrDataB['monto'];
@@ -473,8 +473,8 @@
 
 					$fecha_actual = date("Y-m-d");
 
-					$this->model->deleteGastoF($gasto, $fecha_actual);
-					$this->model->deleteBase($base);
+					//$this->model->deleteGastoF($gasto, $fecha_actual);
+					//$this->model->deleteBase($base);
 
 					$requestDelete = $this->model->deleteResumen($intIdResumen, $fecha_actual);
 					if($requestDelete)

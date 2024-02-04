@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function()
             let intPlazo = document.querySelector('#txtPlazo').value;
             let intFormato = document.querySelector('#listFormato').value;
 
-            console.log(intClienteId);return;
+            //console.log(intClienteId);return;
 
             if(intClienteId == "" || intMonto == "" || intTaza == "" || intPlazo == "" || intFormato == ""){
                 swal("Atención", "Todos los campos son obligatorios.", "error");
@@ -124,13 +124,6 @@ document.addEventListener('DOMContentLoaded', function()
     }
     fntClientesPrestamo();
 }, false);
-
-// if(document.querySelector("#listFormato")) {
-//     const optionChanged = () => {
-//         let seleted = document.querySelector("#listFormato").value;
-//         console.log("cambio" + ' - '+ seleted);
-//     }
-// }
 
 let selected = document.querySelector("#listFormato");
 
