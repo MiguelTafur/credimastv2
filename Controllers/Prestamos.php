@@ -538,16 +538,18 @@ class Prestamos extends Controllers{
 					$arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
 				}else{
 					$trPagos = "";
+					$dias = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
 					for ($i=0; $i < count($arrData); $i++)
 					{ 
 						$arrData[$i]['datecreated'] = date("d-m-Y", strtotime($arrData[$i]['datecreated']));
+						$dia = $dias[date('w', strtotime($arrData[$i]['datecreated']))];
 						$trPagos .= '
 						<tr class="text-center">
-							<td>'.$arrData[$i]['datecreated'].'</td>';
+							<td>'.$arrData[$i]['datecreated'].' (<i>'.$dia.'</i>)'.'</td>';
 							if($arrData[$i]['datecreated'] == $fecha_actual)
 							{
 								$trPagos .= '<td>'.'<button class="btn btn-success btn-sm" onclick="fntDelPago('.$arrData[$i]['idpago'].')" title="Eliminar pago">
-									  './*SMONEY.*/$arrData[$i]['abono'].'
+									  '.$arrData[$i]['abono'].'
 									</button>'.'</td>';
 									
 							}else{
