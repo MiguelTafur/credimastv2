@@ -82,7 +82,7 @@
 
               <!-- SECCIÓN PRESTAMOS ANTERIOR -->
               <div class="alert alert-danger" role="alert">
-                <strong>Error Resumen - </strong> Debes cerrar el resumen de la fecha: &nbsp;&nbsp;<strong><i><?= date("d-m-Y", strtotime($data['pagamentos']['datepago'])) ?></i></strong>
+                <strong>Error Resumen - </strong> Debes cerrar el resumen de la fecha: &nbsp;&nbsp;<strong><i><?= date("d-m-Y", strtotime($data['pagamentos'])) ?></i></strong>
               </div>
 
               <div id="resumenPendiente">
@@ -116,7 +116,7 @@
                     <?php
                       foreach ($data['prestamos']['prestamos'] as $prestamo)
                       {
-                        if($data['pagamentos']['datepago'] == $prestamo['datecreated'] AND $prestamo['status'] != 0){
+                        if($data['pagamentos'] == $prestamo['datecreated'] AND $prestamo['status'] != 0){
 
                     ?>
                     <tr class="text-center">
@@ -168,14 +168,14 @@
                         <!-- ABONOS -->
                         <td>
                           <?php
-                            if($prestamo['datepago'] == $data['pagamentos']['datepago'] && $prestamo['total'] == 0){
+                            if($prestamo['datepago'] == $data['pagamentos'] && $prestamo['total'] == 0){
                           ?>
                               <button class="btn btn-success btn-sm" onclick="fntRenovarPrestamo(<?= $prestamo['idprestamo'] ?>, '<?= $prestamo['datefinal'] ?>')">RENOVAR</button> &nbsp;&nbsp;
                               <button class="btn btn-danger btn-sm" onclick="fntDelPagoFinalizado(<?= $prestamo['pagoid'] ?>)" title="Eliminar pago">
                                   <?= /*SMONEY.*/' '.$prestamo['pago'] ?>&nbsp;
                               </button>
                           <?php
-                            }else if($prestamo['pagoid'] != 0 AND $prestamo['datepago'] == $data['pagamentos']['datepago']){
+                            }else if($prestamo['pagoid'] != 0 AND $prestamo['datepago'] == $data['pagamentos']){
                           ?>
                             <button class="btn btn-success btn-sm" onclick="fntDelPagoFinalizado(<?= $prestamo['pagoid'] ?>)" title="Eliminar pago">
                               <?= /*SMONEY.*/' '.$prestamo['pago'] ?>&nbsp;
@@ -185,7 +185,7 @@
                             }else{
                           ?>
                             <div class="text-center divPagoPrestamo">
-                              <input type="hidden" name="fechaAnterior" id="fechaAnterior" value="<?= $data['pagamentos']['datepago'] ?>">
+                              <input type="hidden" name="fechaAnterior" id="fechaAnterior" value="<?= $data['pagamentos'] ?>">
                               <input type="number" class="inpPago <?= $prestamo['idprestamo']; ?>" id="<?= $prestamo['idprestamo']; ?>" style="width: 65px; height: 35px; padding: 5px" onkeypress="return controlTag(event)">
                               <button id="" class="btn btn-secondary btn-sm pagoPrestamo P-5" title="Agregar Pago" onclick="fntPagoPrestamo(<?= $prestamo['idprestamo']; ?>)"><i class="fas fa-hand-holding-usd"></i> Pagar
                               </button>

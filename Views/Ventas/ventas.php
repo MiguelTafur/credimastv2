@@ -25,7 +25,7 @@
         <?php } ?>
         <form id="formPrestamos" name="formPrestamos" class="form-horizontal">
             <?php if($data['pagamentos'] != 2){ ?>
-              <input type="hidden" name="fechaAnterior" id="fechaAnterior" value="<?= $data['pagamentos']['datepago']; ?>">
+              <input type="hidden" name="fechaAnterior" id="fechaAnterior" value="<?= $data['pagamentos']; ?>">
             <?php } ?>
             <div id="div-addPrestamo">
               <p class="text-primary">Los campos con asterisco (<span class="required">*</span>) son obligatorios.</p>

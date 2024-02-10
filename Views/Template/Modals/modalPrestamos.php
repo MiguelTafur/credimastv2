@@ -133,7 +133,7 @@
             if($data['pagamentos'] != 2)
             {
           ?>
-          <input type="hidden" name="fechaAnterior" value="<?= $data['pagamentos']['datepago']; ?>">
+          <input type="hidden" name="fechaAnterior" value="<?= $data['pagamentos']; ?>">
           <?php } ?>
           <div class="row">
             <div class="form-group">
@@ -176,7 +176,7 @@
             if($data['pagamentos'] != 2)
             {
           ?>
-          <input type="hidden" name="fechaAnterior" id="fechaAnterior" value="<?= $data['pagamentos']['datepago']; ?>">
+          <input type="hidden" name="fechaAnterior" id="fechaAnterior" value="<?= $data['pagamentos']; ?>">
           <?php } ?>
           <div class="row">
             <div class="form-group">
@@ -318,7 +318,7 @@
       <div class="modal-body">
         <form id="formRenovarPrestamo" name="formRenovarPrestamo" class="form-horizontal">
           <?php if($data['pagamentos'] != 2){ ?>
-            <input type="hidden" name="fechaAnterior" id="fechaAnterior" value="<?= $data['pagamentos']['datepago']; ?>">
+            <input type="hidden" name="fechaAnterior" id="fechaAnterior" value="<?= $data['pagamentos']; ?>">
           <?php } ?>
           <input type="hidden" name="inputClienteRenovar" id="inputClienteRenovar">
           <div id="div-addPrestamo">

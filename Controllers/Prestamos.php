@@ -21,7 +21,9 @@ class Prestamos extends Controllers{
 		$data['page_name'] = "prestamos";
 		$data['resumen'] = $this->model->selectResumen();
 		$data['pagamentos'] = $this->model->selectDatePagoPrestamo();
-		$fechaPagamento = $data['pagamentos'] == 2 ? NULL : $data['pagamentos']['datepago'];
+		//dep($data['pagamentos']);exit();
+		$fechaPagamento = $data['pagamentos'] == 2 ? NULL : $data['pagamentos'];
+		//dep($fechaPagamento);exit();
 		
 		$data['page_functions_js'] = "functions_prestamos.js";
 		if($data['pagamentos'] != 2)
@@ -617,7 +619,7 @@ class Prestamos extends Controllers{
 				if($arrDataP == 2){
 					$fecha = date("Y-m-d");
 				}else{
-					$fecha = $arrDataP['datepago'];					
+					$fecha = $arrDataP;					
 				}
 
 				$requestDelete = $this->model->deletePrestamo($intIdprestamo, $fecha);

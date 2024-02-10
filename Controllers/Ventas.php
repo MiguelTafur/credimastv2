@@ -21,6 +21,7 @@
 			$data['page_title'] = "VENTAS";
 			$data['page_name'] = "ventas";
 			$data['pagamentos'] = $this->model->selectDatePagoPrestamo();
+			//dep($data['pagamentos']);exit;
 			$data['page_functions_js'] = "functions_ventas.js";
 			$this->views->getView($this,"ventas",$data);
 		}

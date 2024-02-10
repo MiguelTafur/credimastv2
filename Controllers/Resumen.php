@@ -26,9 +26,11 @@
 			$data['pagamentos'] = $this->model->selectDatePagoPrestamo();
 			//dep($data['pagamentos']);exit();
 			$data['page_functions_js'] = "functions_resumen.js";
-			$fechaPagamento = $data['pagamentos'] == 2 ? NULL : $data['pagamentos']['datepago'];
+			$fechaPagamento = $data['pagamentos'] == 2 ? NULL : $data['pagamentos'];
+			
 			if($data['pagamentos'] != 2)
 			{
+				
 				$data['gastos'] = $this->model->selectGastos($rutaId,$fechaPagamento);
 				$data['base'] = $this->model->selectBase($fechaPagamento);
 			

@@ -24,7 +24,7 @@
     <div id="cardAnterior" class="card">
       <div class="card-body">
         <form id="formResumenAnterior" name="formResumenAnterior" class="form-horizontal">
-          <input type="hidden" name="fechaResumen" id="fechaResumen" value="<?= $data['pagamentos']['datepago']; ?>">
+          <input type="hidden" name="fechaResumen" id="fechaResumen" value="<?= $data['pagamentos']?>">
           <input type="hidden" id="idRuta" value="<?= $_SESSION['idRuta']; ?>">
           <input type="hidden" name="idResumen" id="idResumen" value="">
           
@@ -128,7 +128,7 @@
                           $totalV = 0;
                           foreach ($data['prestamos']['prestamos'] as $prestamo)
                           {
-                            if($prestamo['status'] == 1 AND $data['pagamentos']['datepago'] == $prestamo['datecreated'])
+                            if($prestamo['status'] == 1 AND $data['pagamentos'] == $prestamo['datecreated'])
                             {
                               $totalV += $prestamo['monto'];
                             }
@@ -161,7 +161,7 @@
                             $totalG = 0;
                             foreach ($data['gastos'] as $gasto)
                             {
-                              if($gasto['datecreated'] == $data['pagamentos']['datepago'])
+                              if($gasto['datecreated'] == $data['pagamentos'])
                               {
                                 $totalG += $gasto['monto'];
                                 $gastoID = $gasto['idgasto'];

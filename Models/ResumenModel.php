@@ -277,25 +277,36 @@
 			$ruta = $_SESSION['idRuta'];
 			$fecha_actual = date("Y-m-d");
 
+			$sqlPr = "SELECT pe.nombres, pe.apellidos, pr.monto, pr.datecreated FROM prestamos pr INNER JOIN persona pe ON(pr.personaid = pe.idpersona) 
+					  WHERE pe.codigoruta = $ruta AND pr.datecreated != '{$fecha_actual}' ORDER BY datecreated DESC";
+			$requestPr = $this->select($sqlPr);
+
+			$fechaPrestamo = $requestPr['datecreated'];
+
+			
+
 			$sqlR = "SELECT datecreated FROM resumen WHERE codigoruta = $ruta AND datecreated != '{$fecha_actual}' ORDER BY datecreated DESC";
 			$requestR = $this->select($sqlR);
 
-			//dep($requestR);exit;
+			//dep($requestR['datecreated'].' - '.$fechaPrestamo);exit;
 
-			// $sql = "SELECT * FROM prestamos pr INNER JOIN persona pe ON(pr.personaid = pe.idpersona) 
-			// 		WHERE (pr.pagoid != '' AND pr.datepago != '$fecha_actual') AND (pe.codigoruta = $ruta AND pr.status != 0)";
 			$sql = "SELECT pa.datecreated as datepago FROM prestamos pr 
-						INNER JOIN persona pe ON(pr.personaid = pe.idpersona) 
-						INNER JOIN pagos pa ON(pr.idprestamo = pa.prestamoid)
-						WHERE (pa.datecreated != '{$fecha_actual}') AND (pe.codigoruta = $ruta AND pr.status != 0)
-						ORDER BY pa.datecreated desc";
+					INNER JOIN persona pe ON(pr.personaid = pe.idpersona) 
+					INNER JOIN pagos pa ON(pr.idprestamo = pa.prestamoid)
+					WHERE (pa.datecreated != '{$fecha_actual}') AND (pe.codigoruta = $ruta AND pr.status != 0)
+					ORDER BY pa.datecreated desc";
 			$request = $this->select($sql);
 
 			//dep($request);exit;
 
-			if(!empty($request) && ($request['datepago'] > $requestR['datecreated']))
+			if(!empty($request) && ($request['datepago'] > $requestR['datecreated']) || $fechaPrestamo != $requestR['datecreated'])
 			{
-				return $request;
+				if(!empty($request)) {
+					$fechaPago = $request['datepago'];
+					return $fechaPago;
+				}else {
+					return $fechaPrestamo;
+				}
 			}else{
 				return 2;
 			}
