@@ -450,14 +450,14 @@
 
 			//dep($request);exit;
 
-			if(!empty($request) && ($request['datepago'] > $requestR['datecreated']) || $fechaPrestamo != $requestR['datecreated'])
+			if(!empty($request) && ($request['datepago'] > $requestR['datecreated']) /*|| $fechaPrestamo != $requestR['datecreated']*/)
 			{
 				if(!empty($request)) {
 					$fechaPago = $request['datepago'];
 					return $fechaPago;
-				}else {
+				}/*else {
 					return $fechaPrestamo;
-				}
+				}*/
 			}else{
 				return 2;
 			}
