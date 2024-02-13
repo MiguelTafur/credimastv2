@@ -252,7 +252,8 @@ function myFunction(x)
             {"data":"nombres"},
             {"data":"total"},
             {"data":"pagamento"},
-            {"data":"options"}
+            {"data":"options"},
+            {"data":"formato"}
         ],
         "resonsieve":"true",
         "bDestroy": true,

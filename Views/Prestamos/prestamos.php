@@ -70,6 +70,7 @@
                         <th>SALDO</th>
                         <th class="text-center">ABONO</th>
                         <th class="text-center">DETALLES</th>
+                        <th>FORMATO</th>
                       </tr>
                     </thead>
                     <tbody>
