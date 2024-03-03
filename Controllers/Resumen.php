@@ -162,7 +162,13 @@
 		{
 			if($_POST)
 			{
-				if($_SESSION['idUser'] == 1 || $_SESSION['idUser'] == 254 || $_SESSION['idUser'] == 1087 || $_SESSION['idUser'] == 219 || $_SESSION['idUser'] == 1205 || $_SESSION['idUser'] == 1289)
+				if($_SESSION['idUser'] == 1 
+					|| $_SESSION['idUser'] == 254 
+					|| $_SESSION['idUser'] == 1087 
+					|| $_SESSION['idUser'] == 219 
+					|| $_SESSION['idUser'] == 1205 
+					|| $_SESSION['idUser'] == 1289 
+					|| $_SESSION['idUser'] == 290)
 				{
 					$intBase = intval($_POST['txtBase']);
 					$strObservacion = strClean($_POST['txtObservacion']);
