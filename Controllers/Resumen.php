@@ -137,11 +137,11 @@
 					for ($i=0; $i < count($arrDataG2); $i++) { 
 						if($arrDataG2[$i]['nombre'] != ""){
 							$gastos += $arrDataG2[$i]['monto'];
+							$delGastos .= '<button type="button" class="dropdown-item" onclick="fntDelGasto('.$arrDataG2[$i]['idgasto'].')">
+											<i class="fa fa-times-circle fa-sm"></i> '.ucwords($arrDataG2[$i]['nombre']).' - '/*.SMONEY*/.$arrDataG2[$i]['monto'].'
+										</button>';
+							$idGasto = $arrDataG2[$i]['idgasto'];
 						}
-						$delGastos .= '<button type="button" class="dropdown-item" onclick="fntDelGasto('.$arrDataG2[$i]['idgasto'].')">
-										<i class="fa fa-times-circle fa-sm"></i> '.ucwords($arrDataG2[$i]['nombre']).' - '/*.SMONEY*/.$arrDataG2[$i]['monto'].'
-									</button>';
-						$idGasto = $arrDataG2[$i]['idgasto'];
 					}
 				}
 				
