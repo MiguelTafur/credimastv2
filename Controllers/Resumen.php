@@ -168,7 +168,8 @@
 					|| $_SESSION['idUser'] == 219 
 					|| $_SESSION['idUser'] == 1205 
 					|| $_SESSION['idUser'] == 1289 
-					|| $_SESSION['idUser'] == 290)
+					|| $_SESSION['idUser'] == 290
+					|| $_SESSION['idUser'] == 169)
 				{
 					$intBase = intval($_POST['txtBase']);
 					$strObservacion = strClean($_POST['txtObservacion']);
