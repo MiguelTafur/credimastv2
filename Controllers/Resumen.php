@@ -163,13 +163,14 @@
 			if($_POST)
 			{
 				if($_SESSION['idUser'] == 1 || // MIGUEL - DIVINOPOLIS CREDIMASTV2
-					$_SESSION['idUser'] == 254 || // STIVEN - RUTA1 CREDIMASTV5
 					$_SESSION['idUser'] == 1087 || // RUSO - CREDIMASTV2
 					$_SESSION['idUser'] == 219 ||// GABRIEL - CREDIMASTV2
 					$_SESSION['idUser'] == 1205 ||// CRISTIAN - ANTHONY - CREDIMASTV2  
 					$_SESSION['idUser'] == 1289 ||// ALEX - SANJOSE2 CREDIMASTV2
-					$_SESSION['idUser'] == 290 || // ALEX - CAÇAPAVA - CREDIMASTV5
-					$_SESSION['idUser'] == 169 //SAO PAULO
+					$_SESSION['idUser'] == 169 ||//SAO PAULO - LUCAS - CREDIMASTV2
+					$_SESSION['idUser'] == 313 ||//ROSA1 - ROSA - CREDIMASTV5
+					$_SESSION['idUser'] == 254 || // STIVEN - RUTA1 CREDIMASTV5
+					$_SESSION['idUser'] == 290 // ALEX - CAÇAPAVA - CREDIMASTV5
 				   )
 				{
 					$intBase = intval($_POST['txtBase']);
