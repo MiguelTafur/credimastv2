@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
               <label class="txtCodigo">CÓDIGO</label>
-              <input id="txtCodigo" name="txtCodigo" class="form-control" type="tel" placeholder="Código">
+              <input id="txtCodigo" name="txtCodigo" class="form-control" type="password" placeholder="Código">
             </div>
             <label class="txtEmail">USUARIO</label>
             <input id="txtEmail" name="txtEmail" class="form-control" type="email" placeholder="Email">
