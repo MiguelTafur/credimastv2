@@ -29,7 +29,7 @@
 		public function setPrestamo()
 		{
 			if($_POST){
-				if(empty($_POST['txtMonto']) || empty($_POST['txtTaza']) || empty($_POST['txtPlazo']) || empty($_POST['listFormato']))
+				if(empty($_POST['txtMonto']) || /*empty($_POST['txtTaza']) ||*/ empty($_POST['txtPlazo']) || empty($_POST['listFormato']))
 				{
 					$arrResponse = array("status" => false, "msg" => "Datos incorrectos.");
 				}else{
