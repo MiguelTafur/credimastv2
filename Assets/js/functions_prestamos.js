@@ -405,6 +405,7 @@ function fntViewPrestamo(idprestamo)
         if(request.readyState == 4 && request.status == 200)
         {
             let objData = JSON.parse(request.responseText);
+            console.log(objData);
             if(objData.status){
                 document.querySelector("#celFecha").classList.add("text-success", "font-italic");
                 document.querySelector("#celVence").classList.add("text-danger", "font-italic");
@@ -429,6 +430,13 @@ function fntViewPrestamo(idprestamo)
                 document.querySelector("#celCancelado").innerHTML = objData.data.cancelado;
                 document.querySelector("#idPrestamoP").value = objData.data.idprestamo;
                 document.querySelector("#clientePagos").value = objData.data.nombres+' - '+objData.data.apellidos;
+                if(objData.data.observacion != ""){
+                    document.querySelector("#trObservacion").classList.remove('d-none');
+                    document.querySelector("#celObservacion").classList.add('text-danger');
+                    document.querySelector("#celObservacion").innerHTML = objData.data.observacion;
+                }else{
+                    document.querySelector("#trObservacion").classList.add('d-none');
+                }
 
                 $('#modalViewPrestamo').modal('show');
             }else{

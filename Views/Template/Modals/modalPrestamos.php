@@ -73,6 +73,10 @@
               <td>Pagos realizados:</td>
               <td id="celPagado"><button type="button" class="btn btn-info btn-sm" onclick="listPagos()"><i class="far fa-eye"></i> Ver pagos</button></td>
             </tr>
+            <tr id="trObservacion">
+              <td>Observación:</td>
+              <td id="celObservacion"></td>
+            </tr>
           </tbody>
         </table>
         <div id="containerPagos">
