@@ -405,7 +405,6 @@ function fntViewPrestamo(idprestamo)
         if(request.readyState == 4 && request.status == 200)
         {
             let objData = JSON.parse(request.responseText);
-            console.log(objData);
             if(objData.status){
                 document.querySelector("#celFecha").classList.add("text-success", "font-italic");
                 document.querySelector("#celVence").classList.add("text-danger", "font-italic");
