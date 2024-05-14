@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function()
             e.preventDefault();
 
             let intBase = document.querySelector('#txtBase').value;
-            let strObservacion = document.querySelector('#txtObservacion').value;
+            //let strObservacion = document.querySelector('#txtObservacion').value;
 
             if(intBase == ""){
                 swal("Atención", "Debes ingresar una base.", "error");

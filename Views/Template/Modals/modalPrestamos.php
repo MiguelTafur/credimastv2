@@ -141,18 +141,18 @@
           <?php } ?>
           <div class="row">
             <div class="form-group">
-              <div class="col-md-12">
+              <div class="col-12">
                 <label for="txtBase" class="col-form-label bmd-label-static"><?= SMONEY; ?> Base:</label>
                 <input type="number" name="txtBase" id="txtBase" class="form-control form-control-sm" required="">
               </div>
             </div>
           </div>
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-md-12">
               <label for="txtObservacion" class="col-form-label bmd-label-static">Observación</label>
               <textarea class="form-control" id="txtObservacion" name="txtObservacion"></textarea>
             </div>
-          </div>
+          </div> -->
           <hr>
           <div class="tile-footer">
             <button id="btnActionForm" class="btn btn-primary btn-sm" type="submit"><i class="fa fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;

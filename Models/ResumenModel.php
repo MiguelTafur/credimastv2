@@ -199,21 +199,26 @@
 
 		public function deleteResumen(int $resumenId, string $fecha_actual)
 		{
+			$ruta = $_SESSION['idRuta'];
 			$this->intIdResumen = $resumenId;
 
 			$query_resumen = "SELECT * FROM resumen WHERE idresumen = $this->intIdResumen";
 			$request_resumen = $this->select($query_resumen);
+
+			//dep($fecha_actual);exit;
+			
 			$gastos = $request_resumen['gastoid'];
-			
-			$sqlGastos = "DELETE FROM gastos WHERE idgasto = $gastos AND monto = 0";
+			$sqlGastos = "DELETE FROM gastos WHERE codigoruta = $ruta AND nombre = '' AND datecreated = '{$fecha_actual}'";
 			$requestGastos = $this->delete($sqlGastos);
-			
+
+			$base = $request_resumen['baseid'];
+			$sqlBase = "DELETE FROM base WHERE idbase = $base AND observacion = 'anterior'";
+			$requestBase = $this->delete($sqlBase);
+
 			$sql = "DELETE FROM resumen WHERE idresumen = $this->intIdResumen";
 			$request = $this->delete($sql);
 			if($request)
 			{
-				$ruta = $_SESSION['idRuta'];
-
 				$query_gastos = "";
 
 				$query_prestamos = "SELECT pa.idpago,pa.abono,pa.datecreated FROM pagos pa 

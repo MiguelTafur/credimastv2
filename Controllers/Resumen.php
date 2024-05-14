@@ -162,21 +162,10 @@
 		{
 			if($_POST)
 			{
-				if(/*$_SESSION['idUser'] == 1 || // MIGUEL - DIVINOPOLIS CREDIMASTV2
-					$_SESSION['idUser'] == 1087 || // RUSO - CREDIMASTV2
-					$_SESSION['idUser'] == 219 ||// GABRIEL - CREDIMASTV2
-					$_SESSION['idUser'] == 1205 ||// CRISTIAN - ANTHONY - CREDIMASTV2  
-					$_SESSION['idUser'] == 1289 ||// ALEX - SANJOSE2 CREDIMASTV2
-					$_SESSION['idUser'] == 169 ||//SAO PAULO - LUCAS - CREDIMASTV2
-					$_SESSION['idUser'] == 313 ||//ROSA1 - ROSA - CREDIMASTV5
-					$_SESSION['idUser'] == 254 || // STIVEN - RUTA1 CREDIMASTV5
-					$_SESSION['idUser'] == 290 || // ALEX - CAÇAPAVA - CREDIMASTV5
-					$_SESSION['idUser'] == 336 // ROSA - ROSFITIU - CREDIMASTV5*/
-					$_SESSION['idRol'] === 1
-				   )
+				if($_SESSION['idRol'] === 1)
 				{
 					$intBase = intval($_POST['txtBase']);
-					$strObservacion = strClean($_POST['txtObservacion']);
+					$strObservacion = 'actual';
 					if(!empty($_POST['fechaAnterior']))
 					{
 						$fecha_actual = $_POST['fechaAnterior'];
@@ -260,7 +249,7 @@
 				
 				$intTotal = intval($_POST['total']);
 				$intRutaId = $_SESSION['idRuta'];
-				$obs = "";
+				$obs = "anterior";
 				$nombre = "";
 
 				//dep($_POST);exit();
@@ -475,14 +464,14 @@
 			{
 				if($_SESSION['permisosMod']['d']){
 					$intIdResumen = intval($_POST['resumenId']);
-					$intIdRuta = intval($_SESSION['idRuta']);
-					$request_select = $this->model->selectResumen($intIdRuta);
-					$gasto = 0;
-					$base = 0;
-					for ($i=0; $i < count($request_select); $i++) { 
-						$gasto = $request_select[$i]['gastoid'];
-						$base = $request_select[$i]['baseid'];
-					}
+					// $intIdRuta = intval($_SESSION['idRuta']);
+					// $request_select = $this->model->selectResumen($intIdRuta);
+					// $gasto = 0;
+					// $base = 0;
+					// for ($i=0; $i < count($request_select); $i++) { 
+					// 	$gasto = $request_select[$i]['gastoid'];
+					// 	$base = $request_select[$i]['baseid'];
+					// }
 
 					$fecha_actual = date("Y-m-d");
 
