@@ -102,7 +102,7 @@
 					//MES		
 					}
 					if($intFormato == 3){
-						$contadorPlazo = $intPlazo * 6;
+						$contadorPlazo = $intPlazo * 30;
 						while($contador <= $contadorPlazo)
 						{
 							$fechaEnSegundos += $dia;
