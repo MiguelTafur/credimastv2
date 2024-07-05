@@ -110,8 +110,10 @@
 			for ($i=0; $i < COUNT($resumenes); $i++)
 			{ 
 				$dia = $dias[date('w', strtotime($resumenes[$i]['datecreated']))];
+				$fecha = date("d-m-Y", strtotime($resumenes[$i]['datecreated']));
+				$fechaFormateada = fechaInline($fecha);
 				$datos .= '<tr class="text-center">';
-				$datos .= '<td>'.date("d-m-Y", strtotime($resumenes[$i]['datecreated'])).'</td>';
+				$datos .= '<td>'.$fechaFormateada.'</td>';
 				$datos .= '<td>'.round($resumenes[$i]['base'], 0).'</td>';
 				$datos .= '<td>
 							<button class="btn btn-outline-secondary btn-sm" data-toggle="popover" data-placement="left" data-content="'.forClientesPagos($resumenes[$i]['datecreated']).'" title="Fecha:&nbsp; <small>'.$dia.'</small>">
@@ -152,7 +154,8 @@
 
 				for ($i=0; $i < COUNT($resumenD); $i++)
 				{ 
-					$fechaFormateada = date('d-m-Y', strtotime($resumenD[$i]['fecha']));
+					$fecha = date('d-m-Y', strtotime($resumenD[$i]['fecha']));
+					$fechaFormateada = fechaInline($fecha);
 					$dia = $dias[date('w', strtotime($resumenD[$i]['fecha']))];
 					$datosResumen = "Base = ". number_format($resumenD[$i]['base'], 0). "<br>".
 									"Cobrado = ". number_format($resumenD[$i]['cobrado']). "<br>".

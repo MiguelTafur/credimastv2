@@ -346,7 +346,7 @@ class Prestamos extends Controllers{
 
 					$arrData[$i]['taza'] = $arrData[$i]['taza'].' '.'%';
 
-					$arrData[$i]['total'] = '<p id="tot-'.$arrData[$i]['idprestamo'].'" class="font-weight-bold font-italic text-danger">'/*.SMONEY*/.' '.$arrData[$i]['total'].'</p>';				
+					$arrData[$i]['total'] = '<span id="tot-'.$arrData[$i]['idprestamo'].'" class="font-weight-bold font-italic text-danger">'/*.SMONEY*/.' '.$arrData[$i]['total'].'</span>';				
 
 					if($_SESSION['permisosMod']['w'])
 					{
@@ -385,7 +385,7 @@ class Prestamos extends Controllers{
 						}
 					}
 
-					$arrData[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnDelete.'</div>';
+					$arrData[$i]['options'] = '<div class="text-center d-flex justify-content-center">'.$btnView.' '.$btnDelete.'</div>';
 				}
 			}
 			

@@ -63,7 +63,7 @@
             </div>
           </div>
         </form>
-        <div id="divPrestamosFD" class="d-none">
+        <div id="divPrestamosFD" class="table-responsive d-none">
           <table class="table">
             <thead>
               <tr class="text-center">
