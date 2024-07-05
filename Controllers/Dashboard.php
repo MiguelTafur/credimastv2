@@ -13,6 +13,9 @@
 
 		public function dashboard()
 		{
+			if(empty($_SESSION['permisosMod']['r'])){
+				header("Location: ".base_url().'/prestamos');
+			}
 			$data['page_id'] = 2;
 			$data['page_tag'] = "Dashboard - Credimast";
 			$data['page_title'] = "Dashboard - Credimast";
