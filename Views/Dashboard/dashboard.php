@@ -249,7 +249,7 @@
 
       <!-- GRÁFICA ANUAL -->
       <div class="tile py-3 m-0 mt-5">
-        <h3 class="tile-title text-center">GRÁFICA POR MES DEL AÑO</h3>
+      <h3 class="tile-title text-center">GRÁFICA POR MES DEL AÑO</h3>
         <div id="accordion3">
           <h3>Cobrado</h3>
           <div class="">
@@ -263,7 +263,6 @@
               <div id="graficaCAnio"></div>
             </div>
           </div>
-          
           <h3>Ventas</h3>
           <div>
             <div class="tile">
@@ -295,51 +294,48 @@
 
 <script>
   //COBRADO
-  Highcharts.chart('graficaMesCobrado', 
-  {
-    chart: {
-        type: 'line'
-    },
-    title: {
-        text: 'Cobrado de <?= $data['CobradoMDia']['mes'].' del '.$data['CobradoMDia']['anio'] ?>'
-    },
-    subtitle: {
-        text: 'Total Cobrado <?= formatMoney($data['CobradoMDia']['total']) ?>'
-    },
-    xAxis: {
-        categories: [
-          <?php 
-            foreach ($data['CobradoMDia']['ventas'] as $dia) {
-              echo $dia['dia'].",";
-            }
-          ?>
-        ]
-    },
-    yAxis: {
-        title: {
-            text: 'CREDIMAST'
-        }
-    },
-    plotOptions: {
-        line: {
-            dataLabels: {
-                enabled: true
-            },
-            enableMouseTracking: false
-        }
-    },
-    series: [{
-        name: '',
-        data: [
-          <?php 
-            foreach ($data['CobradoMDia']['ventas'] as $cobrado) {
-              echo $cobrado['cobrado'].",";
-            }
-          ?>
-        ]
-    }]
-  });
-  
+  Highcharts.chart('graficaMesCobrado', {
+      chart: {
+          type: 'line'
+      },
+      title: {
+          text: 'Cobrado de <?= $data['CobradoMDia']['mes'].' del '.$data['CobradoMDia']['anio'] ?>'
+      },
+      subtitle: {
+          text: 'Total Cobrado <?= formatMoney($data['CobradoMDia']['total']) ?>'
+      },
+      xAxis: {
+          categories: [
+            <?php 
+              foreach ($data['CobradoMDia']['ventas'] as $dia) {
+                echo $dia['dia'].",";
+              }
+            ?>
+          ]
+      },
+      yAxis: {
+          title: {
+              text: 'CREDIMAST'
+          }
+      },
+      plotOptions: {
+          line: {
+              dataLabels: {
+                  enabled: true
+              },
+              enableMouseTracking: false
+          }
+      },
+      series: [{
+          name: '',
+          data: [
+            <?php 
+              foreach ($data['CobradoMDia']['ventas'] as $cobrado) {
+                echo $cobrado['cobrado'].",";
+              }
+            ?>
+          ]
+      }]});
   //VENTAS
   Highcharts.chart('graficaMes', {
     chart: {

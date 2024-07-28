@@ -7,12 +7,7 @@
 	//Zona horaria
 	date_default_timezone_set('Brazil/East');
 
-	// const DB_HOST = "sldn297.piensasolutions.com";
-	// const DB_NAME = "qahi319";
-	// const DB_USER = "qahi319";
-	// const DB_PASSWORD = "m1Guel03";
-
-	const DB_HOST = "127.0.0.1";
+	const DB_HOST = "localhost:3307";
 	const DB_NAME = "qahi319";
 	const DB_USER = "root";
 	const DB_PASSWORD = "";

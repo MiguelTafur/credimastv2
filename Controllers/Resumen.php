@@ -344,9 +344,12 @@
 				$intTotal = intval($_POST['total']);
 				$nombre = "";
 				$ruta = $_SESSION['idRuta'];
-				//dep($_POST);exit();
-
+				$idgastoVacio = 0;
+				$montogastoVacio = 0;
+				$nombregastoVacio = 0;
+				
 				$query_gastos = $this->model->selectGastos($ruta, $fechaR);
+				//dep($_POST);exit();
 				if($intIdBase > 0)
 				{
 					if(!empty($query_gastos))
@@ -354,12 +357,24 @@
 						if(count($query_gastos) > 1)
 						{
 							$request_gasto = $this->model->insertGasto($ruta,$nombre,$intGastos,$fechaR);
-						}else if(count($query_gastos) == 1)
+						}else if(count($query_gastos) === 1 && $intIdGasto > 0)
 						{
 							$request_gasto = $intIdGasto;
-						}else{
-							$request_gasto = $intIdGasto;
+						}else if(count($query_gastos) === 1 && $intIdGasto === 0)
+						{
+							foreach ($query_gastos as $gasto) {
+								$idgastoVacio = $gasto['idgasto'];
+								$montogastoVacio = $gasto['monto'];
+								$nombregastoVacio = $gasto['nombre'];
+							}
+							$request_gasto = $idgastoVacio;
 						}
+						else{
+							$request_gasto = $intIdGasto;
+
+						}
+
+						//dep($request_gasto);exit();
 
 						$request_resumen = $this->model->insertResumen($intIdBase,$request_gasto,$ruta,$intCobrado,$intVentas,$intTotal,$fechaR);
 						if($request_resumen > 0)
