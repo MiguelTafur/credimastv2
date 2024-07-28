@@ -141,7 +141,15 @@ document.addEventListener('DOMContentLoaded', function()
                 {
                     let objData = JSON.parse(request.responseText);
                     if(objData.status){
-                        fntViewResumen();
+                        swal({
+                            title: "",
+                            text: objData.msg,
+                            type: "success",
+                            confirmButtonText: "Continuar",
+                            closeOnConfirm: false,
+                        }, function(isConfirm){
+                            window.location = base_url+'/dashboard';
+                        });
                     }else{
                         swal("Error", objData.msg, "error");
                     }
